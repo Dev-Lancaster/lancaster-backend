@@ -5,11 +5,6 @@ const config = require("config");
 const { MONGO_URL } = require("./db_url");
 
 module.exports = function () {
-  if (!config.get("general.jwt")) {
-    winston.error("FATAL ERROR: no se ha definido la llave para el uso de JWT");
-    process.exit(1);
-  }
-
   process.on("unhandledRejection", (ex) => {
     throw ex;
   });
