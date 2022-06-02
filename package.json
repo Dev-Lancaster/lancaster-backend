@@ -7,20 +7,50 @@
     "node": "14.x"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest --watchAll --detectOpenHandles"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bila23/lancaster-backend.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "William Juarez",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/bila23/lancaster-backend/issues"
   },
   "homepage": "https://github.com/bila23/lancaster-backend#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "config": "^3.3.7",
+    "cors": "^2.8.5",
+    "debug": "^4.3.4",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "format": "^0.2.2",
+    "helmet": "^5.1.0",
+    "jest": "^28.1.0",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.3",
+    "mongoose": "^6.3.5",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.16",
+    "supertest": "^6.2.3",
+    "winston": "^3.7.2",
+    "winston-mongodb": "^5.0.7"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "supertest": "^6.2.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
