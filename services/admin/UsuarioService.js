@@ -50,7 +50,7 @@ async function validateCredentials(correo, password) {
 
 async function createUser(model) {
   let user = await findByCorreo(model.correo);
-  if (!user) return { type: "NOT-VALID", message: "El usuario ya existe" };
+  if (user) return { type: "NOT-VALID", message: "El usuario ya existe" };
 
   const pwdValid = validatePassword(model.password);
   if (pwdValid.type !== "SUCCESS")
@@ -67,7 +67,8 @@ async function createUser(model) {
 }
 
 function validatePassword(password) {
-  if (!password) return { type: "NOT-VALID", message: "El usuario esta vacio" };
+  if (!password)
+    return { type: "NOT-VALID", message: "La contraseña esta vacia" };
 
   const csc = specialCharacter.some((element) => {
     if (password.indexOf(element) !== -1) return true;
