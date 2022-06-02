@@ -41,6 +41,7 @@ async function validateCredentials(correo, password) {
     return { type: "NOT-VALID", message: "Usuario y/o contraseña incorrecta" };
 
   const validPassword = await bcrypt.compare(password, user.password);
+  console.log(validPassword, password, user.password);
   if (!validPassword)
     return { type: "NOT-VALID", message: "Usuario y/o contraseña incorrecta" };
 
@@ -58,6 +59,7 @@ async function createUser(model) {
 
   user = new Usuario(model);
   const salt = await bcrypt.genSalt(10);
+  user.password = user.password.toLowerCase();
   user.password = await bcrypt.hash(user.password, salt);
 
   user = await user.save();
