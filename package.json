@@ -4,16 +4,23 @@
   "description": "Backend para aplicacion de Lancaster",
   "main": "index.js",
   "engines": {
-    "node" : "14.x"
+    "node": "14.x"
   },
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bila23/lancaster-backend.git"
   },
   "keywords": [],
-  "author": "William Juarez",
+  "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bila23/lancaster-backend/issues"
+  },
+  "homepage": "https://github.com/bila23/lancaster-backend#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.17.1"
   }
 }
