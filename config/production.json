@@ -1,0 +1,10 @@
+{
+  "database": {
+    "name": "HORUS",
+    "user": "isacaster",
+    "password": "CasterIsa89"
+  },
+  "token": {
+    "alias": "x-auth-token"
+  }
+}

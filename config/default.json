@@ -1,0 +1,7 @@
+{
+  "general": {
+    "jwt": "ruinas_teotihuacan",
+    "token_alias": "x-auth-token",
+    "header-token": "access-control-expose-headers"
+  }
+}
