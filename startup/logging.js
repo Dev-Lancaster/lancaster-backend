@@ -18,23 +18,13 @@ module.exports = function () {
     winston.error("Error inesperado", err);
   });
 
-  if (process.env.NODE_ENV !== "test") {
-    winston.exceptions.handle(
-      new winston.transports.MongoDB({ db: MONGO_URL, level: "warn" }),
-      new winston.transports.Console({ format: winston.format.prettyPrint() })
-    );
+  winston.exceptions.handle(
+    new winston.transports.MongoDB({ db: MONGO_URL, level: "warn" }),
+    new winston.transports.Console({ format: winston.format.prettyPrint() })
+  );
 
-    winston.add(
-      new winston.transports.MongoDB({ db: MONGO_URL, level: "warn" })
-    );
-    winston.add(
-      new winston.transports.Console({ format: winston.format.prettyPrint() })
-    );
-  } else {
-    winston.add(
-      new winston.transports.Console({
-        format: winston.format.prettyPrint(),
-      })
-    );
-  }
+  winston.add(new winston.transports.MongoDB({ db: MONGO_URL, level: "warn" }));
+  winston.add(
+    new winston.transports.Console({ format: winston.format.prettyPrint() })
+  );
 };
