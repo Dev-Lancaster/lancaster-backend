@@ -86,7 +86,7 @@ describe("Prueba de Usuario Service", () => {
   });
 
   it("findById", async () => {
-    const id = "62996c1ece414c13fea0c772";
+    const id = "629a2c90a05566437e67d5d5";
     const result = await UsuarioService.findById(id);
     expect(result.nombre).toBe("RMORENO");
   });
