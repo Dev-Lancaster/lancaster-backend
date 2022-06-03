@@ -25,7 +25,7 @@ async function save(model) {
   model.fechaCrea = new Date();
   let categoria = new Categoria(model);
   await categoria.save();
-  return categoria;
+  return { type: "SUCCESS", model: categoria };
 }
 
 async function inactivate(id) {
