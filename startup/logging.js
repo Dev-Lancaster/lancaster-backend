@@ -1,7 +1,6 @@
 require("express-async-errors");
 const winston = require("winston");
 require("winston-mongodb");
-const config = require("config");
 const { MONGO_URL } = require("./db_url");
 
 module.exports = function () {
