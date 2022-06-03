@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const CategoriaService = require("../../services/ecommerce/categoriaService");
+const { Categoria } = require("../../models/categoria");
 const { MONGO_URL } = require("../../startup/db_url");
+
+let modelPivot;
 
 describe("Prueba de Categoria Service", () => {
   beforeAll(async () => {
@@ -8,6 +11,7 @@ describe("Prueba de Categoria Service", () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+    modelPivot = await Categoria.findOne();
   });
   afterAll(async () => {
     await mongoose.disconnect();
@@ -46,7 +50,6 @@ describe("Prueba de Categoria Service", () => {
       usuarioCrea: "wjuarez",
     };
     const result = await CategoriaService.save(model);
-    //console.log(result.model);
     expect(result.type).toBe("SUCCESS");
   });
 
@@ -58,5 +61,20 @@ describe("Prueba de Categoria Service", () => {
   it("findActive", async () => {
     const result = await CategoriaService.findActive();
     expect(result.length).toBeGreaterThan(0);
+  });
+
+  it("inactivate", async () => {
+    const result = await CategoriaService.inactivate(modelPivot._id);
+    expect(result.activo).toBe(true);
+  });
+
+  it("activate", async () => {
+    const result = await CategoriaService.activate(modelPivot._id);
+    expect(result.activo).toBe(false);
+  });
+
+  it("update", async () => {
+    const result = await CategoriaService.update(modelPivot._id, modelPivot);
+    expect(result.activo).toBe(true);
   });
 });
