@@ -1,12 +1,11 @@
 const jwt = require("jsonwebtoken");
-const config = require("config");
 
 module.exports = async function auth(req, res, next) {
-  const token = req.header(config.get("general.token_alias"));
+  const token = req.header("x-auth-token");
   if (!token)
     return res.status(401).send("Acceso denegado. El token no existe");
   try {
-    const payload = jwt.verify(token, config.get("general.jwt"));
+    const payload = jwt.verify(token, "ruinas_teotihuacan");
     req.user = payload;
     next();
   } catch (e) {
