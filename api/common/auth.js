@@ -1,9 +1,8 @@
 const express = require("express");
-const auth = require("../../middleware/auth");
 const router = express.Router();
 const UsuarioService = require("../../services/admin/UsuarioService");
 
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res) => {
   const { correo, password } = req.body;
   const result = await UsuarioService.validateCredentials(correo, password);
 
