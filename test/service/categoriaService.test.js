@@ -16,7 +16,7 @@ describe("Prueba de Categoria Service", () => {
   it("save 1", async () => {
     const model = null;
     const result = await CategoriaService.save(model);
-    expect(result.messsage).toBe("Los datos de la categoría estan vacios");
+    expect(result.message).toBe("Los datos de la categoría estan vacios");
   });
 
   it("save 2", async () => {
@@ -25,7 +25,7 @@ describe("Prueba de Categoria Service", () => {
       usuarioCrea: "wjuarez",
     };
     const result = await CategoriaService.save(model);
-    expect(result.messsage).toBe("El nombre de la categoría esta vacio");
+    expect(result.message).toBe("El nombre de la categoría esta vacio");
   });
 
   it("save 3", async () => {
@@ -34,7 +34,7 @@ describe("Prueba de Categoria Service", () => {
       nombre: "wjuarez",
     };
     const result = await CategoriaService.save(model);
-    expect(result.messsage).toBe(
+    expect(result.message).toBe(
       "El nombre del usuario que crea la categoría esta vacio"
     );
   });

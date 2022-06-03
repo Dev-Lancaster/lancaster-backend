@@ -13,8 +13,7 @@ async function findById(id) {
 }
 
 async function save(model) {
-  console.log(!model);
-  if (!model === false)
+  if (!model)
     return { type: "EMPTY", message: "Los datos de la categoría estan vacios" };
   if (!model.nombre)
     return { type: "EMPTY", message: "El nombre de la categoría esta vacio" };
