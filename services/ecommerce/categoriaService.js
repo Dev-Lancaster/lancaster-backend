@@ -22,6 +22,7 @@ async function save(model) {
       type: "EMPTY",
       message: "El nombre del usuario que crea la categoría esta vacio",
     };
+  model.fechaCrea = new Date();
   let categoria = new Categoria(model);
   await categoria.save();
   return categoria;
