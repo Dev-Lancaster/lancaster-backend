@@ -46,7 +46,7 @@ describe("Prueba de Categoria Service", () => {
       usuarioCrea: "wjuarez",
     };
     const result = await CategoriaService.save(model);
-    console.log(result.model);
+    //console.log(result.model);
     expect(result.type).toBe("SUCCESS");
   });
 
