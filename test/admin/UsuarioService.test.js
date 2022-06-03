@@ -55,7 +55,20 @@ describe("Prueba de Usuario Service", () => {
 
   it("createUser", async () => {
     const model = {
-      user: "rmoreno",
+      password: "prueba2",
+      nombre: "William Juarez",
+      correo: "wjuarez@lancaster.pe",
+      activo: true,
+      rol: "BUYER",
+    };
+    const result = await UsuarioService.createUser(model);
+    expect(result.message).toBe(
+      "La contraseña debe tener al menos un carácter especial"
+    );
+  });
+
+  it("createUser Failed", async () => {
+    const model = {
       password: "Prueba1#",
       nombre: "RMORENO",
       correo: "rmoreno@lancaster.pe",
@@ -73,7 +86,7 @@ describe("Prueba de Usuario Service", () => {
   });
 
   it("findById", async () => {
-    const id = "62992595873562ae01f3a948";
+    const id = "62996c1ece414c13fea0c772";
     const result = await UsuarioService.findById(id);
     expect(result.nombre).toBe("RMORENO");
   });
@@ -82,7 +95,27 @@ describe("Prueba de Usuario Service", () => {
     const correo = "rmoreno@lancaster.pe";
     const password = "Prueba1#";
     const result = await UsuarioService.validateCredentials(correo, password);
-    console.log(result);
     expect(result.type).toBe("SUCCESS");
+  });
+
+  it("validateCredentials 2", async () => {
+    const correo = "rmoreno@lancaster.pe";
+    const password = "prueba1#";
+    const result = await UsuarioService.validateCredentials(correo, password);
+    expect(result.type).toBe("NOT-VALID");
+  });
+
+  it("validateCredentials 3", async () => {
+    const correo = "rmorenoaa@lancaster.pe";
+    const password = "Prueba1#";
+    const result = await UsuarioService.validateCredentials(correo, password);
+    expect(result.type).toBe("NOT-VALID");
+  });
+
+  it("validateCredentials 4", async () => {
+    const correo = "rmoren@lancaster.pe";
+    const password = "Otra cosa";
+    const result = await UsuarioService.validateCredentials(correo, password);
+    expect(result.type).toBe("NOT-VALID");
   });
 });
