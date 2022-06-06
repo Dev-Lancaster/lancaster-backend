@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const UsuarioService = require("../../services/admin/UsuarioService");
+const { Usuario } = require("../../models/usuario");
 const { MONGO_URL } = require("../../startup/db_url");
 
 describe("Prueba de Usuario Service", () => {
@@ -86,9 +87,9 @@ describe("Prueba de Usuario Service", () => {
   });
 
   it("findById", async () => {
-    const id = "629a2c90a05566437e67d5d5";
-    const result = await UsuarioService.findById(id);
-    expect(result.nombre).toBe("RMORENO");
+    const model = await Usuario.findOne();
+    const result = await UsuarioService.findById(model._id);
+    expect(result.nombre).toBeTruthy();
   });
 
   it("validateCredentials 1", async () => {
