@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
   categoria: { type: Schema.Types.ObjectId, ref: "categoria" },
   codigo: String,
+  nombre: String,
   talla: String,
   color: String,
   calidad: String,
