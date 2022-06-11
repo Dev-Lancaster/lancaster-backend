@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
   producto: { type: Schema.Types.ObjectId, ref: "producto" },
   img: { data: Buffer, contentType: String },
-  principal: Boolean,
+  posicion: String,
+  orden: Number,
   usuarioCrea: String,
   fechaCrea: Date,
 });
