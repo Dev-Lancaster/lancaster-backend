@@ -78,9 +78,19 @@ async function save(model) {
   return body;
 }
 
-async function update(model) {}
+async function update(id, model) {
+  const validate = validateProducto(model);
+  if (validate.type !== constants.SUCCESS) return validate;
 
-async function changeEstado(id, estado) {}
+  model.fechaAct = new Date();
+  const result = await Producto.findByIdAndUpdate(id, model);
+  return result;
+}
+
+async function changeEstado(id, estado) {
+  const model = await Producto.findByIdAndUpdate(id, { estado: estado });
+  return model;
+}
 
 exports.findByCategoriaEstado = findByCategoriaEstado;
 exports.findByEstado = findByEstado;
