@@ -1,6 +1,45 @@
 const constants = require("../../middleware/constants");
+const fs = require("fs");
 const { Producto } = require("../../models/producto");
 const { FotoProducto } = require("../../models/fotoProducto");
+
+function validateFilename(filename) {}
+
+async function saveFoto(producto, files, usuario) {
+  for (const file of files) {
+    let model = new FotoProducto();
+    model.producto = producto;
+    /*
+  posicion: String,
+  orden: Number,
+*/
+    model.usuarioCrea = usuario;
+    model.img.data = fs.readFileSync(file.path);
+    model.img.contentType = file.mimetype;
+    model.fechaCrea = new Date();
+    await model.save();
+  }
+}
+
+async function deleteFoto(id) {
+  await FotoProducto.findByIdAndDelete(id);
+}
+
+async function deleteFotos(idProducto) {
+  await FotoProducto.deleteMany({ producto: idProducto });
+}
+
+async function findFotoById(id) {
+  const model = await FotoProducto.findById(id).lean();
+  return model;
+}
+
+async function findFotos(idProducto) {
+  const result = await FotoProducto.find({ producto: idProducto })
+    .sort({ orden: 1 })
+    .lean();
+  return result;
+}
 
 async function findByEstado(estado) {
   const result = await Producto.find({ estado: estado })
@@ -98,3 +137,8 @@ exports.findById = findById;
 exports.save = save;
 exports.update = update;
 exports.changeEstado = changeEstado;
+exports.findFotos = findFotos;
+exports.findFotoById = findFotoById;
+exports.deleteFotos = deleteFotos;
+exports.deleteFoto = deleteFoto;
+exports.saveFoto = saveFoto;
