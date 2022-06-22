@@ -1,0 +1,14 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Lancaster Backend",
+    "description": "Backend para aplicacion de Ecommerce de Lancaster"
+  },
+  "host": "localhost:1984",
+  "basePath": "/",
+  "tags": [],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"]
+}
