@@ -17,6 +17,11 @@ async function save(model) {
     return { type: "EMPTY", message: "Los datos de la categoría estan vacios" };
   if (!model.nombre)
     return { type: "EMPTY", message: "El nombre de la categoría esta vacio" };
+  if (!model.codigo)
+    return {
+      type: "EMPTY",
+      message: "Debe ingresar el codigo de la categoria",
+    };
   if (!model.usuarioCrea)
     return {
       type: "EMPTY",
