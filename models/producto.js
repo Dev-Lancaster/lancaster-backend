@@ -10,6 +10,7 @@ const schema = new Schema({
   calidad: String,
   especificaciones: String,
   estado: String,
+  etiqueta: [String],
   usuarioCrea: String,
   fechaCrea: Date,
   usuarioAct: String,
