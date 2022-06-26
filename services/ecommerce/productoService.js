@@ -53,6 +53,7 @@ async function saveFoto(producto, files, usuario) {
       model.img.contentType = file.mimetype;
       model.fechaCrea = new Date();
       await model.save();
+      fs.unlinkSync(file.path);
     } else errors.push(resultValidate);
   }
   return errors;
