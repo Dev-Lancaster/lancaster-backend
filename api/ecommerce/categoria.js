@@ -8,6 +8,12 @@ router.get("/", auth, async (req, res) => {
   res.send(result);
 });
 
+router.get("/nivel/:nivel", auth, async (req, res) => {
+  const nivel = req.params.nivel;
+  const result = await CategoriaService.findNivelActive(nivel);
+  res.send(result);
+});
+
 router.get("/active", auth, async (req, res) => {
   const result = await CategoriaService.findActive();
   res.send(result);

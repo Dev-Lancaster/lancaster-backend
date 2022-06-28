@@ -4,6 +4,12 @@ async function findAll() {
   return await Categoria.find().sort({ nombre: 1 }).lean();
 }
 
+async function findNivelActive(nivel) {
+  return await Categoria.find({ nivel: nivel, activo: true })
+    .sort({ nombre: 1 })
+    .lean();
+}
+
 async function findActive() {
   return await Categoria.find({ activo: true }).sort({ nombre: 1 }).lean();
 }
@@ -17,6 +23,11 @@ async function save(model) {
     return { type: "EMPTY", message: "Los datos de la categoría estan vacios" };
   if (!model.nombre)
     return { type: "EMPTY", message: "El nombre de la categoría esta vacio" };
+  if (!model.nivel)
+    return {
+      type: "EMPTY",
+      message: "El nivel de la categoria no puede estar vacio",
+    };
   if (!model.codigo)
     return {
       type: "EMPTY",
@@ -54,3 +65,4 @@ exports.save = save;
 exports.inactivate = inactivate;
 exports.update = update;
 exports.activate = activate;
+exports.findNivelActive = findNivelActive;
