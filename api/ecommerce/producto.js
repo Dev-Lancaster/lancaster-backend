@@ -3,6 +3,26 @@ const router = express.Router();
 const auth = require("../../middleware/auth");
 const ProductoService = require("../../services/ecommerce/productoService");
 
+router.get("/hija/:hija/estado/:estado", auth, async (req, res) => {
+  const { hija, estado } = req.params;
+  const result = await ProductoService.findProductoCategoriaHija(hija, estado);
+  res.send(result);
+});
+
+router.get(
+  "/padre/:padre/hija/:hija/estado/:estado",
+  auth,
+  async (req, res) => {
+    const { padre, hija, estado } = req.params;
+    const result = await ProductoService.findProductoCategorias(
+      padre,
+      hija,
+      estado
+    );
+    res.send(result);
+  }
+);
+
 router.get("/codigo/:codigo", auth, async (req, res) => {
   const codigo = req.params.codigo;
   const result = await ProductoService.findProductoByCodigo(codigo);

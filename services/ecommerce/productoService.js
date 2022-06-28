@@ -83,6 +83,21 @@ async function findProductoByCodigo(codigo) {
   return await Producto.findOne({ codigo: codigo }).lean();
 }
 
+async function findProductoCategoriaHija(categoria, estado) {
+  return await Producto.findOne({
+    categoriaHija: categoria,
+    estado: estado,
+  }).lean();
+}
+
+async function findProductoCategorias(categoriaPadre, categoriaHija, estado) {
+  return await Producto.findOne({
+    categoria: categoriaPadre,
+    categoriaHija: categoriaHija,
+    estado: estado,
+  }).lean();
+}
+
 async function findByEtiquetaEstado(etiqueta, estado) {
   const result = await Producto.find({ estado: estado, etiqueta: etiqueta })
     .sort({ categoria: 1, nombre: 1 })
@@ -115,7 +130,12 @@ function validateProducto(model) {
   if (!model.categoria)
     return {
       type: constants.ATR_MISSED,
-      message: "La categoria no puede estar vacia",
+      message: "La categoria padre no puede estar vacia",
+    };
+  if (!model.categoriaHija)
+    return {
+      type: constants.ATR_MISSED,
+      message: "La categoria hija no puede estar vacia",
     };
   if (!model.codigo)
     return {
@@ -203,3 +223,5 @@ exports.deleteFoto = deleteFoto;
 exports.saveFoto = saveFoto;
 exports.findByEtiquetaEstado = findByEtiquetaEstado;
 exports.findProductoByCodigo = findProductoByCodigo;
+exports.findProductoCategorias = findProductoCategorias;
+exports.findProductoCategoriaHija = findProductoCategoriaHija;
