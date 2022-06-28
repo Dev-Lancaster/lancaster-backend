@@ -1,10 +1,59 @@
 const constants = require("../../middleware/constants");
+const ExcelHelper = require("../common/excelHelper");
 const fs = require("fs");
 const { Producto } = require("../../models/producto");
 const { FotoProducto } = require("../../models/fotoProducto");
 const _ = require("lodash");
 
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
+
+async function loadFile(filename) {
+  let wb = await ExcelHelper.readExcel(filename);
+  if (!wb)
+    return {
+      type: "ERROR_LABEL",
+      msg: "No se encontró el archivo que desea cargar",
+    };
+  let ws = verifyData(wb);
+  if (ws) {
+    const result = await run(ws);
+    if (result.length === 0) return { type: "SUCCESS" };
+    else return { type: "WITH ERROR", data: result };
+  } else return { type: "ERROR", msg: "El archivo esta vacio" };
+}
+
+async function run(ws) {
+  let flag = true;
+  let row = 2;
+  let error = [];
+
+  while (flag) {
+    const categoria = ws.getCell(`A${row}`).value;
+    const categoriaHija = ws.getCell(`B${row}`).value;
+    const codigo = ws.getCell(`C${row}`).value;
+    const nombre = ws.getCell(`D${row}`).value;
+    const talla = ws.getCell(`E${row}`).value;
+    const color = ws.getCell(`F${row}`).value;
+    const calidad = ws.getCell(`G${row}`).value;
+    const especificaciones = ws.getCell(`H${row}`).value;
+    const etiqueta = ws.getCell(`I${row}`).value;
+
+    //buscar los ids de las categorias
+    //buscar si el codigo se repite
+    //verificar si el color posee el formato
+    //verificar si la calidad posee el formato
+    //recuperar los datos de un array para la etiqueta
+  }
+}
+
+function verifyData(wb) {
+  let ws = wb.worksheets[0];
+  const label = ws.getCell("B1").value;
+  const hour = ws.getCell("A2").value;
+
+  if (label && hour) return ws;
+  return null;
+}
 
 async function validateFilename(filename) {
   if (!filename) return { type: "ERROR", msg: "El archivo viene vacio" };
