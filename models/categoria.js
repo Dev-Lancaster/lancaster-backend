@@ -4,6 +4,7 @@ const schema = new mongoose.Schema({
   nombre: String,
   codigo: String,
   activo: Boolean,
+  nivel: Number,
   usuarioCrea: String,
   fechaCrea: Date,
 });
