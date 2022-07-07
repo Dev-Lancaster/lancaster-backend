@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "Backend para aplicacion de Lancaster",
   "main": "index.js",
-  "engines": {
-    "node": "14.x"
-  },
+  "private": true,
   "scripts": {
-    "start": "node index.js",
-    "test": "jest --watchAll --detectOpenHandles"
+    "test": "jest --verbose --watchAll --detectOpenHandles",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -48,11 +46,5 @@
   "devDependencies": {
     "jest": "^27.5.1",
     "supertest": "^6.2.3"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
   }
 }
