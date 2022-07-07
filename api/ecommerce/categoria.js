@@ -44,7 +44,7 @@ router.put("/activate/:id", auth, async (req, res) => {
   res.send(result);
 });
 
-router.put("/", auth, async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   const id = req.params.id;
   const body = req.body;
   const result = await CategoriaService.update(id, body);
