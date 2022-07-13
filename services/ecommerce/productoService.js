@@ -1,6 +1,7 @@
 const constants = require("../../middleware/constants");
 const ExcelHelper = require("../common/excelHelper");
 const fs = require("fs");
+const CategoriaService = require("./categoriaService");
 const { Producto } = require("../../models/producto");
 const { FotoProducto } = require("../../models/fotoProducto");
 const _ = require("lodash");
@@ -26,6 +27,11 @@ async function run(ws) {
   let flag = true;
   let row = 2;
   let error = [];
+  let categoriaModel;
+  let productoModel;
+  let index = 1;
+  let flagError = false;
+  let body;
 
   while (flag) {
     const categoria = ws.getCell(`A${row}`).value;
@@ -38,12 +44,65 @@ async function run(ws) {
     const especificaciones = ws.getCell(`H${row}`).value;
     const etiqueta = ws.getCell(`I${row}`).value;
 
-    //buscar los ids de las categorias
-    //buscar si el codigo se repite
-    //verificar si el color posee el formato
-    //verificar si la calidad posee el formato
-    //recuperar los datos de un array para la etiqueta
+    if (!categoria) flag = false;
+    else {
+      categoriaModel = await CategoriaService.findById(categoria);
+      if (!categoriaModel) {
+        error.push({
+          message: `La categoria padre esta incorrecta (Fila ${index})`,
+        });
+        flagError = true;
+      } else if (categoriaModel.nivel !== 0) {
+        flagError = true;
+        error.push({
+          message: `La categoria padre no es una categoria padre (Fila ${index})`,
+        });
+      }
+
+      categoriaModel = await CategoriaService.findById(categoriaHija);
+      if (!categoriaModel) {
+        error.push({
+          message: `La categoria hija esta incorrecta (Fila ${index})`,
+        });
+        flagError = true;
+      } else if (categoriaModel.nivel !== 0) {
+        flagError = true;
+        error.push({
+          message: `La categoria hija no es una categoria hija (Fila ${index})`,
+        });
+      }
+
+      productoModel = await Producto.findOne({ codigo: codigo }).lean();
+      if (productoModel) {
+        flagError = true;
+        error.push({
+          message: `El codigo del producto ya existe (Fila ${index})`,
+        });
+      }
+
+      if (flagError) {
+        body = {
+          categoria: categoria,
+          categoriaHija: categoriaHija,
+          codigo: codigo,
+          nombre: nombre,
+          talla: talla,
+          color: color,
+          calidad: calidad,
+          especificaciones: especificaciones,
+        };
+        await saveProducto(body);
+      }
+
+      index = index + 1;
+      flagError = true;
+    }
   }
+}
+
+async function saveProducto(model) {
+  let body = new Producto(model);
+  await body.save();
 }
 
 function verifyData(wb) {
