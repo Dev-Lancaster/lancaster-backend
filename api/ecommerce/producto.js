@@ -5,7 +5,7 @@ const ProductoService = require("../../services/ecommerce/productoService");
 
 /*********** ECOMMERCE ***********/
 router.get("/e/categoria/hija/:categoria", async (req, res) => {
-  const categoria = req.params;
+  const categoria = req.params.categoria;
   const result = await ProductoService.findECategoriaHija(categoria);
   res.send(result);
 });

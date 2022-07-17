@@ -1,6 +1,7 @@
 const constants = require("../../middleware/constants");
 const ExcelHelper = require("../common/excelHelper");
 const fs = require("fs");
+const ObjectId = require("mongodb").ObjectID;
 const CategoriaService = require("./categoriaService");
 const { Producto } = require("../../models/producto");
 const { FotoProducto } = require("../../models/fotoProducto");
@@ -193,11 +194,11 @@ async function findProductoByCodigo(codigo) {
 
 /*********** ECOMMERCE ***********/
 async function findECategoriaHija(categoria) {
-  const model = await Producto.findOne({
+  const model = await Producto.find({
     categoriaHija: categoria,
     estado: "ACTIVA",
   }).lean();
-  return convertModel(model);
+  return convertList(model);
 }
 
 async function findECategorias(categoriaPadre, categoriaHija) {
@@ -225,7 +226,7 @@ async function findEByCategoriaPadre(categoria) {
 
 async function convertModel(model) {
   if (!model) return;
-  let clone = structuredClone(model);
+  let clone = { ...model };
   const fotos = await FotoProducto.find({ producto: clone._id })
     .sort({ orden: 1 })
     .lean();
@@ -235,7 +236,7 @@ async function convertModel(model) {
 
 async function convertList(list) {
   let lst = [];
-  for (const model of list) lst.push(convertModel(model));
+  for (const model of list) lst.push(await convertModel(model));
   return lst;
 }
 /*********** FIN ECOMMERCE ***********/
