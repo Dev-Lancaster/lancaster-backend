@@ -191,6 +191,55 @@ async function findProductoByCodigo(codigo) {
   return await Producto.findOne({ codigo: codigo }).lean();
 }
 
+/*********** ECOMMERCE ***********/
+async function findECategoriaHija(categoria) {
+  const model = await Producto.findOne({
+    categoriaHija: categoria,
+    estado: "ACTIVA",
+  }).lean();
+  return convertModel(model);
+}
+
+async function findECategorias(categoriaPadre, categoriaHija) {
+  const model = await Producto.findOne({
+    categoria: categoriaPadre,
+    categoriaHija: categoriaHija,
+    estado: "ACTIVA",
+  }).lean();
+  return convertModel(model);
+}
+
+async function findEByEtiquetaEstado(etiqueta) {
+  const result = await Producto.find({ estado: "ACTIVA", etiqueta: etiqueta })
+    .sort({ categoria: 1, nombre: 1 })
+    .lean();
+  return convertList(result);
+}
+
+async function findEByCategoriaPadre(categoria) {
+  const result = await Producto.find({ estado: "ACTIVA", categoria: categoria })
+    .sort({ nombre: 1 })
+    .lean();
+  return convertList(result);
+}
+
+async function convertModel(model) {
+  if (!model) return;
+  let clone = structuredClone(model);
+  const fotos = await FotoProducto.find({ producto: clone._id })
+    .sort({ orden: 1 })
+    .lean();
+  clone.fotos = fotos;
+  return clone;
+}
+
+async function convertList(list) {
+  let lst = [];
+  for (const model of list) lst.push(convertModel(model));
+  return lst;
+}
+/*********** FIN ECOMMERCE ***********/
+
 async function findProductoCategoriaHija(categoria, estado) {
   return await Producto.findOne({
     categoriaHija: categoria,
@@ -318,6 +367,10 @@ async function changeEstado(id, estado) {
   return model;
 }
 
+exports.findEByCategoriaPadre = findEByCategoriaPadre;
+exports.findEByEtiquetaEstado = findEByEtiquetaEstado;
+exports.findECategorias = findECategorias;
+exports.findECategoriaHija = findECategoriaHija;
 exports.findByCategoriaEstado = findByCategoriaEstado;
 exports.findByEstado = findByEstado;
 exports.findById = findById;
