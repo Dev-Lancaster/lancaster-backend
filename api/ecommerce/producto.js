@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../../middleware/auth");
 const ProductoService = require("../../services/ecommerce/productoService");
 
 router.get("/hija/:hija/estado/:estado", async (req, res) => {
