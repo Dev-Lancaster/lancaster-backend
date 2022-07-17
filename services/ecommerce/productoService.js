@@ -209,7 +209,7 @@ async function findECategorias(categoriaPadre, categoriaHija) {
   return convertModel(model);
 }
 
-async function findEByEtiquetaEstado(etiqueta) {
+async function findEByEtiqueta(etiqueta) {
   const result = await Producto.find({ estado: "ACTIVA", etiqueta: etiqueta })
     .sort({ categoria: 1, nombre: 1 })
     .lean();
@@ -368,7 +368,7 @@ async function changeEstado(id, estado) {
 }
 
 exports.findEByCategoriaPadre = findEByCategoriaPadre;
-exports.findEByEtiquetaEstado = findEByEtiquetaEstado;
+exports.findEByEtiqueta = findEByEtiqueta;
 exports.findECategorias = findECategorias;
 exports.findECategoriaHija = findECategoriaHija;
 exports.findByCategoriaEstado = findByCategoriaEstado;
