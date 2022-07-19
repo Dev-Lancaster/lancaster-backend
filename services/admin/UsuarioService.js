@@ -35,20 +35,6 @@ async function findByCorreo(correo) {
   return user;
 }
 
-async function validateCredentials(correo, password) {
-  const user = await findByCorreo(correo);
-  if (!user)
-    return { type: "NOT-VALID", message: "Usuario y/o contraseña incorrecta" };
-
-  const validPassword = await bcrypt.compare(password, user.password);
-
-  if (!validPassword)
-    return { type: "NOT-VALID", message: "Usuario y/o contraseña incorrecta" };
-
-  const token = user.generateAuthToken();
-  return { type: "SUCCESS", message: "", token: token };
-}
-
 async function createUser(model) {
   let user = await findByCorreo(model.correo);
   if (user) return { type: "NOT-VALID", message: "El usuario ya existe" };
@@ -106,6 +92,5 @@ function validatePassword(password) {
 
 exports.findById = findById;
 exports.findByCorreo = findByCorreo;
-exports.validateCredentials = validateCredentials;
 exports.createUser = createUser;
 exports.validatePassword = validatePassword;
