@@ -6,6 +6,7 @@ const schema = new Schema({
   password: String,
   nombre: String,
   correo: String,
+  user: String,
   activo: Boolean,
   rol: String,
 });
