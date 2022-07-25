@@ -343,6 +343,7 @@ function validateProducto(model) {
 }
 
 async function save(model, files) {
+  model.etiqueta = model.etiqueta.split(",");
   const validate = validateProducto(model);
   if (validate.type !== constants.SUCCESS) return validate;
 
