@@ -190,7 +190,9 @@ async function findECategoriaHija(categoria) {
   const model = await Producto.find({
     categoriaHija: categoria,
     estado: "ACTIVA",
-  }).lean();
+  })
+    .populate("categoria")
+    .lean();
   return convertList(model);
 }
 
@@ -205,6 +207,8 @@ async function findECategorias(categoriaPadre, categoriaHija) {
 
 async function findEByEtiqueta(etiqueta) {
   const result = await Producto.find({ estado: "ACTIVA", etiqueta: etiqueta })
+    .populate("categoria")
+    .populate("categoriaHija")
     .sort({ categoria: 1, nombre: 1 })
     .lean();
   return convertList(result);
@@ -212,6 +216,7 @@ async function findEByEtiqueta(etiqueta) {
 
 async function findEByCategoriaPadre(categoria) {
   const result = await Producto.find({ estado: "ACTIVA", categoria: categoria })
+    .populate("categoriaHija")
     .sort({ nombre: 1 })
     .lean();
   return convertList(result);
