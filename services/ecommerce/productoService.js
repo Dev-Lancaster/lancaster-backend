@@ -349,8 +349,17 @@ async function save(model, files) {
   let body = new Producto(model);
   body.fechaCrea = new Date();
 
-  await body.save();
-  return body;
+  try {
+    await body.save();
+    await saveFoto(body._id, files, body.usuarioCrea);
+    return { type: "SUCCESS" };
+  } catch (e) {
+    console.error(e);
+    return {
+      type: "ERROR",
+      msg: "Ha ocurrido un error al guardar el producto",
+    };
+  }
 }
 
 async function update(id, model) {
