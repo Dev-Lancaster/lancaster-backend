@@ -371,6 +371,16 @@ async function changeEstado(id, estado) {
   return model;
 }
 
+async function findAll() {
+  const result = await Producto.find()
+    .populate("categoria")
+    .populate("categoriaHija")
+    .sort({ nombre: 1 })
+    .lean();
+  return result;
+}
+
+exports.findAll = findAll;
 exports.findEByCategoriaPadre = findEByCategoriaPadre;
 exports.findEByEtiqueta = findEByEtiqueta;
 exports.findECategorias = findECategorias;
