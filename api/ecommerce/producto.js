@@ -79,6 +79,11 @@ router.get("/categoria/:categoria/estado/:estado", auth, async (req, res) => {
   res.send(result);
 });
 
+router.get("/", auth, async (req, res) => {
+  const result = await ProductoService.findAll();
+  res.send(result);
+});
+
 router.get("/:id", auth, async (req, res) => {
   const id = req.params.id;
   const result = await ProductoService.findById(id);
