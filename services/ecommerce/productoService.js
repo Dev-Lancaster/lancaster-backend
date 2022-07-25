@@ -148,21 +148,15 @@ async function validateFilename(filename) {
 
 async function saveFoto(producto, files, usuario) {
   let errors = [];
-  let resultValidate;
   for (const file of files) {
-    resultValidate = await validateFilename(file.name);
-    if (resultValidate.type === "SUCCESS") {
-      let model = new FotoProducto();
-      model.producto = producto;
-      model.posicion = resultValidate.array[2];
-      model.orden = resultValidate.array[1];
-      model.usuarioCrea = usuario;
-      model.img.data = fs.readFileSync(file.path);
-      model.img.contentType = file.mimetype;
-      model.fechaCrea = new Date();
-      await model.save();
-      fs.unlinkSync(file.path);
-    } else errors.push(resultValidate);
+    let model = new FotoProducto();
+    model.producto = producto;
+    model.usuarioCrea = usuario;
+    model.img.data = fs.readFileSync(file.path);
+    model.img.contentType = file.mimetype;
+    model.fechaCrea = new Date();
+    await model.save();
+    fs.unlinkSync(file.path);
   }
   return errors;
 }
