@@ -9,6 +9,7 @@ const schema = new Schema({
   talla: String,
   color: String,
   calidad: String,
+  monto: Number,
   especificaciones: String,
   estado: String,
   etiqueta: [String],
