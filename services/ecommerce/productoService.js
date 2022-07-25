@@ -1,7 +1,6 @@
 const constants = require("../../middleware/constants");
 const ExcelHelper = require("../common/excelHelper");
 const fs = require("fs");
-const ObjectId = require("mongodb").ObjectID;
 const CategoriaService = require("./categoriaService");
 const { Producto } = require("../../models/producto");
 const { FotoProducto } = require("../../models/fotoProducto");
@@ -343,7 +342,7 @@ function validateProducto(model) {
   return { type: constants.SUCCESS };
 }
 
-async function save(model) {
+async function save(model, files) {
   const validate = validateProducto(model);
   if (validate.type !== constants.SUCCESS) return validate;
 
