@@ -377,7 +377,7 @@ async function findAll() {
     .populate("categoriaHija")
     .sort({ nombre: 1 })
     .lean();
-  return result;
+  return convertList(result);
 }
 
 exports.findAll = findAll;
