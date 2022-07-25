@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const ProductoService = require("../../services/ecommerce/productoService");
+const multer = require("multer");
+const fs = require("fs");
+
+const upload = multer({
+  dest: "./upload",
+});
 
 /*********** ECOMMERCE ***********/
 router.get("/e/categoria/hija/:categoria", async (req, res) => {
@@ -79,9 +85,11 @@ router.get("/:id", auth, async (req, res) => {
   res.send(result);
 });
 
-router.post("/", auth, async (req, res) => {
+router.post("/", auth, upload.any(), async (req, res) => {
+  const files = req.files;
   const body = req.body;
-  const result = await ProductoService.save(body);
+
+  const result = await ProductoService.save(body, files);
   res.send(result);
 });
 
