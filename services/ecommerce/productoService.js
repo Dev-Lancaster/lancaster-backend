@@ -239,6 +239,14 @@ async function convertList(list) {
 }
 /*********** FIN ECOMMERCE ***********/
 
+async function findDistinctCode() {
+  const result = await Producto.find({ estado: "ACTIVA" })
+    .distinct("codigo")
+    .sort({ codigo: 1 })
+    .lean();
+  return result;
+}
+
 async function findProductoCategoriaHija(categoria, estado) {
   return await Producto.findOne({
     categoriaHija: categoria,
@@ -405,3 +413,4 @@ exports.findByEtiquetaEstado = findByEtiquetaEstado;
 exports.findProductoByCodigo = findProductoByCodigo;
 exports.findProductoCategorias = findProductoCategorias;
 exports.findProductoCategoriaHija = findProductoCategoriaHija;
+exports.findDistinctCode = findDistinctCode;
