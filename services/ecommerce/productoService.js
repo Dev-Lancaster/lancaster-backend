@@ -241,6 +241,12 @@ async function convertList(list) {
     .value();
   return result;
 }
+
+async function convertListNoGroup(list) {
+  let lst = [];
+  for (const model of list) lst.push(await convertModel(model));
+  return lst;
+}
 /*********** FIN ECOMMERCE ***********/
 
 async function findDistinctCode() {
@@ -394,7 +400,7 @@ async function findAll() {
     .populate("categoriaHija")
     .sort({ nombre: 1 })
     .lean();
-  return convertList(result);
+  return convertListNoGroup(result);
 }
 
 exports.findAll = findAll;
