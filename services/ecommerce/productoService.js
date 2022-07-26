@@ -197,12 +197,12 @@ async function findECategoriaHija(categoria) {
 }
 
 async function findECategorias(categoriaPadre, categoriaHija) {
-  const model = await Producto.find({
+  const result = await Producto.find({
     categoria: categoriaPadre,
     categoriaHija: categoriaHija,
     estado: "ACTIVA",
   }).lean();
-  return convertList(model);
+  return convertList(result);
 }
 
 async function findEByEtiqueta(etiqueta) {
@@ -235,7 +235,11 @@ async function convertModel(model) {
 async function convertList(list) {
   let lst = [];
   for (const model of list) lst.push(await convertModel(model));
-  return lst;
+  const result = _.chain(lst)
+    .groupBy("codigo")
+    .map((value, key) => ({ codigo: key, producto: value }))
+    .value();
+  return result;
 }
 /*********** FIN ECOMMERCE ***********/
 
