@@ -241,8 +241,8 @@ async function convertList(list) {
 
 async function findDistinctCode() {
   const result = await Producto.find({ estado: "ACTIVA" })
-    .distinct("codigo")
     .sort({ codigo: 1 })
+    .distinct("codigo")
     .lean();
   return result;
 }
