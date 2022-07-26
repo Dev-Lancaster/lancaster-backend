@@ -197,12 +197,12 @@ async function findECategoriaHija(categoria) {
 }
 
 async function findECategorias(categoriaPadre, categoriaHija) {
-  const model = await Producto.findOne({
+  const model = await Producto.find({
     categoria: categoriaPadre,
     categoriaHija: categoriaHija,
     estado: "ACTIVA",
   }).lean();
-  return convertModel(model);
+  return convertList(model);
 }
 
 async function findEByEtiqueta(etiqueta) {
