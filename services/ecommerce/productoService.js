@@ -189,7 +189,7 @@ async function findProductoByCodigo(codigo) {
 async function findECategoriaHija(categoria) {
   const model = await Producto.find({
     categoriaHija: categoria,
-    estado: "ACTIVA",
+    estado: "ACTIVO",
   })
     .populate("categoria")
     .lean();
@@ -200,13 +200,13 @@ async function findECategorias(categoriaPadre, categoriaHija) {
   const result = await Producto.find({
     categoria: categoriaPadre,
     categoriaHija: categoriaHija,
-    estado: "ACTIVA",
+    estado: "ACTIVO",
   }).lean();
   return convertList(result);
 }
 
 async function findEByEtiqueta(etiqueta) {
-  const result = await Producto.find({ estado: "ACTIVA", etiqueta: etiqueta })
+  const result = await Producto.find({ estado: "ACTIVO", etiqueta: etiqueta })
     .populate("categoria")
     .populate("categoriaHija")
     .sort({ categoria: 1, nombre: 1 })
@@ -215,7 +215,7 @@ async function findEByEtiqueta(etiqueta) {
 }
 
 async function findEByCategoriaPadre(categoria) {
-  const result = await Producto.find({ estado: "ACTIVA", categoria: categoria })
+  const result = await Producto.find({ estado: "ACTIVO", categoria: categoria })
     .populate("categoriaHija")
     .sort({ nombre: 1 })
     .lean();
@@ -250,7 +250,7 @@ async function convertListNoGroup(list) {
 /*********** FIN ECOMMERCE ***********/
 
 async function findDistinctCode() {
-  const result = await Producto.find({ estado: "ACTIVA" })
+  const result = await Producto.find({ estado: "ACTIVO" })
     .sort({ codigo: 1 })
     .distinct("codigo")
     .lean();
