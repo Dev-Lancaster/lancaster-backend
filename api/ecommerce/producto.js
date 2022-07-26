@@ -35,6 +35,11 @@ router.get("/e/categoria/padre/:categoria", async (req, res) => {
 });
 /*********** FIN ECOMMERCE ***********/
 
+router.get("/distinct/code", auth, async (req, res) => {
+  const result = await ProductoService.findDistinctCode();
+  res.send(result);
+});
+
 router.get("/hija/:hija/estado/:estado", auth, async (req, res) => {
   const { hija, estado } = req.params;
   const result = await ProductoService.findProductoCategoriaHija(hija, estado);
