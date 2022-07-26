@@ -12,6 +12,7 @@ const schema = new Schema({
   monto: Number,
   especificaciones: String,
   estado: String,
+  cantidad: Number,
   etiqueta: [String],
   usuarioCrea: String,
   fechaCrea: Date,
