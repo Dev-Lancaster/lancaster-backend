@@ -394,7 +394,7 @@ async function update(id, model) {
     console.error(e);
     return {
       type: "ERROR",
-      msg: "Ha ocurrido un error al guardar el producto",
+      msg: "Ha ocurrido un error al actualizar el producto",
     };
   }
 }
