@@ -381,12 +381,22 @@ async function save(model, files) {
 }
 
 async function update(id, model) {
+  model.etiqueta = model.etiqueta.split(",");
   const validate = validateProducto(model);
   if (validate.type !== constants.SUCCESS) return validate;
 
   model.fechaAct = new Date();
-  const result = await Producto.findByIdAndUpdate(id, model);
-  return result;
+  try {
+    await Producto.findByIdAndUpdate(id, model);
+    await saveFoto(id, files, model.usuarioAct);
+    return { type: "SUCCESS" };
+  } catch (e) {
+    console.error(e);
+    return {
+      type: "ERROR",
+      msg: "Ha ocurrido un error al guardar el producto",
+    };
+  }
 }
 
 async function changeEstado(id, estado) {
