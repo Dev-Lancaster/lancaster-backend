@@ -1,5 +1,7 @@
 const constants = require("../../middleware/constants");
 const ExcelHelper = require("../common/excelHelper");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 const fs = require("fs");
 const CategoriaService = require("./categoriaService");
 const { Producto } = require("../../models/producto");
@@ -197,12 +199,54 @@ async function findECategoriaHija(categoria) {
 }
 
 async function findECategorias(categoriaPadre, categoriaHija) {
-  const result = await Producto.find({
-    categoria: categoriaPadre,
-    categoriaHija: categoriaHija,
-    estado: "ACTIVO",
-  }).lean();
-  return convertList(result);
+  const list = await Producto.aggregate(
+    [
+      {
+        $match: {
+          estado: "ACTIVO",
+          categoria: ObjectId(categoriaPadre),
+          categoriaHija: ObjectId(categoriaHija),
+        },
+      },
+      { $sort: { nombre: 1 } },
+      { $group: { _id: "$codigo", data: { $push: "$$ROOT" } } },
+    ],
+    function (err, results) {
+      if (err) throw err;
+      let lst = [];
+      let dataList = [];
+      let fotos = [];
+      for (const model of results) {
+        dataList = [];
+        for (const d of model.data) {
+          /*fotos = await FotoProducto.find({ producto: d._id })
+            .sort({ orden: 1 })
+            .lean();*/
+
+          dataList.push({
+            codigo: d.codigo,
+            nombre: d.nombre,
+            talla: d.talla,
+            color: d.color,
+            calidad: d.calidad,
+            monto: d.monto,
+            especificaciones: d.especificaciones,
+            estado: d.estado,
+            cantidad: d.cantidad,
+            etiqueta: d.etiqueta,
+            fotos: fotos,
+          });
+        }
+        lst.push({
+          codigo: model._id,
+          data: dataList,
+        });
+      }
+      return null;
+    }
+  );
+  console.log(list);
+  return list;
 }
 
 async function findEByEtiqueta(etiqueta) {
@@ -235,10 +279,15 @@ async function convertModel(model) {
 async function convertList(list) {
   let lst = [];
   for (const model of list) lst.push(await convertModel(model));
-  const result = _.chain(lst)
+
+  /*const result = _.chain(lst)
     .groupBy("codigo")
     .map((value, key) => ({ codigo: key, producto: value }))
     .value();
+  const colors = [
+    ...new Set(result.map((item) => item.producto.map((r) => r.color))),
+  ];*/
+
   return result;
 }
 
