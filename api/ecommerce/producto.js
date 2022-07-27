@@ -103,7 +103,7 @@ router.post("/", auth, upload.any(), async (req, res) => {
   res.send(result);
 });
 
-router.put("/:id", auth, async (req, res) => {
+router.put("/:id", auth, upload.any(), async (req, res) => {
   const body = req.body;
   const id = req.params.id;
   const result = await ProductoService.update(id, body);
