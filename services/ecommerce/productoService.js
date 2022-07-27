@@ -199,54 +199,58 @@ async function findECategoriaHija(categoria) {
 }
 
 async function findECategorias(categoriaPadre, categoriaHija) {
-  const list = await Producto.aggregate(
-    [
-      {
-        $match: {
-          estado: "ACTIVO",
-          categoria: ObjectId(categoriaPadre),
-          categoriaHija: ObjectId(categoriaHija),
-        },
+  const results = await Producto.aggregate([
+    {
+      $match: {
+        estado: "ACTIVO",
+        categoria: ObjectId(categoriaPadre),
+        categoriaHija: ObjectId(categoriaHija),
       },
-      { $sort: { nombre: 1 } },
-      { $group: { _id: "$codigo", data: { $push: "$$ROOT" } } },
-    ],
-    function (err, results) {
-      if (err) throw err;
-      let lst = [];
-      let dataList = [];
-      let fotos = [];
-      for (const model of results) {
-        dataList = [];
-        for (const d of model.data) {
-          /*fotos = await FotoProducto.find({ producto: d._id })
-            .sort({ orden: 1 })
-            .lean();*/
+    },
+    { $sort: { nombre: 1 } },
+    { $group: { _id: "$codigo", data: { $push: "$$ROOT" } } },
+  ]);
+  return await fill(results);
+}
 
-          dataList.push({
-            codigo: d.codigo,
-            nombre: d.nombre,
-            talla: d.talla,
-            color: d.color,
-            calidad: d.calidad,
-            monto: d.monto,
-            especificaciones: d.especificaciones,
-            estado: d.estado,
-            cantidad: d.cantidad,
-            etiqueta: d.etiqueta,
-            fotos: fotos,
-          });
-        }
-        lst.push({
-          codigo: model._id,
-          data: dataList,
-        });
-      }
-      return null;
+async function fill(results) {
+  let lst = [];
+  let dataList = [];
+  let fotos = [];
+  let colors = [];
+  let tallas = [];
+  for (const model of results) {
+    dataList = [];
+    for (const d of model.data) {
+      fotos = await FotoProducto.find({ producto: d._id })
+        .sort({ orden: 1 })
+        .lean();
+
+      dataList.push({
+        codigo: d.codigo,
+        nombre: d.nombre,
+        talla: d.talla,
+        color: d.color,
+        calidad: d.calidad,
+        monto: d.monto,
+        especificaciones: d.especificaciones,
+        estado: d.estado,
+        cantidad: d.cantidad,
+        etiqueta: d.etiqueta,
+        fotos: fotos,
+      });
     }
-  );
-  console.log(list);
-  return list;
+
+    colors = [...new Set(dataList.map((item) => item.color))];
+    tallas = [...new Set(dataList.map((item) => item.talla))];
+    lst.push({
+      codigo: model._id,
+      color: colors,
+      talla: tallas,
+      data: dataList,
+    });
+  }
+  return lst;
 }
 
 async function findEByEtiqueta(etiqueta) {
