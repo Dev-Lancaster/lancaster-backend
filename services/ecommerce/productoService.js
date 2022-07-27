@@ -208,7 +208,19 @@ async function findECategorias(categoriaPadre, categoriaHija) {
       },
     },
     { $sort: { nombre: 1 } },
-    { $group: { _id: "$codigo", data: { $push: "$$ROOT" } } },
+    {
+      $group: {
+        _id: {
+          codigo: "$codigo",
+          nombre: "$nombre",
+          calidad: "$calidad",
+          monto: "$monto",
+          especificaciones: "$especificaciones",
+          etiqueta: "$etiqueta",
+        },
+        data: { $push: "$$ROOT" },
+      },
+    },
   ]);
   return await fill(results);
 }
@@ -227,16 +239,9 @@ async function fill(results) {
         .lean();
 
       dataList.push({
-        codigo: d.codigo,
-        nombre: d.nombre,
         talla: d.talla,
         color: d.color,
-        calidad: d.calidad,
-        monto: d.monto,
-        especificaciones: d.especificaciones,
-        estado: d.estado,
         cantidad: d.cantidad,
-        etiqueta: d.etiqueta,
         fotos: fotos,
       });
     }
