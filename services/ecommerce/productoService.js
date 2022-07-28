@@ -202,6 +202,8 @@ async function findECategoriaHija(categoria) {
         _id: {
           codigo: "$codigo",
           nombre: "$nombre",
+          categoria: "$categoriaNombre",
+          categoriaHija: "$categoriaHijaNombre",
           calidad: "$calidad",
           monto: "$monto",
           especificaciones: "$especificaciones",
@@ -229,6 +231,8 @@ async function findECategorias(categoriaPadre, categoriaHija) {
         _id: {
           codigo: "$codigo",
           nombre: "$nombre",
+          categoria: "$categoriaNombre",
+          categoriaHija: "$categoriaHijaNombre",
           calidad: "$calidad",
           monto: "$monto",
           especificaciones: "$especificaciones",
@@ -288,6 +292,8 @@ async function findEByEtiqueta(etiqueta) {
         _id: {
           codigo: "$codigo",
           nombre: "$nombre",
+          categoria: "$categoriaNombre",
+          categoriaHija: "$categoriaHijaNombre",
           calidad: "$calidad",
           monto: "$monto",
           especificaciones: "$especificaciones",
@@ -315,6 +321,8 @@ async function findEByCategoriaPadre(categoria) {
         _id: {
           codigo: "$codigo",
           nombre: "$nombre",
+          categoria: "$categoriaNombre",
+          categoriaHija: "$categoriaHijaNombre",
           calidad: "$calidad",
           monto: "$monto",
           especificaciones: "$especificaciones",
