@@ -275,20 +275,57 @@ async function fill(results) {
 }
 
 async function findEByEtiqueta(etiqueta) {
-  const result = await Producto.find({ estado: "ACTIVO", etiqueta: etiqueta })
-    .populate("categoria")
-    .populate("categoriaHija")
-    .sort({ categoria: 1, nombre: 1 })
-    .lean();
-  return convertList(result);
+  const results = await Producto.aggregate([
+    {
+      $match: {
+        estado: "ACTIVO",
+        etiqueta: etiqueta,
+      },
+    },
+    { $sort: { nombre: 1 } },
+    {
+      $group: {
+        _id: {
+          codigo: "$codigo",
+          nombre: "$nombre",
+          calidad: "$calidad",
+          monto: "$monto",
+          especificaciones: "$especificaciones",
+          etiqueta: "$etiqueta",
+        },
+        data: { $push: "$$ROOT" },
+      },
+    },
+  ]);
+
+  return fill(results);
 }
 
 async function findEByCategoriaPadre(categoria) {
-  const result = await Producto.find({ estado: "ACTIVO", categoria: categoria })
-    .populate("categoriaHija")
-    .sort({ nombre: 1 })
-    .lean();
-  return convertList(result);
+  const results = await Producto.aggregate([
+    {
+      $match: {
+        estado: "ACTIVO",
+        categoria: ObjectId(categoria),
+      },
+    },
+    { $sort: { nombre: 1 } },
+    {
+      $group: {
+        _id: {
+          codigo: "$codigo",
+          nombre: "$nombre",
+          calidad: "$calidad",
+          monto: "$monto",
+          especificaciones: "$especificaciones",
+          etiqueta: "$etiqueta",
+        },
+        data: { $push: "$$ROOT" },
+      },
+    },
+  ]);
+
+  return fill(results);
 }
 
 async function convertModel(model) {
