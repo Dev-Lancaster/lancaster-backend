@@ -500,11 +500,7 @@ async function changeEstado(id, estado) {
 }
 
 async function findAll() {
-  const result = await Producto.find()
-    .populate("categoria")
-    .populate("categoriaHija")
-    .sort({ nombre: 1 })
-    .lean();
+  const result = await Producto.find().sort({ nombre: 1 }).lean();
   return convertListNoGroup(result);
 }
 
