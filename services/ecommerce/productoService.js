@@ -189,13 +189,29 @@ async function findProductoByCodigo(codigo) {
 
 /*********** ECOMMERCE ***********/
 async function findECategoriaHija(categoria) {
-  const model = await Producto.find({
-    categoriaHija: categoria,
-    estado: "ACTIVO",
-  })
-    .populate("categoria")
-    .lean();
-  return convertList(model);
+  const result = await Producto.aggregate([
+    {
+      $match: {
+        estado: "ACTIVO",
+        categoriaHija: ObjectId(categoria),
+      },
+    },
+    { $sort: { nombre: 1 } },
+    {
+      $group: {
+        _id: {
+          codigo: "$codigo",
+          nombre: "$nombre",
+          calidad: "$calidad",
+          monto: "$monto",
+          especificaciones: "$especificaciones",
+          etiqueta: "$etiqueta",
+        },
+        data: { $push: "$$ROOT" },
+      },
+    },
+  ]);
+  return await fill(result);
 }
 
 async function findECategorias(categoriaPadre, categoriaHija) {
@@ -283,21 +299,6 @@ async function convertModel(model) {
     .lean();
   clone.fotos = fotos;
   return clone;
-}
-
-async function convertList(list) {
-  let lst = [];
-  for (const model of list) lst.push(await convertModel(model));
-
-  /*const result = _.chain(lst)
-    .groupBy("codigo")
-    .map((value, key) => ({ codigo: key, producto: value }))
-    .value();
-  const colors = [
-    ...new Set(result.map((item) => item.producto.map((r) => r.color))),
-  ];*/
-
-  return result;
 }
 
 async function convertListNoGroup(list) {
