@@ -6,6 +6,8 @@ const schema = new Schema({
   categoriaHija: { type: Schema.Types.ObjectId, ref: "categoria" },
   categoriaNombre: String,
   categoriaHijaNombre: String,
+  categoriaFull: String,
+  categoriaHijaFull: String,
   codigo: String,
   nombre: String,
   talla: String,
