@@ -250,7 +250,9 @@ async function fill(results) {
   let dataList = [];
   let fotos = [];
   let colors = [];
+  let colorNombre = [];
   let tallas = [];
+
   for (const model of results) {
     dataList = [];
     for (const d of model.data) {
@@ -266,6 +268,7 @@ async function fill(results) {
       });
     }
 
+    colorNombre = [...new Set(dataList.map((item) => item.colorNombre))];
     colors = [...new Set(dataList.map((item) => item.color))];
     tallas = [...new Set(dataList.map((item) => item.talla))];
     lst.push({
