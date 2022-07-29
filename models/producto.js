@@ -12,6 +12,7 @@ const schema = new Schema({
   nombre: String,
   talla: String,
   color: String,
+  colorNombre: String,
   calidad: Number,
   monto: Number,
   especificaciones: String,
