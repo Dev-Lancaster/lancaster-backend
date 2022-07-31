@@ -150,10 +150,15 @@ async function validateFilename(filename) {
 
 async function saveFoto(producto, files, usuario) {
   let errors = [];
+  let model;
+  let array = [];
   for (const file of files) {
-    let model = new FotoProducto();
+    array = file.split("_");
+    model = new FotoProducto();
     model.producto = producto;
     model.usuarioCrea = usuario;
+    model.orden = parseInt(array[1]);
+    model.posicion = array[2];
     model.img.data = fs.readFileSync(file.path);
     model.img.contentType = file.mimetype;
     model.fechaCrea = new Date();
