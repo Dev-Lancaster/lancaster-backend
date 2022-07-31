@@ -337,22 +337,6 @@ async function findEByCategoriaPadre(categoria) {
 
   return fill(results);
 }
-
-async function convertModel(model) {
-  if (!model) return;
-  let clone = { ...model };
-  const fotos = await FotoProducto.find({ producto: clone._id })
-    .sort({ orden: 1 })
-    .lean();
-  clone.fotos = fotos;
-  return clone;
-}
-
-async function convertListNoGroup(list) {
-  let lst = [];
-  for (const model of list) lst.push(await convertModel(model));
-  return lst;
-}
 /*********** FIN ECOMMERCE ***********/
 
 async function findDistinctCode() {
@@ -524,7 +508,7 @@ async function changeEstado(id, estado) {
 
 async function findAll() {
   const result = await Producto.find().sort({ nombre: 1 }).lean();
-  return convertListNoGroup(result);
+  return result;
 }
 
 exports.findAll = findAll;
