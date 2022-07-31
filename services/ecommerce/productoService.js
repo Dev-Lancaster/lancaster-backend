@@ -253,23 +253,17 @@ async function findECategorias(categoriaPadre, categoriaHija) {
 async function fill(results) {
   let lst = [];
   let dataList = [];
-  let fotos = [];
   let colors = [];
-  let colorNombre = [];
   let tallas = [];
 
   for (const model of results) {
     dataList = [];
     for (const d of model.data) {
-      fotos = await FotoProducto.find({ producto: d._id })
-        .sort({ orden: 1 })
-        .lean();
-
       dataList.push({
         talla: d.talla,
         color: d.color,
         cantidad: d.cantidad,
-        fotos: fotos,
+        fotos: d.fotos,
       });
     }
 
@@ -478,9 +472,22 @@ async function save(model, files) {
   let body = new Producto(model);
   body.fechaCrea = new Date();
 
+  let fotos = [];
+  let img = {};
+  for (const file of files) {
+    img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
+    array = file.originalname.split("_");
+    fotos.push({
+      orden: parseInt(array[1]),
+      posicion: array[2].split(".")[0],
+      img: img,
+    });
+    fs.unlinkSync(file.path);
+  }
+  body.fotos = fotos;
+
   try {
     await body.save();
-    await saveFoto(body._id, files, body.usuarioCrea);
     return { type: "SUCCESS" };
   } catch (e) {
     console.error(e);
