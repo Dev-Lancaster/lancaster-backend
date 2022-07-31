@@ -153,12 +153,12 @@ async function saveFoto(producto, files, usuario) {
   let model;
   let array = [];
   for (const file of files) {
-    array = file.split("_");
+    array = file.originalname.split("_");
     model = new FotoProducto();
     model.producto = producto;
     model.usuarioCrea = usuario;
     model.orden = parseInt(array[1]);
-    model.posicion = array[2];
+    model.posicion = array[2].split(".")[0];
     model.img.data = fs.readFileSync(file.path);
     model.img.contentType = file.mimetype;
     model.fechaCrea = new Date();
