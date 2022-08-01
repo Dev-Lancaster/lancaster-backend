@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const fotoSchema = new Schema({
+  orden: Number,
+  posicion: String,
+  img: { data: Buffer, contentType: String },
+});
+
 const schema = new Schema({
   categoria: { type: Schema.Types.ObjectId, ref: "categoria" },
   categoriaHija: { type: Schema.Types.ObjectId, ref: "categoria" },
@@ -19,7 +25,7 @@ const schema = new Schema({
   estado: String,
   cantidad: Number,
   fotos: Array,
-  etiqueta: [String],
+  etiqueta: [fotoSchema],
   usuarioCrea: String,
   fechaCrea: Date,
   usuarioAct: String,
