@@ -9,6 +9,10 @@ const _ = require("lodash");
 
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
 
+async function deleteFoto(id, data) {
+  //await Producto.findByIdAndUpdate(id, { $pull: {fotos.data: data} });
+}
+
 async function loadFile(filename) {
   let wb = await ExcelHelper.readExcel(filename);
   if (!wb)
