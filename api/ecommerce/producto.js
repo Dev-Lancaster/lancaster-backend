@@ -116,4 +116,11 @@ router.put("/estado/:id", auth, async (req, res) => {
   res.send(result);
 });
 
+router.delete("/foto/:id", auth, async (req, res) => {
+  const body = req.body;
+  const id = req.params.id;
+  const result = await ProductoService.changeEstado(id, body.estado);
+  res.send(result);
+});
+
 module.exports = router;

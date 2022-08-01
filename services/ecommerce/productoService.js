@@ -5,7 +5,6 @@ const ObjectId = mongoose.Types.ObjectId;
 const fs = require("fs");
 const CategoriaService = require("./categoriaService");
 const { Producto } = require("../../models/producto");
-const { FotoProducto } = require("../../models/fotoProducto");
 const _ = require("lodash");
 
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
@@ -146,46 +145,6 @@ async function validateFilename(filename) {
     };
 
   return { type: "SUCCESS", array: array };
-}
-
-async function saveFoto(producto, files, usuario) {
-  let errors = [];
-  let model;
-  let array = [];
-  for (const file of files) {
-    array = file.originalname.split("_");
-    model = new FotoProducto();
-    model.producto = producto;
-    model.usuarioCrea = usuario;
-    model.orden = parseInt(array[1]);
-    model.posicion = array[2].split(".")[0];
-    model.img.data = fs.readFileSync(file.path);
-    model.img.contentType = file.mimetype;
-    model.fechaCrea = new Date();
-    await model.save();
-    fs.unlinkSync(file.path);
-  }
-  return errors;
-}
-
-async function deleteFoto(id) {
-  await FotoProducto.findByIdAndDelete(id);
-}
-
-async function deleteFotos(idProducto) {
-  await FotoProducto.deleteMany({ producto: idProducto });
-}
-
-async function findFotoById(id) {
-  const model = await FotoProducto.findById(id).lean();
-  return model;
-}
-
-async function findFotos(idProducto) {
-  const result = await FotoProducto.find({ producto: idProducto })
-    .sort({ orden: 1 })
-    .lean();
-  return result;
 }
 
 async function findProductoByCodigo(codigo) {
@@ -522,11 +481,6 @@ exports.findById = findById;
 exports.save = save;
 exports.update = update;
 exports.changeEstado = changeEstado;
-exports.findFotos = findFotos;
-exports.findFotoById = findFotoById;
-exports.deleteFotos = deleteFotos;
-exports.deleteFoto = deleteFoto;
-exports.saveFoto = saveFoto;
 exports.findByEtiquetaEstado = findByEtiquetaEstado;
 exports.findProductoByCodigo = findProductoByCodigo;
 exports.findProductoCategorias = findProductoCategorias;
