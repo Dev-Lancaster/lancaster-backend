@@ -116,11 +116,15 @@ router.put("/estado/:id", auth, async (req, res) => {
   res.send(result);
 });
 
-router.delete("/foto/:id", auth, async (req, res) => {
-  const body = req.body;
-  const id = req.params.id;
-  const result = await ProductoService.changeEstado(id, body.estado);
-  res.send(result);
+router.delete("/foto/:id/:idFoto", auth, async (req, res) => {
+  const { id, idFoto } = req.params;
+  try {
+    await ProductoService.deleteFoto(id, idFoto);
+  } catch (e) {
+    console.error(e);
+    res.send({ type: "ERROR" });
+  }
+  res.send({ type: "OK" });
 });
 
 module.exports = router;
