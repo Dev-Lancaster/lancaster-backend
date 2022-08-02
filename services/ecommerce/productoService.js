@@ -9,8 +9,8 @@ const _ = require("lodash");
 
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
 
-async function deleteFoto(id, data) {
-  //await Producto.findByIdAndUpdate(id, { $pull: {fotos.data: data} });
+async function deleteFoto(id, idFoto) {
+  await Producto.findByIdAndUpdate(id, { $pull: { fotos: idFoto } });
 }
 
 async function loadFile(filename) {
@@ -490,3 +490,4 @@ exports.findProductoByCodigo = findProductoByCodigo;
 exports.findProductoCategorias = findProductoCategorias;
 exports.findProductoCategoriaHija = findProductoCategoriaHija;
 exports.findDistinctCode = findDistinctCode;
+exports.deleteFoto = deleteFoto;
