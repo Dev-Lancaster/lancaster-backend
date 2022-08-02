@@ -10,7 +10,9 @@ const _ = require("lodash");
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
 
 async function deleteFoto(id, idFoto) {
-  await Producto.findByIdAndUpdate(id, { $pull: { fotos: idFoto } });
+  await Producto.findByIdAndUpdate(id, {
+    $pull: { fotos: { _id: idFoto } },
+  });
 }
 
 async function loadFile(filename) {
