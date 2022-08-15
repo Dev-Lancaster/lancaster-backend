@@ -220,11 +220,9 @@ async function fill(results) {
   let dataList = [];
   let colors = [];
   let tallas = [];
-  let root = [];
 
   for (const model of results) {
     dataList = [];
-    root = [];
 
     for (const d of model.data) {
       dataList.push({
@@ -239,17 +237,13 @@ async function fill(results) {
     colors = [...new Set(dataList.map((item) => item.color))];
     tallas = [...new Set(dataList.map((item) => item.talla))];
     lst.push({
+      ...model._id,
       color: colors,
       talla: tallas,
       data: dataList,
     });
-
-    root.push({
-      producto: model._id,
-      items: lst,
-    });
   }
-  return root;
+  return lst;
 }
 
 async function findEByEtiqueta(etiqueta) {
