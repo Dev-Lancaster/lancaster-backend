@@ -238,8 +238,8 @@ async function fill(results) {
     tallas = [...new Set(dataList.map((item) => item.talla))];
     lst.push({
       ...model._id,
-      color: colors,
-      talla: tallas,
+      colors: colors,
+      tallas: tallas,
       data: dataList,
     });
   }
