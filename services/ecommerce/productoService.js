@@ -448,12 +448,12 @@ async function save(model, files) {
 }
 
 async function updateInfo(id, model) {
-  model.etiqueta = model.etiqueta.split(",");
   const validate = validateProducto(model);
   if (validate.type !== constants.SUCCESS) return validate;
   model.fechaAct = new Date();
   try {
-    await Producto.findByIdAndUpdate(id, model);
+    console.log(model.color);
+    //await Producto.findByIdAndUpdate(id, model);
     return { type: "SUCCESS" };
   } catch (e) {
     console.error(e);
