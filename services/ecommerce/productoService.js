@@ -223,6 +223,7 @@ async function fill(results) {
 
   for (const model of results) {
     dataList = [];
+
     for (const d of model.data) {
       dataList.push({
         talla: d.talla,
@@ -236,9 +237,9 @@ async function fill(results) {
     colors = [...new Set(dataList.map((item) => item.color))];
     tallas = [...new Set(dataList.map((item) => item.talla))];
     lst.push({
-      producto: model._id,
-      color: colors,
-      talla: tallas,
+      ...model._id,
+      colors: colors,
+      tallas: tallas,
       data: dataList,
     });
   }
