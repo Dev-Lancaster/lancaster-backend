@@ -186,6 +186,33 @@ async function findECategoriaHija(categoria) {
   return await fill(result);
 }
 
+async function findAll() {
+  const results = await Producto.aggregate([
+    {
+      $match: {
+        estado: "ACTIVO",
+      },
+    },
+    { $sort: { nombre: 1 } },
+    {
+      $group: {
+        _id: {
+          codigo: "$codigo",
+          nombre: "$nombre",
+          categoria: "$categoriaNombre",
+          categoriaHija: "$categoriaHijaNombre",
+          calidad: "$calidad",
+          monto: "$monto",
+          especificaciones: "$especificaciones",
+          etiqueta: "$etiqueta",
+        },
+        data: { $push: "$$ROOT" },
+      },
+    },
+  ]);
+  return await fill(results);
+}
+
 async function findECategorias(categoriaPadre, categoriaHija) {
   const results = await Producto.aggregate([
     {
