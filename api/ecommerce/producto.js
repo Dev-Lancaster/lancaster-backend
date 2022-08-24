@@ -9,6 +9,11 @@ const upload = multer({
 });
 
 /*********** ECOMMERCE ***********/
+router.get("/all", async (req, res) => {
+  const result = await ProductoService.findAll();
+  res.send(result);
+});
+
 router.get("/e/categoria/hija/:categoria", async (req, res) => {
   const categoria = req.params.categoria;
   const result = await ProductoService.findECategoriaHija(categoria);
