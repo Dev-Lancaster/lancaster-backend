@@ -107,6 +107,13 @@ router.post("/", auth, upload.any(), async (req, res) => {
   res.send(result);
 });
 
+router.put("/info/:id", auth, upload.any(), async (req, res) => {
+  const body = req.body;
+  const id = req.params.id;
+  const result = await ProductoService.updateInfo(id, body);
+  res.send(result);
+});
+
 router.put("/:id", auth, upload.any(), async (req, res) => {
   const body = req.body;
   const id = req.params.id;

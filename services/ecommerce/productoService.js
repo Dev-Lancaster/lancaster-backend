@@ -475,6 +475,23 @@ async function save(model, files) {
   }
 }
 
+async function updateInfo(id, model) {
+  const validate = validateProducto(model);
+  if (validate.type !== constants.SUCCESS) return validate;
+  model.fechaAct = new Date();
+  try {
+    console.log(model.color);
+    //await Producto.findByIdAndUpdate(id, model);
+    return { type: "SUCCESS" };
+  } catch (e) {
+    console.error(e);
+    return {
+      type: "ERROR",
+      msg: "Ha ocurrido un error al actualizar el producto",
+    };
+  }
+}
+
 async function update(id, model) {
   model.etiqueta = model.etiqueta.split(",");
   const validate = validateProducto(model);
@@ -521,3 +538,4 @@ exports.findProductoCategorias = findProductoCategorias;
 exports.findProductoCategoriaHija = findProductoCategoriaHija;
 exports.findDistinctCode = findDistinctCode;
 exports.deleteFoto = deleteFoto;
+exports.updateInfo = updateInfo;
