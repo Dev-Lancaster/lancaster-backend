@@ -10,7 +10,7 @@ const upload = multer({
 
 /*********** ECOMMERCE ***********/
 router.get("/all", async (req, res) => {
-  const result = await ProductoService.findAll();
+  const result = await ProductoService.findAllEcom();
   res.send(result);
 });
 
