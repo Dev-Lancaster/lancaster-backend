@@ -186,7 +186,7 @@ async function findECategoriaHija(categoria) {
   return await fill(result);
 }
 
-async function findAll() {
+async function findAllEcom() {
   const results = await Producto.aggregate([
     {
       $match: {
@@ -522,6 +522,7 @@ async function findAll() {
 }
 
 exports.findAll = findAll;
+exports.findAllEcom = findAllEcom;
 exports.findEByCategoriaPadre = findEByCategoriaPadre;
 exports.findEByEtiqueta = findEByEtiqueta;
 exports.findECategorias = findECategorias;
