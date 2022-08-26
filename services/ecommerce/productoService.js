@@ -253,6 +253,7 @@ async function fill(results) {
 
     for (const d of model.data) {
       dataList.push({
+        _id: d._id,
         talla: d.talla,
         color: d.color,
         cantidad: d.cantidad,
