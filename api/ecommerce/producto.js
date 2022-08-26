@@ -37,6 +37,13 @@ router.get("/e/categoria/padre/:categoria", async (req, res) => {
   const result = await ProductoService.findEByCategoriaPadre(categoria);
   res.send(result);
 });
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await ProductoService.findById(id);
+  res.send(result);
+});
+
 /*********** FIN ECOMMERCE ***********/
 
 router.get("/distinct/code", auth, async (req, res) => {
@@ -90,12 +97,6 @@ router.get("/categoria/:categoria/estado/:estado", auth, async (req, res) => {
 
 router.get("/", auth, async (req, res) => {
   const result = await ProductoService.findAll();
-  res.send(result);
-});
-
-router.get("/:id", auth, async (req, res) => {
-  const id = req.params.id;
-  const result = await ProductoService.findById(id);
   res.send(result);
 });
 
