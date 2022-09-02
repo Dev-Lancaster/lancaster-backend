@@ -102,6 +102,11 @@ router.get("/", auth, async (req, res) => {
 
 router.post("/masivo", auth, upload.any(), async (req, res) => {
   const files = req.files;
+  console.log(files);
+});
+
+router.post("/", auth, upload.any(), async (req, res) => {
+  const files = req.files;
   const body = req.body;
 
   const result = await ProductoService.save(body, files);
