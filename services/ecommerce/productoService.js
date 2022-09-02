@@ -15,6 +15,16 @@ async function deleteFoto(id, idFoto) {
   });
 }
 
+async function prepareLoad(files) {
+  let excelFile;
+  for (const f of files)
+    if (
+      f.originalname.toLowerCase().includes("xls") ||
+      f.originalname.toLowerCase().includes("xlsx")
+    )
+      await loadFile(filename);
+}
+
 async function loadFile(filename) {
   let wb = await ExcelHelper.readExcel(filename);
   if (!wb)
