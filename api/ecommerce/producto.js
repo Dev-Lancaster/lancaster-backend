@@ -100,7 +100,7 @@ router.get("/", auth, async (req, res) => {
   res.send(result);
 });
 
-router.post("/", auth, upload.any(), async (req, res) => {
+router.post("/masivo", auth, upload.any(), async (req, res) => {
   const files = req.files;
   const body = req.body;
 
