@@ -14,6 +14,10 @@ async function findActive() {
   return await Categoria.find({ activo: true }).sort({ nombre: 1 }).lean();
 }
 
+async function findByCodigo(codigo) {
+  return await Categoria.findOne({ codigo: codigo }).lean();
+}
+
 async function findById(id) {
   return await Categoria.findById(id).lean();
 }
@@ -66,3 +70,4 @@ exports.inactivate = inactivate;
 exports.update = update;
 exports.activate = activate;
 exports.findNivelActive = findNivelActive;
+exports.findByCodigo = findByCodigo;
