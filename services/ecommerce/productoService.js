@@ -63,7 +63,7 @@ async function run(ws) {
 
     if (!categoria) flag = false;
     else {
-      categoriaModel = await CategoriaService.findById(categoria);
+      categoriaModel = await CategoriaService.findByCodigo(categoria);
       if (!categoriaModel) {
         error.push({
           message: `La categoria padre esta incorrecta (Fila ${index})`,
