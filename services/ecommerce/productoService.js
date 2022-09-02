@@ -76,7 +76,7 @@ async function run(ws) {
         });
       }
 
-      categoriaModel = await CategoriaService.findById(categoriaHija);
+      categoriaModel = await CategoriaService.findByCodigo(categoriaHija);
       if (!categoriaModel) {
         error.push({
           message: `La categoria hija esta incorrecta (Fila ${index})`,
