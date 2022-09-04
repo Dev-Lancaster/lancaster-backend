@@ -579,3 +579,4 @@ exports.findDistinctCode = findDistinctCode;
 exports.deleteFoto = deleteFoto;
 exports.updateInfo = updateInfo;
 exports.findEById = findEById;
+exports.prepareLoad = prepareLoad;
