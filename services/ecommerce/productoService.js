@@ -168,6 +168,33 @@ async function findProductoByCodigo(codigo) {
 }
 
 /*********** ECOMMERCE ***********/
+async function findEById(id) {
+  const result = await Producto.aggregate([
+    {
+      $match: {
+        _id: ObjectId(id),
+      },
+    },
+    { $sort: { nombre: 1 } },
+    {
+      $group: {
+        _id: {
+          codigo: "$codigo",
+          nombre: "$nombre",
+          categoria: "$categoriaNombre",
+          categoriaHija: "$categoriaHijaNombre",
+          calidad: "$calidad",
+          monto: "$monto",
+          especificaciones: "$especificaciones",
+          etiqueta: "$etiqueta",
+        },
+        data: { $push: "$$ROOT" },
+      },
+    },
+  ]);
+  return await fill(result);
+}
+
 async function findECategoriaHija(categoria) {
   const result = await Producto.aggregate([
     {
@@ -551,3 +578,4 @@ exports.findProductoCategoriaHija = findProductoCategoriaHija;
 exports.findDistinctCode = findDistinctCode;
 exports.deleteFoto = deleteFoto;
 exports.updateInfo = updateInfo;
+exports.findEById = findEById;
