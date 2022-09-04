@@ -90,7 +90,7 @@ async function run(ws) {
           message: `La categoria hija esta incorrecta (Fila ${index})`,
         });
         flagError = true;
-      } else if (categoriaModel.nivel !== 0) {
+      } else if (categoriaModel.nivel !== 1) {
         flagError = true;
         error.push({
           message: `La categoria hija no es una categoria hija (Fila ${index})`,
@@ -104,7 +104,7 @@ async function run(ws) {
         });
       }
 
-      if (flagError) {
+      if (!flagError) {
         body = {
           categoria: categoria,
           categoriaHija: categoriaHija,
@@ -120,9 +120,10 @@ async function run(ws) {
 
       index = index + 1;
       row = row + 1;
-      flagError = true;
+      flagError = false;
     }
   }
+  return error;
 }
 
 async function saveProducto(model) {
