@@ -113,6 +113,7 @@ async function run(ws) {
           color: color,
           calidad: calidad,
           especificaciones: especificaciones,
+          etiqueta: prepareEtiqueta(etiqueta),
         };
         await saveProducto(body);
       }
@@ -123,6 +124,14 @@ async function run(ws) {
     }
   }
   return error;
+}
+
+function prepareEtiqueta(etiqueta) {
+  if (!etiqueta) return null;
+  let result = etiqueta.split(",");
+  let resultReturn = [];
+  for (const r of result) if (r) resultReturn.push(r);
+  return resultReturn;
 }
 
 async function saveProducto(model) {
