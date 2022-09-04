@@ -16,7 +16,6 @@ async function deleteFoto(id, idFoto) {
 }
 
 async function prepareLoad(files) {
-  let excelFile;
   for (const f of files)
     if (
       f.originalname.toLowerCase().includes("xls") ||
