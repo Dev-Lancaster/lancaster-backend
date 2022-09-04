@@ -22,7 +22,6 @@ async function prepareLoad(files) {
       result = await loadFile(f.path);
       fs.unlinkSync(f.path);
     }
-  console.log(result);
   return result;
 }
 
@@ -34,7 +33,6 @@ function validateExcelFile(f) {
 }
 
 async function loadFile(filename) {
-  console.log(filename);
   let wb = await ExcelHelper.readExcel(filename);
   if (!wb)
     return {
@@ -44,6 +42,7 @@ async function loadFile(filename) {
   let ws = verifyData(wb);
   if (ws) {
     const result = await run(ws);
+    console.log(result);
     if (result.length === 0) return { type: "SUCCESS" };
     else return { type: "WITH ERROR", data: result };
   } else return { type: "ERROR", msg: "El archivo esta vacio" };
@@ -127,7 +126,6 @@ async function run(ws) {
 }
 
 async function saveProducto(model) {
-  console.log("LLEGO A SAVE", model);
   //let body = new Producto(model);
   //await body.save();
 }
