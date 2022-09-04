@@ -16,7 +16,14 @@ async function deleteFoto(id, idFoto) {
 }
 
 async function prepareLoad(files) {
-  for (const f of files) if (validateExcelFile(f)) await loadFile(filename);
+  let result;
+  for (const f of files)
+    if (validateExcelFile(f)) {
+      result = await loadFile(filename);
+      fs.unlinkSync(f.path);
+    }
+  console.log(result);
+  return result;
 }
 
 function validateExcelFile(f) {
@@ -42,6 +49,7 @@ async function loadFile(filename) {
 }
 
 async function run(ws) {
+  console.log("LLEGO A RUN");
   let flag = true;
   let row = 2;
   let error = [];
@@ -89,7 +97,7 @@ async function run(ws) {
           message: `La categoria hija no es una categoria hija (Fila ${index})`,
         });
       }
-
+      console.log("LLEGO A PRODUCTO");
       productoModel = await Producto.findOne({ codigo: codigo }).lean();
       if (productoModel) {
         flagError = true;
@@ -119,8 +127,9 @@ async function run(ws) {
 }
 
 async function saveProducto(model) {
-  let body = new Producto(model);
-  await body.save();
+  console.log("LLEGO A SAVE", model);
+  //let body = new Producto(model);
+  //await body.save();
 }
 
 function verifyData(wb) {
