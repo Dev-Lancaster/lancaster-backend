@@ -36,7 +36,7 @@ async function loadFile(filename) {
   let wb = await ExcelHelper.readExcel(filename);
   if (!wb)
     return {
-      type: "ERROR_LABEL",
+      type: "ERROR_MSG",
       msg: "No se encontró el archivo que desea cargar",
     };
   let ws = verifyData(wb);
@@ -44,7 +44,7 @@ async function loadFile(filename) {
     const result = await run(ws);
     if (result.length === 0) return { type: "SUCCESS" };
     else return { type: "WITH ERROR", data: result };
-  } else return { type: "ERROR", msg: "El archivo esta vacio" };
+  } else return { type: "ERROR_MSG", msg: "El archivo esta vacio" };
 }
 
 async function run(ws) {
