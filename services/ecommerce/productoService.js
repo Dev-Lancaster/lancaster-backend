@@ -16,12 +16,14 @@ async function deleteFoto(id, idFoto) {
 }
 
 async function prepareLoad(files) {
-  for (const f of files)
-    if (
-      f.originalname.toLowerCase().includes("xls") ||
-      f.originalname.toLowerCase().includes("xlsx")
-    )
-      await loadFile(filename);
+  for (const f of files) if (validateExcelFile(f)) await loadFile(filename);
+}
+
+function validateExcelFile(f) {
+  return (
+    f.originalname.toLowerCase().includes("xls") ||
+    f.originalname.toLowerCase().includes("xlsx")
+  );
 }
 
 async function loadFile(filename) {
