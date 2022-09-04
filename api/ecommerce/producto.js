@@ -40,7 +40,7 @@ router.get("/e/categoria/padre/:categoria", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
-  const result = await ProductoService.findById(id);
+  const result = await ProductoService.findEById(id);
   res.send(result);
 });
 
