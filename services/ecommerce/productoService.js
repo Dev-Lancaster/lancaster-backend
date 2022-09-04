@@ -54,6 +54,7 @@ async function run(ws) {
   let categoriaModel;
   let productoModel;
   let index = 1;
+  let countSuccess = 0;
   let flagError = false;
   let body;
 
@@ -116,14 +117,15 @@ async function run(ws) {
           etiqueta: prepareEtiqueta(etiqueta),
         };
         await saveProducto(body);
+        countSuccess++;
       }
 
-      index = index + 1;
-      row = row + 1;
+      index = index++;
+      row = row++;
       flagError = false;
     }
   }
-  return error;
+  return { error: error, countSuccess: countSuccess };
 }
 
 function prepareEtiqueta(etiqueta) {
