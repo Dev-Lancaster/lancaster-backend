@@ -42,7 +42,6 @@ async function loadFile(filename) {
   let ws = verifyData(wb);
   if (ws) {
     const result = await run(ws);
-    console.log(result);
     if (result.length === 0) return { type: "SUCCESS" };
     else return { type: "WITH ERROR", data: result };
   } else return { type: "ERROR", msg: "El archivo esta vacio" };
