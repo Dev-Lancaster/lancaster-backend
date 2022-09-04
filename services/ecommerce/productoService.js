@@ -6,6 +6,7 @@ const fs = require("fs");
 const CategoriaService = require("./categoriaService");
 const { Producto } = require("../../models/producto");
 const _ = require("lodash");
+const { count } = require("console");
 
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
 
@@ -41,10 +42,29 @@ async function loadFile(filename) {
     };
   let ws = verifyData(wb);
   if (ws) {
-    const result = await run(ws);
-    if (result.length === 0) return { type: "SUCCESS" };
-    else return { type: "WITH ERROR", data: result };
-  } else return { type: "ERROR_MSG", msg: "El archivo esta vacio" };
+    try {
+      const result = await run(ws);
+      if (result.error.length === 0)
+        return { type: "SUCCESS", countSuccess: result.countSuccess };
+      else
+        return {
+          type: "WITH ERROR",
+          data: result,
+          countSuccess: result.countSuccess,
+        };
+    } catch (e) {
+      console.error(e);
+      return {
+        type: "ERROR_MSG",
+        msg: "Ha ocurrido un error interno: " + e,
+      };
+    }
+  } else
+    return {
+      type: "ERROR_MSG",
+      msg: "El archivo esta vacio",
+      countSuccess: result.countSuccess,
+    };
 }
 
 async function run(ws) {
@@ -117,11 +137,11 @@ async function run(ws) {
           etiqueta: prepareEtiqueta(etiqueta),
         };
         await saveProducto(body);
-        countSuccess++;
+        countSuccess = countSuccess + 1;
       }
 
-      index = index++;
-      row = row++;
+      index = index + 1;
+      row = row + 1;
       flagError = false;
     }
   }
