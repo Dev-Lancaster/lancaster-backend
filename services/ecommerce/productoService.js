@@ -149,26 +149,26 @@ async function run(ws, usuario) {
       categoriaModel = await CategoriaService.findByCodigo(categoria);
       if (!categoriaModel) {
         error.push({
-          message: `La categoria padre esta incorrecta (Fila ${index})`,
+          message: `La categoría padre esta incorrecta (Fila ${index})`,
         });
         flagError = true;
       } else if (categoriaModel.nivel !== 0) {
         flagError = true;
         error.push({
-          message: `La categoria padre no es una categoria padre (Fila ${index})`,
+          message: `La categoría padre no es una categoría padre (Fila ${index})`,
         });
       }
 
       cateHijaModel = await CategoriaService.findByCodigo(categoriaHija);
       if (!cateHijaModel) {
         error.push({
-          message: `La categoria hija esta incorrecta (Fila ${index})`,
+          message: `La categoría hija esta incorrecta (Fila ${index})`,
         });
         flagError = true;
       } else if (cateHijaModel.nivel !== 1) {
         flagError = true;
         error.push({
-          message: `La categoria hija no es una categoria hija (Fila ${index})`,
+          message: `La categoría hija no es una categoría hija (Fila ${index})`,
         });
       }
       if (isNaN(calidad)) {
