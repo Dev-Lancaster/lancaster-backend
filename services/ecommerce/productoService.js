@@ -39,7 +39,6 @@ async function loadImages(file) {
   if (validateImage.type === "ERROR") return validateImage;
   const values = validateImage.array;
   let producto = await findProductoByCodigo(values[0]);
-  console.log(producto);
   let fotos = producto.fotos;
   let img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
   fotos.push({
@@ -225,6 +224,11 @@ async function validateFilename(filename) {
     return {
       type: "ERROR",
       msg: "El valor relacionado al orden de la imagen debe ser un numero",
+    };
+  if (parseInt(array[1]) > 5 || parseInt(array[1]) < 0)
+    return {
+      type: "ERROR",
+      msg: "El valor relacionado al orden debe ser un numero de 1 a 5",
     };
   if (!posiciones.includes(array[2].split(".")[0]))
     return {
