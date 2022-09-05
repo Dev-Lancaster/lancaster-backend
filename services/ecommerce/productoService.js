@@ -137,6 +137,7 @@ async function run(ws, usuario) {
   let countSuccess = 0;
   let flagError = false;
   let body;
+  let productoUpdates = [];
 
   while (flag) {
     const categoria = ws.getCell(`A${row}`).value;
@@ -204,6 +205,8 @@ async function run(ws, usuario) {
       }
       producto = await findProductoLoad(codigo, talla, color);
 
+      if (!flagError && producto) productoUpdates.push(producto);
+
       if (!flagError && !producto) {
         body = {
           categoria: categoriaModel._id,
@@ -234,7 +237,11 @@ async function run(ws, usuario) {
       flagError = false;
     }
   }
-  return { error: error, countSuccess: countSuccess };
+  return {
+    error: error,
+    countSuccess: countSuccess,
+    productoUpdates: productoUpdates,
+  };
 }
 
 function prepareEtiqueta(etiqueta) {
