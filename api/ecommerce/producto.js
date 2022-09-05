@@ -121,6 +121,13 @@ router.put("/info/:id", auth, upload.any(), async (req, res) => {
   res.send(result);
 });
 
+router.put("/only/info/:id", auth, upload.any(), async (req, res) => {
+  const body = req.body;
+  const id = req.params.id;
+  const result = await ProductoService.onlyUpdateInfo(id, body);
+  res.send(result);
+});
+
 router.put("/:id", auth, upload.any(), async (req, res) => {
   const body = req.body;
   const id = req.params.id;
