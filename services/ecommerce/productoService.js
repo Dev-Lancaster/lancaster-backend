@@ -38,15 +38,21 @@ async function loadImages(file) {
   const validateImage = await validateFilename(file.originalname);
   if (validateImage.type === "ERROR") return validateImage;
   const values = validateImage.array;
-  let producto = await findProductoByCodigo(values[0]);
-  let fotos = producto.fotos;
-  let img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
-  fotos.push({
-    orden: parseInt(values[1]),
-    posicion: values[2].split(".")[0],
-    img: img,
+  let producto = await Producto.findOne({
+    codigo: values[0],
+    talla: values[3],
+    color: values[4].split(".")[0],
   });
-  //await Producto.findByIdAndUpdate(producto._id, { fotos: fotos });
+  if (producto) {
+    let fotos = producto.fotos;
+    let img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
+    fotos.push({
+      orden: parseInt(values[1]),
+      posicion: values[2],
+      img: img,
+    });
+    await Producto.findByIdAndUpdate(producto._id, { fotos: fotos });
+  }
 }
 
 function validateExcelFile(f) {
@@ -190,8 +196,8 @@ function prepareEtiqueta(etiqueta) {
 }
 
 async function saveProducto(model) {
-  /*let body = new Producto(model);
-  await body.save();*/
+  let body = new Producto(model);
+  await body.save();
 }
 
 function verifyData(wb) {
@@ -212,7 +218,7 @@ async function validateFilename(filename) {
     };
   if (!filename.includes("_"))
     return { type: "ERROR", msg: "El formato del archivo es incorrecto" };
-  if (filename.split("_").length !== 3)
+  if (filename.split("_").length !== 5)
     return { type: "ERROR", msg: "El formato del archivo es incorrecto" };
 
   const array = filename.split("_");
@@ -230,7 +236,7 @@ async function validateFilename(filename) {
       type: "ERROR",
       msg: "El valor relacionado al orden debe ser un numero de 1 a 5",
     };
-  if (!posiciones.includes(array[2].split(".")[0]))
+  if (!posiciones.includes(array[2]))
     return {
       type: "ERROR",
       msg: "El valor de posicion de la imagen es incorrecto",
