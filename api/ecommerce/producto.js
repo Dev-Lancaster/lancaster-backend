@@ -128,6 +128,12 @@ router.put("/only/info/:id", auth, upload.any(), async (req, res) => {
   res.send(result);
 });
 
+router.post("/all/update", auth, upload.any(), async (req, res) => {
+  const body = req.body;
+  console.log(body);
+  res.send("result");
+});
+
 router.put("/:id", auth, upload.any(), async (req, res) => {
   const body = req.body;
   const id = req.params.id;
