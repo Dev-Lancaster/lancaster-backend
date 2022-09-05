@@ -123,6 +123,7 @@ async function run(ws) {
   let categoriaModel;
   let cateHijaModel;
   let index = 1;
+  let producto;
   let countSuccess = 0;
   let flagError = false;
   let body;
@@ -177,8 +178,9 @@ async function run(ws) {
           message: `El campo calidad debe ser un numero entre 1 a 5 (Fila ${index})`,
         });
       }
+      producto = await findProductoLoad(codigo, talla, color);
 
-      if (!flagError) {
+      if (!flagError && !producto) {
         body = {
           categoria: categoriaModel._id,
           categoriaHija: cateHijaModel._id,
