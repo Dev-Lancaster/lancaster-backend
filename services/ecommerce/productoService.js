@@ -30,8 +30,9 @@ async function prepareLoad(files, usuario) {
     if (validateImageFile(f.originalname.toLowerCase())) {
       resultImage = await loadImages(f);
       fs.unlinkSync(f.path);
+      resultImageArray.push(resultImage);
     }
-  return resultExcel;
+  return { resultExcel: resultExcel, resultImageArray: resultImageArray };
 }
 
 async function findProductoLoad(codigo, talla, color) {
