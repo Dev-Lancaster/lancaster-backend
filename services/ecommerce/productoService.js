@@ -34,15 +34,24 @@ async function prepareLoad(files) {
   return resultExcel;
 }
 
+async function findProductoLoad(codigo, talla, color) {
+  const model = await Producto.findOne({
+    codigo: codigo,
+    talla: talla,
+    color: color,
+  });
+  return model;
+}
+
 async function loadImages(file) {
   const validateImage = await validateFilename(file.originalname);
   if (validateImage.type === "ERROR") return validateImage;
   const values = validateImage.array;
-  let producto = await Producto.findOne({
-    codigo: values[0],
-    talla: values[3],
-    color: values[4].split(".")[0],
-  });
+  let producto = await findProductoLoad(
+    values[0],
+    values[3],
+    values[4].split(".")[0]
+  );
   if (producto) {
     let fotos = producto.fotos;
     let img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
