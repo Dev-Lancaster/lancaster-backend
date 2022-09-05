@@ -162,6 +162,12 @@ async function run(ws) {
           message: `El campo calidad debe ser un numero (Fila ${index})`,
         });
       }
+      if (parseInt(calidad) < 0 || parseInt(calidad) > 5) {
+        flagError = true;
+        error.push({
+          message: `El campo calidad debe ser un numero entre 1 a 5 (Fila ${index})`,
+        });
+      }
 
       if (!flagError) {
         body = {
@@ -230,11 +236,6 @@ async function validateFilename(filename) {
     return {
       type: "ERROR",
       msg: "El valor relacionado al orden de la imagen debe ser un numero",
-    };
-  if (parseInt(array[1]) > 5 || parseInt(array[1]) < 0)
-    return {
-      type: "ERROR",
-      msg: "El valor relacionado al orden debe ser un numero de 1 a 5",
     };
   if (!posiciones.includes(array[2]))
     return {
