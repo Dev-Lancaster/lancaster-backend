@@ -100,9 +100,9 @@ router.get("/", auth, async (req, res) => {
   res.send(result);
 });
 
-router.post("/masivo", auth, upload.any(), async (req, res) => {
+router.post("/masivo/:user", auth, upload.any(), async (req, res) => {
   const files = req.files;
-  const result = await ProductoService.prepareLoad(files);
+  const result = await ProductoService.prepareLoad(files, req.params.user);
   res.send(result);
 });
 
