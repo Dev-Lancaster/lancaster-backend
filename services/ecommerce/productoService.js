@@ -65,11 +65,11 @@ async function loadImages(file) {
       fotos: fotos,
       estado: "ACTIVO",
     });
-    return { type: "SUCCESS", filename: filename };
+    return { type: "SUCCESS", filename: file.originalname };
   } else
     return {
       type: "ERROR",
-      filename: filename,
+      filename: file.originalname,
       msg: "No se encontró el producto de esta imagen",
     };
 }
