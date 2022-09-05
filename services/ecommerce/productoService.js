@@ -108,7 +108,6 @@ async function run(ws) {
   let error = [];
   let categoriaModel;
   let cateHijaModel;
-  let productoModel;
   let index = 1;
   let countSuccess = 0;
   let flagError = false;
