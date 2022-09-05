@@ -16,19 +16,55 @@ async function deleteFoto(id, idFoto) {
 }
 
 async function prepareLoad(files) {
-  let result;
-  for (const f of files)
-    if (validateExcelFile(f)) {
+  let resultExcel;
+  let resultImage;
+  let resultImageArray = [];
+
+  for (const f of files) {
+    if (validateExcelFile(f.originalname.toLowerCase())) {
       result = await loadFile(f.path);
       fs.unlinkSync(f.path);
     }
-  return result;
+  }
+  for (const f of files)
+    if (validateImageFile(f.originalname.toLowerCase())) {
+      resultImage = await loadImages(f);
+      fs.unlinkSync(f.path);
+    }
+  return resultExcel;
+}
+
+async function loadImages(file) {
+  const validateImage = validateFilename(f.originalname);
+  if (validateImage.type === "ERROR") return validateImage;
+  const values = validateImage.array;
+  let producto = await findProductoByCodigo(values[0]);
+  let fotos = producto.fotos;
+  let img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
+  fotos.push({
+    orden: parseInt(array[1]),
+    posicion: array[2].split(".")[0],
+    img: img,
+  });
+  //await Producto.findByIdAndUpdate(producto._id, { fotos: fotos });
+  console.log(fotos);
 }
 
 function validateExcelFile(f) {
+  return f.includes("xls") || f.includes("xlsx");
+}
+
+function validateImageFile(f) {
   return (
-    f.originalname.toLowerCase().includes("xls") ||
-    f.originalname.toLowerCase().includes("xlsx")
+    f.includes("bmp") ||
+    f.includes("png") ||
+    f.includes("jpg") ||
+    f.includes("jpeg") ||
+    f.includes("jfif") ||
+    f.includes("pjpeg") ||
+    f.includes("pjp") ||
+    f.includes("svg") ||
+    f.includes("webp")
   );
 }
 
@@ -71,6 +107,7 @@ async function run(ws) {
   let row = 2;
   let error = [];
   let categoriaModel;
+  let cateHijaModel;
   let productoModel;
   let index = 1;
   let countSuccess = 0;
@@ -103,13 +140,13 @@ async function run(ws) {
         });
       }
 
-      categoriaModel = await CategoriaService.findByCodigo(categoriaHija);
-      if (!categoriaModel) {
+      cateHijaModel = await CategoriaService.findByCodigo(categoriaHija);
+      if (!cateHijaModel) {
         error.push({
           message: `La categoria hija esta incorrecta (Fila ${index})`,
         });
         flagError = true;
-      } else if (categoriaModel.nivel !== 1) {
+      } else if (cateHijaModel.nivel !== 1) {
         flagError = true;
         error.push({
           message: `La categoria hija no es una categoria hija (Fila ${index})`,
@@ -125,8 +162,8 @@ async function run(ws) {
 
       if (!flagError) {
         body = {
-          categoria: categoria,
-          categoriaHija: categoriaHija,
+          categoria: categoriaModel._id,
+          categoriaHija: cateHijaModel._id,
           codigo: codigo,
           nombre: nombre,
           talla: talla,
@@ -156,8 +193,8 @@ function prepareEtiqueta(etiqueta) {
 }
 
 async function saveProducto(model) {
-  //let body = new Producto(model);
-  //await body.save();
+  let body = new Producto(model);
+  await body.save();
 }
 
 function verifyData(wb) {

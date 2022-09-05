@@ -32,6 +32,6 @@ const schema = new Schema({
   fechaAct: Date,
 });
 
-const Producto = mongoose.model("producto", schema);
+const Producto = mongoose.model("productos_temp", schema);
 
 exports.Producto = Producto;
