@@ -22,7 +22,7 @@ async function prepareLoad(files) {
 
   for (const f of files) {
     if (validateExcelFile(f.originalname.toLowerCase())) {
-      result = await loadFile(f.path);
+      resultExcel = await loadFile(f.path);
       fs.unlinkSync(f.path);
     }
   }
