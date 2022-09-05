@@ -152,11 +152,10 @@ async function run(ws) {
           message: `La categoria hija no es una categoria hija (Fila ${index})`,
         });
       }
-      productoModel = await Producto.findOne({ codigo: codigo }).lean();
-      if (productoModel) {
+      if (isNaN(calidad)) {
         flagError = true;
         error.push({
-          message: `El codigo del producto ya existe (Fila ${index})`,
+          message: `El campo calidad debe ser un numero (Fila ${index})`,
         });
       }
 
