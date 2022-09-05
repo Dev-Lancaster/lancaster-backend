@@ -201,6 +201,10 @@ async function run(ws, usuario) {
         body = {
           categoria: categoriaModel._id,
           categoriaHija: cateHijaModel._id,
+          categoriaNombre: categoriaModel.nombre,
+          categoriaHijaNombre: cateHijaModel.nombre,
+          categoriaFull: categoriaModel._id + "-" + categoriaModel.nombre,
+          categoriaHijaFull: cateHijaModel._id + "-" + cateHijaModel.nombre,
           codigo: codigo,
           nombre: nombre,
           talla: talla,
