@@ -107,7 +107,7 @@ async function loadFile(filename, usuario) {
         return {
           type: "SUCCESS",
           countSuccess: result.countSuccess,
-          result: result,
+          data: result,
         };
       else
         return {
