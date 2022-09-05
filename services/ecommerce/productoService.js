@@ -667,6 +667,11 @@ async function save(model, files) {
   }
 }
 
+async function onlyUpdateInfo(id, model) {
+  const producto = await Producto.findByIdAndUpdate(id, model);
+  return producto;
+}
+
 async function updateInfo(id, model) {
   const validate = validateProducto(model);
   if (validate.type !== constants.SUCCESS) return validate;
@@ -734,3 +739,4 @@ exports.deleteFoto = deleteFoto;
 exports.updateInfo = updateInfo;
 exports.findEById = findEById;
 exports.prepareLoad = prepareLoad;
+exports.onlyUpdateInfo = onlyUpdateInfo;
