@@ -4,9 +4,8 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const fs = require("fs");
 const CategoriaService = require("./categoriaService");
-const { Producto } = require("../../models/producto");
 const _ = require("lodash");
-const { count } = require("console");
+const { Producto } = require("../../models/producto");
 
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
 
