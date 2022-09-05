@@ -130,8 +130,14 @@ router.put("/only/info/:id", auth, upload.any(), async (req, res) => {
 
 router.post("/all/update", auth, upload.any(), async (req, res) => {
   const body = req.body;
-  console.log(body);
-  res.send("result");
+  try {
+    for (const model of body)
+      await ProductoService.onlyUpdateInfo(model._id, model);
+    res.send({ type: "SUCCESS" });
+  } catch (e) {
+    console.error(e);
+    res.send({ type: "ERROR" });
+  }
 });
 
 router.put("/:id", auth, upload.any(), async (req, res) => {
