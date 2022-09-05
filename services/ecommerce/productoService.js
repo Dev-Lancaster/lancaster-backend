@@ -64,7 +64,13 @@ async function loadImages(file) {
       fotos: fotos,
       estado: "ACTIVO",
     });
-  }
+    return { type: "SUCCESS", filename: filename };
+  } else
+    return {
+      type: "ERROR",
+      filename: filename,
+      msg: "No se encontró el producto de esta imagen",
+    };
 }
 
 function validateExcelFile(f) {
@@ -253,34 +259,50 @@ function verifyData(wb) {
 }
 
 async function validateFilename(filename) {
-  if (!filename) return { type: "ERROR", msg: "El archivo viene vacio" };
+  if (!filename)
+    return { type: "ERROR", msg: "El archivo viene vacio", filename: filename };
   if (typeof filename !== "string")
     return {
       type: "ERROR",
       msg: "El formato del nombre del archivo es incorrecto",
+      filename: filename,
     };
   if (!filename.includes("_"))
-    return { type: "ERROR", msg: "El formato del archivo es incorrecto" };
+    return {
+      type: "ERROR",
+      msg: "El formato del archivo es incorrecto",
+      filename: filename,
+    };
   if (filename.split("_").length !== 5)
-    return { type: "ERROR", msg: "El formato del archivo es incorrecto" };
+    return {
+      type: "ERROR",
+      msg: "El formato del archivo es incorrecto",
+      filename: filename,
+    };
 
   const array = filename.split("_");
   const producto = await findProductoByCodigo(array[0]);
   if (!producto)
-    return { type: "ERROR", msg: "El codigo del producto es invalido" };
+    return {
+      type: "ERROR",
+      msg: "El codigo del producto es invalido",
+      filename: filename,
+    };
 
   if (_.isNaN(array[1]))
     return {
       type: "ERROR",
       msg: "El valor relacionado al orden de la imagen debe ser un numero",
+      filename: filename,
     };
   if (!posiciones.includes(array[2]))
     return {
       type: "ERROR",
       msg: "El valor de posicion de la imagen es incorrecto",
+      filename: filename,
     };
 
-  return { type: "SUCCESS", array: array };
+  return { type: "SUCCESS", array: array, filename: filename };
 }
 
 async function findProductoByCodigo(codigo) {
