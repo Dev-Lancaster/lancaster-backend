@@ -60,7 +60,10 @@ async function loadImages(file) {
       posicion: values[2],
       img: img,
     });
-    await Producto.findByIdAndUpdate(producto._id, { fotos: fotos });
+    await Producto.findByIdAndUpdate(producto._id, {
+      fotos: fotos,
+      estado: "ACTIVO",
+    });
   }
 }
 
@@ -191,6 +194,7 @@ async function run(ws) {
           calidad: calidad,
           especificaciones: especificaciones,
           etiqueta: prepareEtiqueta(etiqueta),
+          estado: "SIN FOTOS",
         };
         await saveProducto(body);
         countSuccess = countSuccess + 1;
