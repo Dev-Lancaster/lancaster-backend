@@ -15,14 +15,14 @@ async function deleteFoto(id, idFoto) {
   });
 }
 
-async function prepareLoad(files) {
+async function prepareLoad(files, usuario) {
   let resultExcel;
   let resultImage;
   let resultImageArray = [];
 
   for (const f of files) {
     if (validateExcelFile(f.originalname.toLowerCase())) {
-      resultExcel = await loadFile(f.path);
+      resultExcel = await loadFile(f.path, usuario);
       fs.unlinkSync(f.path);
     }
   }
@@ -85,7 +85,7 @@ function validateImageFile(f) {
   );
 }
 
-async function loadFile(filename) {
+async function loadFile(filename, usuario) {
   let wb = await ExcelHelper.readExcel(filename);
   if (!wb)
     return {
@@ -95,7 +95,7 @@ async function loadFile(filename) {
   let ws = verifyData(wb);
   if (ws) {
     try {
-      const result = await run(ws);
+      const result = await run(ws, usuario);
       if (result.error.length === 0)
         return { type: "SUCCESS", countSuccess: result.countSuccess };
       else
@@ -119,7 +119,7 @@ async function loadFile(filename) {
     };
 }
 
-async function run(ws) {
+async function run(ws, usuario) {
   let flag = true;
   let row = 2;
   let error = [];
@@ -141,6 +141,8 @@ async function run(ws) {
     const calidad = ws.getCell(`G${row}`).value;
     const especificaciones = ws.getCell(`H${row}`).value;
     const etiqueta = ws.getCell(`I${row}`).value;
+    const cantidad = ws.getCell(`J${row}`).value;
+    const precio = ws.getCell(`K${row}`).value;
 
     if (!categoria) flag = false;
     else {
@@ -181,6 +183,18 @@ async function run(ws) {
           message: `El campo calidad debe ser un numero entre 1 a 5 (Fila ${index})`,
         });
       }
+      if (isNaN(cantidad)) {
+        flagError = true;
+        error.push({
+          message: `El campo cantidad debe ser un numero (Fila ${index})`,
+        });
+      }
+      if (isNaN(precio)) {
+        flagError = true;
+        error.push({
+          message: `El campo precio debe ser un numero (Fila ${index})`,
+        });
+      }
       producto = await findProductoLoad(codigo, talla, color);
 
       if (!flagError && !producto) {
@@ -194,7 +208,11 @@ async function run(ws) {
           calidad: calidad,
           especificaciones: especificaciones,
           etiqueta: prepareEtiqueta(etiqueta),
+          cantidad: cantidad,
+          monto: precio,
           estado: "SIN FOTOS",
+          usuarioCrea: usuario,
+          fechaCrea: new Date(),
         };
         await saveProducto(body);
         countSuccess = countSuccess + 1;
