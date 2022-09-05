@@ -104,7 +104,11 @@ async function loadFile(filename, usuario) {
     try {
       const result = await run(ws, usuario);
       if (result.error.length === 0)
-        return { type: "SUCCESS", countSuccess: result.countSuccess };
+        return {
+          type: "SUCCESS",
+          countSuccess: result.countSuccess,
+          result: result,
+        };
       else
         return {
           type: "WITH ERROR",
