@@ -1,10 +1,10 @@
 const constants = require("../../middleware/constants");
 const ExcelHelper = require("../common/excelHelper");
+const CategoriaService = require("./categoriaService");
+const fs = require("fs");
+const _ = require("lodash");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
-const fs = require("fs");
-const CategoriaService = require("./categoriaService");
-const _ = require("lodash");
 const { Producto } = require("../../models/producto");
 
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
