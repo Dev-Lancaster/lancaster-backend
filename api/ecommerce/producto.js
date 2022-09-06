@@ -11,6 +11,13 @@ const upload = multer({
 /*********** ECOMMERCE ***********/
 router.put("/ocupado/:id", async (req, res) => {
   const id = req.params.id;
+  try {
+    const model = await ProductoService.setOcupado(id);
+    res.send({ type: "SUCCESS", producto: model });
+  } catch (e) {
+    console.error(e);
+    res.send({ type: "ERROR" });
+  }
 });
 
 router.get("/all", async (req, res) => {
