@@ -9,6 +9,13 @@ const { Producto } = require("../../models/producto");
 
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
 
+async function setOcupado(id) {
+  await Producto.findByIdAndUpdate(id, {
+    estado: "OCUPADO",
+    fechaOcupado: new Date(),
+  });
+}
+
 async function deleteFoto(id, idFoto) {
   await Producto.findByIdAndUpdate(id, {
     $pull: { fotos: { _id: idFoto } },
