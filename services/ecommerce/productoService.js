@@ -22,7 +22,7 @@ async function checkOcupados() {
 
   for (const model of productos) {
     if (twoHoursDiff(model.fechaOcupado))
-      await Producto.findByIdAndUpdate(id, {
+      await Producto.findByIdAndUpdate(model._id, {
         estado: "ACTIVO",
         fechaOcupado: null,
       });
