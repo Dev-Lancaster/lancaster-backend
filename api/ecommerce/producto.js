@@ -9,6 +9,10 @@ const upload = multer({
 });
 
 /*********** ECOMMERCE ***********/
+router.put("/ocupado/:id", async (req, res) => {
+  const id = req.params.id;
+});
+
 router.get("/all", async (req, res) => {
   const result = await ProductoService.findAllEcom();
   res.send(result);
