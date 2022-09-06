@@ -16,6 +16,30 @@ async function setOcupado(id) {
   });
 }
 
+async function checkOcupados() {
+  const productos = await Producto.find({ estado: "OCUPADO" });
+  if (productos.length === 0) return;
+
+  for (const model of productos) {
+    if (twoHoursDiff(model.fechaOcupado))
+      await Producto.findByIdAndUpdate(id, {
+        estado: "ACTIVO",
+        fechaOcupado: null,
+      });
+  }
+}
+
+function twoHoursDiff(date) {
+  const result = getHoursDiff(date, new Date());
+  if (result < 2) return false;
+  else return true;
+}
+
+function getHoursDiff(startDate, endDate) {
+  const msInHour = 1000 * 60 * 60;
+  return Math.round(Math.abs(endDate - startDate) / msInHour);
+}
+
 async function deleteFoto(id, idFoto) {
   await Producto.findByIdAndUpdate(id, {
     $pull: { fotos: { _id: idFoto } },
@@ -759,3 +783,4 @@ exports.findEById = findEById;
 exports.prepareLoad = prepareLoad;
 exports.onlyUpdateInfo = onlyUpdateInfo;
 exports.setOcupado = setOcupado;
+exports.checkOcupados = checkOcupados;
