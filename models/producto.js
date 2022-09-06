@@ -30,6 +30,7 @@ const schema = new Schema({
   fechaCrea: Date,
   usuarioAct: String,
   fechaAct: Date,
+  fechaOcupado: Date,
 });
 
 const Producto = mongoose.model("productos_temp", schema);
