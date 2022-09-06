@@ -10,7 +10,7 @@ const { Producto } = require("../../models/producto");
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
 
 async function setOcupado(id) {
-  await Producto.findByIdAndUpdate(id, {
+  return await Producto.findByIdAndUpdate(id, {
     estado: "OCUPADO",
     fechaOcupado: new Date(),
   });
