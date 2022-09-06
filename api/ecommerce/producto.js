@@ -9,7 +9,7 @@ const upload = multer({
 });
 
 /*********** ECOMMERCE ***********/
-router.put("/ocupado/:id", async (req, res) => {
+router.get("/ocupado/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const model = await ProductoService.setOcupado(id);
