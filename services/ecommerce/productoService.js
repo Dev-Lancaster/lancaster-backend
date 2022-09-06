@@ -758,3 +758,4 @@ exports.updateInfo = updateInfo;
 exports.findEById = findEById;
 exports.prepareLoad = prepareLoad;
 exports.onlyUpdateInfo = onlyUpdateInfo;
+exports.setOcupado = setOcupado;
