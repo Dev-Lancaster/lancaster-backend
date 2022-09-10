@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 const CategoriaService = require("../../services/ecommerce/categoriaService");
 
+router.get("/padre/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await CategoriaService.findByFather(id);
+  res.send(result);
+});
+
 router.get("/", async (req, res) => {
   const result = await CategoriaService.findAll();
   res.send(result);
