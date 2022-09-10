@@ -4,6 +4,12 @@ async function findAll() {
   return await Categoria.find().sort({ nombre: 1 }).lean();
 }
 
+async function findByFather(father) {
+  return await Categoria.find({ padre: father, activo: true })
+    .sort({ nombre: 1 })
+    .lean();
+}
+
 async function findNivelActive(nivel) {
   return await Categoria.find({ nivel: nivel, activo: true })
     .sort({ nombre: 1 })
@@ -71,3 +77,4 @@ exports.update = update;
 exports.activate = activate;
 exports.findNivelActive = findNivelActive;
 exports.findByCodigo = findByCodigo;
+exports.findByFather = findByFather;
