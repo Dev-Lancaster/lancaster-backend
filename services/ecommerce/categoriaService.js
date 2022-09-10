@@ -6,26 +6,33 @@ async function findAll() {
 
 async function findByFather(father) {
   return await Categoria.find({ padre: father, activo: true })
+    .populate("categoria")
     .sort({ nombre: 1 })
     .lean();
 }
 
 async function findNivelActive(nivel) {
   return await Categoria.find({ nivel: nivel, activo: true })
+    .populate("categoria")
     .sort({ nombre: 1 })
     .lean();
 }
 
 async function findActive() {
-  return await Categoria.find({ activo: true }).sort({ nombre: 1 }).lean();
+  return await Categoria.find({ activo: true })
+    .populate("categoria")
+    .sort({ nombre: 1 })
+    .lean();
 }
 
 async function findByCodigo(codigo) {
-  return await Categoria.findOne({ codigo: codigo }).lean();
+  return await Categoria.findOne({ codigo: codigo })
+    .populate("categoria")
+    .lean();
 }
 
 async function findById(id) {
-  return await Categoria.findById(id).lean();
+  return await Categoria.findById(id).populate("categoria").lean();
 }
 
 async function save(model) {
