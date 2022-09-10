@@ -12,10 +12,15 @@ async function findByFather(father) {
 }
 
 async function findNivelActive(nivel) {
-  return await Categoria.find({ nivel: nivel, activo: true })
-    .populate("padre")
-    .sort({ nombre: 1 })
-    .lean();
+  if (nivel === "1")
+    return await Categoria.find({ nivel: nivel, activo: true })
+      .populate("padre")
+      .sort({ nombre: 1 })
+      .lean();
+  else if (nivel === "0")
+    return await Categoria.find({ nivel: nivel, activo: true })
+      .sort({ nombre: 1 })
+      .lean();
 }
 
 async function findActive() {
