@@ -167,7 +167,6 @@ async function run(ws, usuario) {
   let error = [];
   let categoriaModel;
   let cateHijaModel;
-  let index = 1;
   let producto;
   let countSuccess = 0;
   let flagError = false;
@@ -192,50 +191,51 @@ async function run(ws, usuario) {
       categoriaModel = await CategoriaService.findByCodigo(categoria);
       if (!categoriaModel) {
         error.push({
-          message: `La categoría padre esta incorrecta (Fila ${index})`,
+          message: `La categoría padre esta incorrecta (Fila ${row})`,
         });
         flagError = true;
       } else if (categoriaModel.nivel !== 0) {
         flagError = true;
         error.push({
-          message: `La categoría padre no es una categoría padre (Fila ${index})`,
+          message: `La categoría padre no es una categoría padre (Fila ${row})`,
         });
       }
 
       cateHijaModel = await CategoriaService.findByCodigo(categoriaHija);
+
       if (!cateHijaModel) {
         error.push({
-          message: `La categoría hija esta incorrecta (Fila ${index})`,
+          message: `La categoría hija esta incorrecta (Fila ${row})`,
         });
         flagError = true;
       } else if (cateHijaModel.nivel !== 1) {
         flagError = true;
         error.push({
-          message: `La categoría hija no es una categoría hija (Fila ${index})`,
+          message: `La categoría hija no es una categoría hija (Fila ${row})`,
         });
       }
       if (isNaN(calidad)) {
         flagError = true;
         error.push({
-          message: `El campo calidad debe ser un numero (Fila ${index})`,
+          message: `El campo calidad debe ser un numero (Fila ${row})`,
         });
       }
       if (parseInt(calidad) < 0 || parseInt(calidad) > 5) {
         flagError = true;
         error.push({
-          message: `El campo calidad debe ser un numero entre 1 a 5 (Fila ${index})`,
+          message: `El campo calidad debe ser un numero entre 1 a 5 (Fila ${row})`,
         });
       }
       if (isNaN(cantidad)) {
         flagError = true;
         error.push({
-          message: `El campo cantidad debe ser un numero (Fila ${index})`,
+          message: `El campo cantidad debe ser un numero (Fila ${row})`,
         });
       }
       if (isNaN(precio)) {
         flagError = true;
         error.push({
-          message: `El campo precio debe ser un numero (Fila ${index})`,
+          message: `El campo precio debe ser un numero (Fila ${row})`,
         });
       }
       producto = await findProductoLoad(codigo, talla, color);
@@ -267,7 +267,6 @@ async function run(ws, usuario) {
         countSuccess = countSuccess + 1;
       }
 
-      index = index + 1;
       row = row + 1;
       flagError = false;
     }
