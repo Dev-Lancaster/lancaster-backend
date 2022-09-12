@@ -745,18 +745,7 @@ async function changeEstado(id, estado) {
 
 async function findAll() {
   const result = await Producto.find().sort({ nombre: 1 }).lean();
-  let list = [];
-  let categoriaPadre, categoriaHija;
-  for (const model of result) {
-    categoriaPadre = await CategoriaService.findById(model.categoria);
-    categoriaHija = await CategoriaService.findById(model.categoriaHija);
-    list.push({
-      ...model,
-      categoriaPadreCodigo: categoriaPadre.codigo,
-      categoriaHijaCodigo: categoriaHija.codigo,
-    });
-  }
-  return list;
+  return result;
 }
 
 exports.findAll = findAll;
