@@ -362,7 +362,7 @@ async function validateFilename(filename) {
       msg: "El valor relacionado al orden de la imagen debe ser un numero",
       filename: filename,
     };
-  if (!posiciones.includes(array[2]))
+  if (!posiciones.includes(array[2].split(".")[0]))
     return {
       type: "ERROR",
       msg: "El valor de posicion de la imagen es incorrecto",
