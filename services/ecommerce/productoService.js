@@ -78,12 +78,8 @@ async function findProductoLoad(codigo, talla, color) {
 async function loadImages(file) {
   const validateImage = await validateFilename(file.originalname);
   if (validateImage.type === "ERROR") return validateImage;
-  const values = validateImage.array;
-  let producto = await findProductoLoad(
-    values[0],
-    values[3],
-    values[4].split(".")[0]
-  );
+  let { values, producto } = validateImage;
+
   if (producto) {
     let fotos = producto.fotos;
     let img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
@@ -373,7 +369,12 @@ async function validateFilename(filename) {
       filename: filename,
     };
 
-  return { type: "SUCCESS", array: array, filename: filename };
+  return {
+    type: "SUCCESS",
+    values: array,
+    filename: filename,
+    producto: producto,
+  };
 }
 
 async function findProductoByCodigo(codigo) {
