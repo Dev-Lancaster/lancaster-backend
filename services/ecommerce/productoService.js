@@ -336,7 +336,7 @@ async function validateFilename(filename) {
       msg: "El formato del archivo es incorrecto",
       filename: filename,
     };
-  if (filename.split("_").length !== 5)
+  if (filename.split("_").length !== 3)
     return {
       type: "ERROR",
       msg: "El formato del archivo es incorrecto",
@@ -344,11 +344,19 @@ async function validateFilename(filename) {
     };
 
   const array = filename.split("_");
-  const producto = await findProductoByCodigo(array[0]);
+
+  if (isNaN(array[0])) {
+    return {
+      type: "ERROR",
+      msg: "El primer atributo del nombre debe ser un valor numerico ya que corresponde al ID del producto",
+      filename: filename,
+    };
+  }
+  const producto = await findProductoById(array[0]);
   if (!producto)
     return {
       type: "ERROR",
-      msg: "El codigo del producto es invalido",
+      msg: "El ID del producto es invalido",
       filename: filename,
     };
 
@@ -370,6 +378,10 @@ async function validateFilename(filename) {
 
 async function findProductoByCodigo(codigo) {
   return await Producto.findOne({ codigo: codigo }).lean();
+}
+
+async function findProductoById(id) {
+  return await Producto.findOne({ id: id }).lean();
 }
 
 /*********** ECOMMERCE ***********/
