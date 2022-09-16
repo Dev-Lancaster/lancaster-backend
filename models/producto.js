@@ -10,7 +10,7 @@ const fotoSchema = new Schema({
 const schema = new Schema({
   categoria: { type: Schema.Types.ObjectId, ref: "categoria" },
   categoriaHija: { type: Schema.Types.ObjectId, ref: "categoria" },
-  codigo: Number,
+  id: Number,
   categoriaNombre: String,
   categoriaHijaNombre: String,
   categoriaFull: String,
