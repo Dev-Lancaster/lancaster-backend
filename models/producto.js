@@ -10,6 +10,7 @@ const fotoSchema = new Schema({
 const schema = new Schema({
   categoria: { type: Schema.Types.ObjectId, ref: "categoria" },
   categoriaHija: { type: Schema.Types.ObjectId, ref: "categoria" },
+  codigo: Number,
   categoriaNombre: String,
   categoriaHijaNombre: String,
   categoriaFull: String,
@@ -33,6 +34,6 @@ const schema = new Schema({
   fechaOcupado: Date,
 });
 
-const Producto = mongoose.model("productos", schema);
+const Producto = mongoose.model("productos_temp", schema);
 
 exports.Producto = Producto;
