@@ -765,7 +765,7 @@ async function changeEstado(id, estado) {
 }
 
 async function findAll() {
-  const result = await Producto.find().sort({ nombre: 1 }).lean();
+  const result = await Producto.find().sort({ id: 1 }).lean();
   return result;
 }
 
