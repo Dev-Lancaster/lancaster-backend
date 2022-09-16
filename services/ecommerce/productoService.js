@@ -161,6 +161,12 @@ async function loadFile(filename, usuario) {
     };
 }
 
+async function maxId() {
+  const producto = await Producto.findOne().sort({ codigo: -1 });
+  if (!producto) return 1;
+  return producto.codigo + 1;
+}
+
 async function run(ws, usuario) {
   let flag = true;
   let row = 2;
@@ -172,6 +178,7 @@ async function run(ws, usuario) {
   let flagError = false;
   let body;
   let productoUpdates = [];
+  let id = await maxId();
 
   while (flag) {
     const categoria = ws.getCell(`A${row}`).value;
@@ -214,6 +221,18 @@ async function run(ws, usuario) {
           message: `La categoría hija no es una categoría hija (Fila ${row})`,
         });
       }
+      if (!color.includes("-")) {
+        error.push({
+          message: `El color debe poseer un guion enmedio para separar su codigo y nombre (Fila ${row})`,
+        });
+        flagError = true;
+      }
+      if (color.includes("-") && color.split("-").length !== 2) {
+        error.push({
+          message: `El formato de la columna color es incorrecto (Fila ${row})`,
+        });
+        flagError = true;
+      }
       if (isNaN(calidad)) {
         flagError = true;
         error.push({
@@ -244,6 +263,7 @@ async function run(ws, usuario) {
 
       if (!flagError && !producto) {
         body = {
+          id: id,
           categoria: categoriaModel._id,
           categoriaHija: cateHijaModel._id,
           categoriaNombre: categoriaModel.nombre,
@@ -265,6 +285,7 @@ async function run(ws, usuario) {
         };
         await saveProducto(body);
         countSuccess = countSuccess + 1;
+        id = id + 1;
       }
 
       row = row + 1;
