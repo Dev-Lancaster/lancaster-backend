@@ -34,6 +34,6 @@ const schema = new Schema({
   fechaOcupado: Date,
 });
 
-const Producto = mongoose.model("productos_temp", schema);
+const Producto = mongoose.model("productos", schema);
 
 exports.Producto = Producto;
