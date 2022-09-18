@@ -8,6 +8,8 @@ const schema = new Schema({
   categoriaPadre: String,
   categoriaHija: String,
   etiqueta: String,
+  valorOriginal: Number,
+  valorNuevo: Number,
   porcentaje: Number,
   usuarioCrea: String,
   fechaCrea: Date,
