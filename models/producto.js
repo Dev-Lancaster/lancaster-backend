@@ -32,6 +32,8 @@ const schema = new Schema({
   usuarioAct: String,
   fechaAct: Date,
   fechaOcupado: Date,
+  precioDescuento: Number,
+  descuento: Number,
 });
 
 const Producto = mongoose.model("productos", schema);
