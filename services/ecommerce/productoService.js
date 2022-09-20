@@ -9,6 +9,12 @@ const { Producto } = require("../../models/producto");
 
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
 
+async function findActivosSinDescuento() {
+  return await Producto.find({ estado: "ACTIVO", conDescuento: false })
+    .sort({ nombre: 1 })
+    .lean();
+}
+
 async function setOcupado(id) {
   return await Producto.findByIdAndUpdate(id, {
     estado: "OCUPADO",
@@ -807,3 +813,4 @@ exports.prepareLoad = prepareLoad;
 exports.onlyUpdateInfo = onlyUpdateInfo;
 exports.setOcupado = setOcupado;
 exports.checkOcupados = checkOcupados;
+exports.findActivosSinDescuento = findActivosSinDescuento;
