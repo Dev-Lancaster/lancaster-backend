@@ -520,6 +520,10 @@ async function fill(results) {
         color: d.color,
         cantidad: d.cantidad,
         fotos: d.fotos,
+        monto: d.monto,
+        poseeDescuento: d.poseeDescuento,
+        descuento: d.descuento,
+        precioDescuento: d.precioDescuento,
       });
     }
 
