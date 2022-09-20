@@ -34,6 +34,7 @@ const schema = new Schema({
   fechaOcupado: Date,
   precioDescuento: Number,
   descuento: Number,
+  poseeDescuento: Boolean,
 });
 
 const Producto = mongoose.model("productos", schema);
