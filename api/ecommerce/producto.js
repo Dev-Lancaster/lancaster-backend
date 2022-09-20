@@ -57,7 +57,7 @@ router.get("/:id", async (req, res) => {
 
 /*********** FIN ECOMMERCE ***********/
 
-router.get("/sin-descuento", async (req, res) => {
+router.get("/sin/descuento", async (req, res) => {
   const result = await ProductoService.findActivosSinDescuento();
   res.send(result);
 });
