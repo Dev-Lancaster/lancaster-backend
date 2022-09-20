@@ -10,7 +10,7 @@ const { Producto } = require("../../models/producto");
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
 
 async function findActivosSinDescuento() {
-  return await Producto.find({ estado: "ACTIVO", conDescuento: false })
+  return await Producto.find({ estado: "ACTIVO", poseeDescuento: false })
     .sort({ nombre: 1 })
     .lean();
 }
