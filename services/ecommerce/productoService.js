@@ -275,6 +275,7 @@ async function run(ws, usuario) {
           etiqueta: prepareEtiqueta(etiqueta),
           cantidad: cantidad,
           monto: precio,
+          poseeDescuento: false,
           estado: "SIN FOTOS",
           usuarioCrea: usuario,
           fechaCrea: new Date(),
