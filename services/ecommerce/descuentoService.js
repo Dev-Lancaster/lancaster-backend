@@ -20,6 +20,7 @@ async function save(list) {
     await Producto.findByIdAndUpdate(body.producto, {
       precioDescuento: body.valorNuevo,
       descuento: body.porcentaje,
+      poseeDescuento: true,
     });
   }
 }
