@@ -57,6 +57,11 @@ router.get("/:id", async (req, res) => {
 
 /*********** FIN ECOMMERCE ***********/
 
+router.get("/sin-descuento", async (req, res) => {
+  const result = await ProductoService.findActivosSinDescuento();
+  res.send(result);
+});
+
 router.get("/distinct/code", auth, async (req, res) => {
   const result = await ProductoService.findDistinctCode();
   res.send(result);
