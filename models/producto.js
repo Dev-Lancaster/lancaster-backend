@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const fotoSchema = new Schema({
   orden: Number,
-  posicion: String,
   img: { data: Buffer, contentType: String },
 });
 
