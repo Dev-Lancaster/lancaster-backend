@@ -521,8 +521,8 @@ async function fill(results) {
         cantidad: d.cantidad,
         fotos: d.fotos,
         monto: d.monto,
-        poseeDescuento: d.poseeDescuento,
-        descuento: d.descuento,
+        sale: d.poseeDescuento,
+        discount: d.descuento,
         precioDescuento: d.precioDescuento,
       });
     }
