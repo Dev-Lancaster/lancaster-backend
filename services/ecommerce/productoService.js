@@ -91,7 +91,6 @@ async function loadImages(file) {
     let img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
     fotos.push({
       orden: parseInt(values[1]),
-      posicion: values[2],
       img: img,
     });
     await Producto.findByIdAndUpdate(producto._id, {
