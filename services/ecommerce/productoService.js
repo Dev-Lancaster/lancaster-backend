@@ -339,7 +339,7 @@ async function validateFilename(filename) {
       msg: "El formato del archivo es incorrecto",
       filename: filename,
     };
-  if (filename.split("_").length !== 3)
+  if (filename.split("_").length !== 2)
     return {
       type: "ERROR",
       msg: "El formato del archivo es incorrecto",
@@ -367,12 +367,6 @@ async function validateFilename(filename) {
     return {
       type: "ERROR",
       msg: "El valor relacionado al orden de la imagen debe ser un numero",
-      filename: filename,
-    };
-  if (!posiciones.includes(array[2].split(".")[0]))
-    return {
-      type: "ERROR",
-      msg: "El valor de posicion de la imagen es incorrecto",
       filename: filename,
     };
 
