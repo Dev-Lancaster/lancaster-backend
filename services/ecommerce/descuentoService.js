@@ -26,7 +26,10 @@ async function save(list) {
 }
 
 async function findAll() {
-  const list = await Descuento.find().sort({ codigo: -1 }).lean();
+  const list = await Descuento.find()
+    .populate("producto")
+    .sort({ codigo: -1 })
+    .lean();
   return list;
 }
 

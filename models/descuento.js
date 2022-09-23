@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
   codigo: Number,
   estado: String,
-  producto: { type: Schema.Types.ObjectId, ref: "producto" },
+  producto: { type: Schema.Types.ObjectId, ref: "productos" },
   categoriaPadre: String,
   categoriaHija: String,
   etiqueta: String,
