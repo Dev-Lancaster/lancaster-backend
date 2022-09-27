@@ -163,9 +163,9 @@ async function loadFile(filename, usuario) {
 }
 
 async function maxId() {
-  const producto = await Producto.findOne().sort({ codigo: -1 });
+  const producto = await Producto.findOne().sort({ id: -1 });
   if (!producto) return 1;
-  return producto.codigo + 1;
+  return producto.id + 1;
 }
 
 async function run(ws, usuario) {
@@ -196,7 +196,7 @@ async function run(ws, usuario) {
 
     if (!categoria) flag = false;
     else {
-      categoriaModel = await CategoriaService.findByCodigo(categoria);
+      categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
       if (!categoriaModel) {
         error.push({
           message: `La categoría padre esta incorrecta (Fila ${row})`,
@@ -209,7 +209,7 @@ async function run(ws, usuario) {
         });
       }
 
-      cateHijaModel = await CategoriaService.findByCodigo(categoriaHija);
+      cateHijaModel = await CategoriaService.findByCodigo(categoriaHija.trim());
 
       if (!cateHijaModel) {
         error.push({
@@ -286,6 +286,7 @@ async function run(ws, usuario) {
           fechaCrea: new Date(),
         };
         await saveProducto(body);
+
         countSuccess = countSuccess + 1;
         id = id + 1;
       }
