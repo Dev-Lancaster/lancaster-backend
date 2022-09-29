@@ -422,6 +422,7 @@ async function findECategoriaHija(categoria) {
         categoriaHija: ObjectId(categoria),
       },
     },
+    { $limit: 10 },
     { $sort: { nombre: 1 } },
     {
       $group: {
@@ -438,7 +439,7 @@ async function findECategoriaHija(categoria) {
         data: { $push: "$$ROOT" },
       },
     },
-  ]).limit(10);
+  ]);
   return await fill(result);
 }
 
@@ -450,6 +451,7 @@ async function findAllEcom() {
       },
     },
     { $sort: { nombre: 1 } },
+    { $limit: 10 },
     {
       $group: {
         _id: {
@@ -465,7 +467,7 @@ async function findAllEcom() {
         data: { $push: "$$ROOT" },
       },
     },
-  ]).limit(10);
+  ]);
   return await fill(results);
 }
 
@@ -479,6 +481,7 @@ async function findECategorias(categoriaPadre, categoriaHija) {
       },
     },
     { $sort: { nombre: 1 } },
+    { $limit: 10 },
     {
       $group: {
         _id: {
@@ -494,7 +497,7 @@ async function findECategorias(categoriaPadre, categoriaHija) {
         data: { $push: "$$ROOT" },
       },
     },
-  ]).limit(10);
+  ]);
   return await fill(results);
 }
 
@@ -543,6 +546,7 @@ async function findEByEtiqueta(etiqueta) {
       },
     },
     { $sort: { nombre: 1 } },
+    { $limit: 10 },
     {
       $group: {
         _id: {
@@ -558,7 +562,7 @@ async function findEByEtiqueta(etiqueta) {
         data: { $push: "$$ROOT" },
       },
     },
-  ]).limit(10);
+  ]);
 
   return fill(results);
 }
@@ -571,6 +575,7 @@ async function findEByCategoriaPadre(categoria) {
         categoria: ObjectId(categoria),
       },
     },
+    { $limit: 10 },
     { $sort: { nombre: 1 } },
     {
       $group: {
@@ -783,7 +788,7 @@ async function changeEstado(id, estado) {
 }
 
 async function findAll() {
-  const result = await Producto.find().sort({ id: 1 }).lean();
+  const result = await Producto.find().limit(10).sort({ id: 1 }).lean();
   return result;
 }
 
