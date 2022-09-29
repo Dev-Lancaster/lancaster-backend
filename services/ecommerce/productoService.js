@@ -725,12 +725,12 @@ async function save(model, files) {
       posicion: array[2].split(".")[0],
       img: img,
     });
-    //fs.unlinkSync(file.path);
+    fs.unlinkSync(file.path);
   }
   body.fotos = fotos;
 
   try {
-    //await body.save();
+    await body.save();
     return { type: "SUCCESS" };
   } catch (e) {
     console.error(e);
