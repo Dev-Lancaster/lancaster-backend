@@ -451,7 +451,7 @@ async function findAllEcom() {
       },
     },
     { $sort: { nombre: 1 } },
-    { $limit: 10 },
+    { $limit: 20 },
     {
       $group: {
         _id: {
@@ -467,7 +467,7 @@ async function findAllEcom() {
         data: { $push: "$$ROOT" },
       },
     },
-  ]);
+  ]).limit(20);
   return await fill(results);
 }
 
