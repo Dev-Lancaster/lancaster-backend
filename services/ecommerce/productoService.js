@@ -437,7 +437,7 @@ async function findECategoriaHija(categoria) {
         data: { $push: "$$ROOT" },
       },
     },
-  ]);
+  ]).limit(10);
   return await fill(result);
 }
 
@@ -464,7 +464,7 @@ async function findAllEcom() {
         data: { $push: "$$ROOT" },
       },
     },
-  ]);
+  ]).limit(10);
   return await fill(results);
 }
 
@@ -493,7 +493,7 @@ async function findECategorias(categoriaPadre, categoriaHija) {
         data: { $push: "$$ROOT" },
       },
     },
-  ]);
+  ]).limit(10);
   return await fill(results);
 }
 
@@ -557,7 +557,7 @@ async function findEByEtiqueta(etiqueta) {
         data: { $push: "$$ROOT" },
       },
     },
-  ]);
+  ]).limit(10);
 
   return fill(results);
 }
@@ -586,7 +586,7 @@ async function findEByCategoriaPadre(categoria) {
         data: { $push: "$$ROOT" },
       },
     },
-  ]);
+  ]).limit(10);
 
   return fill(results);
 }
