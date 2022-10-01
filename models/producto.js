@@ -5,6 +5,7 @@ const fotoSchema = new Schema({
   orden: Number,
   //img: { data: Buffer, contentType: String },
   nombre: String,
+  url: String,
 });
 
 const schema = new Schema({
