@@ -9,6 +9,17 @@ const upload = multer({
   dest: "./upload",
 });
 
+router.get("/s3/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await s3.getFileURL(id);
+    res.json({ url: result });
+  } catch (e) {
+    console.error(e);
+    res.send({ type: "ERROR" });
+  }
+});
+
 /*********** ECOMMERCE ***********/
 router.get("/ocupado/:id", async (req, res) => {
   const id = req.params.id;
