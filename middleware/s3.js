@@ -54,7 +54,6 @@ async function downloadFile(filename) {
     Key: filename,
   });
   const result = await client.send(command);
-  console.log(result);
   result.Body.pipe(fs.createWriteStream(`./images/${filename}`));
 }
 
