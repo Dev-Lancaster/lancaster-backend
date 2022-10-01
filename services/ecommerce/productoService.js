@@ -92,8 +92,10 @@ async function loadImages(file) {
     //let img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
     let img = file.originalname;
     await s3.uploadFile(file);
+    let url = await s3.getFileURL(file.originalname);
     fotos.push({
       orden: parseInt(values[1]),
+      url: url,
       nombre: img,
     });
     await Producto.findByIdAndUpdate(producto._id, {
