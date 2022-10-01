@@ -506,17 +506,26 @@ async function fill(results) {
   let dataList = [];
   let colors = [];
   let tallas = [];
+  let fotos = [];
+  let foto;
 
   for (const model of results) {
     dataList = [];
 
     for (const d of model.data) {
+      fotos = [];
+
+      for (const f of d.fotos) {
+        foto = await s3.getFileURL(f.nombre);
+        fotos.push({ url: foto, ...f });
+      }
+
       dataList.push({
         _id: d._id,
         talla: d.talla,
         color: d.color,
         cantidad: d.cantidad,
-        fotos: d.fotos,
+        fotos: fotos,
         monto: d.monto,
         sale: d.poseeDescuento,
         discount: d.descuento,
