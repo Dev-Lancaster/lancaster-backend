@@ -427,6 +427,7 @@ async function findECategoriaHija(categoria) {
         categoriaHija: ObjectId(categoria),
       },
     },
+    { $limit: 10 },
     { $sort: { nombre: 1 } },
     {
       $group: {
@@ -455,6 +456,7 @@ async function findAllEcom() {
       },
     },
     { $sort: { nombre: 1 } },
+    { $limit: 20 },
     {
       $group: {
         _id: {
@@ -470,7 +472,7 @@ async function findAllEcom() {
         data: { $push: "$$ROOT" },
       },
     },
-  ]);
+  ]).limit(20);
   return await fill(results);
 }
 
@@ -484,6 +486,7 @@ async function findECategorias(categoriaPadre, categoriaHija) {
       },
     },
     { $sort: { nombre: 1 } },
+    { $limit: 10 },
     {
       $group: {
         _id: {
@@ -548,6 +551,7 @@ async function findEByEtiqueta(etiqueta) {
       },
     },
     { $sort: { nombre: 1 } },
+    { $limit: 10 },
     {
       $group: {
         _id: {
@@ -576,6 +580,7 @@ async function findEByCategoriaPadre(categoria) {
         categoria: ObjectId(categoria),
       },
     },
+    { $limit: 10 },
     { $sort: { nombre: 1 } },
     {
       $group: {
@@ -592,7 +597,7 @@ async function findEByCategoriaPadre(categoria) {
         data: { $push: "$$ROOT" },
       },
     },
-  ]);
+  ]).limit(10);
 
   return fill(results);
 }
@@ -731,7 +736,7 @@ async function save(model, files) {
   body.fotos = fotos;
 
   try {
-    await body.save();
+    //await body.save();
     return { type: "SUCCESS" };
   } catch (e) {
     console.error(e);
@@ -789,7 +794,7 @@ async function changeEstado(id, estado) {
 }
 
 async function findAll() {
-  const result = await Producto.find().sort({ id: 1 }).lean();
+  const result = await Producto.find().limit(10).sort({ id: 1 }).lean();
   return result;
 }
 
