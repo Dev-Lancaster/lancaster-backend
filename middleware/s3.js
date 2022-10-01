@@ -1,17 +1,17 @@
-import {
+const {
   S3Client,
   PutObjectCommand,
   ListObjectsCommand,
   GetObjectCommand,
-} from "@aws-sdk/client-s3";
-import {
+} = require("@aws-sdk/client-s3");
+const {
   AWS_BUCKET_REGION,
   AWS_PUBLIC_KEY,
   AWS_SECRET_KEY,
   AWS_BUCKET_NAME,
-} from "./constants";
-import fs from "fs";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+} = require("./constants");
+const fs = require("fs");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 const client = new S3Client({
   region: AWS_BUCKET_REGION,
@@ -21,7 +21,7 @@ const client = new S3Client({
   },
 });
 
-export async function uploadFile(file) {
+async function uploadFile(file) {
   const stream = fs.createReadStream(file.tempFilePath);
   const uploadParams = {
     Bucket: AWS_BUCKET_NAME,
@@ -32,14 +32,14 @@ export async function uploadFile(file) {
   return await client.send(command);
 }
 
-export async function getFiles() {
+async function getFiles() {
   const command = new ListObjectsCommand({
     Bucket: AWS_BUCKET_NAME,
   });
   return await client.send(command);
 }
 
-export async function getFile(filename) {
+async function getFile(filename) {
   const command = new GetObjectCommand({
     Bucket: AWS_BUCKET_NAME,
     Key: filename,
@@ -47,7 +47,7 @@ export async function getFile(filename) {
   return await client.send(command);
 }
 
-export async function downloadFile(filename) {
+async function downloadFile(filename) {
   const command = new GetObjectCommand({
     Bucket: AWS_BUCKET_NAME,
     Key: filename,
@@ -57,10 +57,16 @@ export async function downloadFile(filename) {
   result.Body.pipe(fs.createWriteStream(`./images/${filename}`));
 }
 
-export async function getFileURL(filename) {
+async function getFileURL(filename) {
   const command = new GetObjectCommand({
     Bucket: AWS_BUCKET_NAME,
     Key: filename,
   });
   return await getSignedUrl(client, command, { expiresIn: 3600 });
 }
+
+exports.uploadFile = uploadFile;
+exports.getFileURL = getFileURL;
+exports.downloadFile = downloadFile;
+exports.getFile = getFile;
+exports.getFiles = getFiles;
