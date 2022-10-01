@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require("../../middleware/auth");
 const ProductoService = require("../../services/ecommerce/productoService");
 const multer = require("multer");
+const s3 = require("../../middleware/s3");
 
 const upload = multer({
   dest: "./upload",

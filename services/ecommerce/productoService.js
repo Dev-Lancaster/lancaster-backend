@@ -5,6 +5,7 @@ const fs = require("fs");
 const _ = require("lodash");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
+const s3 = require("../../middleware/s3");
 const { Producto } = require("../../models/producto");
 
 const posiciones = ["FRO", "TRA", "IZQ", "DER", "ARR", "ABA"];
@@ -88,10 +89,12 @@ async function loadImages(file) {
 
   if (producto) {
     let fotos = producto.fotos;
-    let img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
+    //let img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
+    let img = file.originalname;
+    await s3.uploadFile(file);
     fotos.push({
       orden: parseInt(values[1]),
-      img: img,
+      nombre: img,
     });
     await Producto.findByIdAndUpdate(producto._id, {
       fotos: fotos,
@@ -713,14 +716,15 @@ async function save(model, files) {
   let fotos = [];
   let img = {};
   for (const file of files) {
-    img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
+    //img = { data: fs.readFileSync(file.path), contentType: file.mimetype };
+    await s3.uploadFile(file);
+    img = file.originalname;
     array = file.originalname.split("_");
     fotos.push({
       orden: parseInt(array[1]),
-      posicion: array[2].split(".")[0],
-      img: img,
+      nombre: img,
     });
-    fs.unlinkSync(file.path);
+    //fs.unlinkSync(file.path);
   }
   body.fotos = fotos;
 

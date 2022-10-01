@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const fotoSchema = new Schema({
   orden: Number,
-  img: { data: Buffer, contentType: String },
+  //img: { data: Buffer, contentType: String },
+  nombre: String,
 });
 
 const schema = new Schema({
