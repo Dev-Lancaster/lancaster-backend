@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/bila23/lancaster-backend#readme",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.181.0",
+    "@aws-sdk/s3-request-presigner": "^3.182.0",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "config": "^3.3.7",
