@@ -4,9 +4,13 @@ async function findAll() {
   return await Error.find().sort({ fechaCrea: -1 }).lean();
 }
 
-async function save(model) {
-  model.fechaCrea = new Date();
-  let error = new Error(model);
+async function save(titulo, descripcion) {
+  let body = {
+    titulo: titulo,
+    descripcion: descripcion,
+    fechaCrea: new Date(),
+  };
+  let error = new Error(body);
   await error.save();
 }
 
