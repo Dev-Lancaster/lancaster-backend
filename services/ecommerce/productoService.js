@@ -59,7 +59,13 @@ async function prepareLoad(files, usuario) {
 
   for (const f of files) {
     if (validateExcelFile(f.originalname.toLowerCase())) {
-      resultExcel = await loadFile(f.path, usuario);
+      await ErrorService.save("ProductoService", "1");
+      try {
+        resultExcel = await loadFile(f.path, usuario);
+      } catch (e) {
+        await ErrorService.save("ProductoService", "2 " + e);
+      }
+      await ErrorService.save("ProductoService", "3");
       fs.unlinkSync(f.path);
     }
   }
