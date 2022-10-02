@@ -1,11 +1,12 @@
 const constants = require("../../middleware/constants");
 const ExcelHelper = require("../common/excelHelper");
 const CategoriaService = require("./categoriaService");
-const fs = require("fs");
-const _ = require("lodash");
-const mongoose = require("mongoose");
-const ObjectId = mongoose.Types.ObjectId;
+const ErrorService = require("../admin/ErrorService");
 const s3 = require("../../middleware/s3");
+const fs = require("fs");
+const mongoose = require("mongoose");
+const _ = require("lodash");
+const ObjectId = mongoose.Types.ObjectId;
 const { Producto } = require("../../models/producto");
 
 async function findActivosSinDescuento() {
@@ -128,16 +129,33 @@ function validateImageFile(f) {
 }
 
 async function loadFile(filename, usuario) {
-  let wb = await ExcelHelper.readExcel(filename);
+  let wb;
+  try {
+    wb = await ExcelHelper.readExcel(filename);
+  } catch (e) {
+    await ErrorService.save("READ EXCEL - LINEA: 134", e);
+  }
+
   if (!wb)
     return {
       type: "ERROR_MSG",
       msg: "No se encontró el archivo que desea cargar",
     };
-  let ws = verifyData(wb);
+  let ws;
+  try {
+    ws = verifyData(wb);
+  } catch (e) {
+    await ErrorService.save("VERIFY DATA EXCEL - LINEA: 146", e);
+  }
+
   if (ws) {
     try {
-      const result = await run(ws, usuario);
+      let result;
+      try {
+        result = await run(ws, usuario);
+      } catch (e) {
+        await ErrorService.save("RUN EXCEL - LINEA: 155", e);
+      }
       if (result.error.length === 0)
         return {
           type: "SUCCESS",
