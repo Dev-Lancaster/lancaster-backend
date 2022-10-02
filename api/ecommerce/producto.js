@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const ProductoService = require("../../services/ecommerce/productoService");
+const ErrorService = require("../../services/admin/ErrorService");
 const multer = require("multer");
 const s3 = require("../../middleware/s3");
 
@@ -130,8 +131,13 @@ router.get("/", auth, async (req, res) => {
 
 router.post("/masivo/:user", auth, upload.any(), async (req, res) => {
   const files = req.files;
-  const result = await ProductoService.prepareLoad(files, req.params.user);
-  res.send(result);
+  try {
+    const result = await ProductoService.prepareLoad(files, req.params.user);
+    res.send(result);
+  } catch (e) {
+    await ErrorService.save("API /MASIVO/USER", e);
+    res.send(e);
+  }
 });
 
 router.post("/", auth, upload.any(), async (req, res) => {
