@@ -61,8 +61,9 @@ async function getFileURL(filename) {
   const command = new GetObjectCommand({
     Bucket: AWS_BUCKET_NAME,
     Key: filename,
+    Expires: 604800,
   });
-  return await getSignedUrl(client, command, { expiresIn: 3600 });
+  return await getSignedUrl(client, command, { expiresIn: 604800 });
 }
 
 exports.uploadFile = uploadFile;
