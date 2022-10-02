@@ -502,21 +502,33 @@ async function findECategorias(categoriaPadre, categoriaHija) {
 }
 
 async function fill(results) {
-  let lst = [];
-  let dataList = [];
-  let colors = [];
-  let tallas = [];
+  let lst = [],
+    dataList = [],
+    colors = [],
+    tallas = [],
+    fotos = [],
+    foto;
 
   for (const model of results) {
     dataList = [];
+    fotos = [];
 
     for (const d of model.data) {
+      for (const f of d.fotos) {
+        foto = await s3.getFileURL(f.nombre);
+        fotos.push({
+          url: foto,
+          nombre: f.nombre,
+          orden: f.orden,
+          _id: f._id,
+        });
+      }
       dataList.push({
         _id: d._id,
         talla: d.talla,
         color: d.color,
         cantidad: d.cantidad,
-        fotos: d.fotos,
+        fotos: fotos,
         monto: d.monto,
         sale: d.poseeDescuento,
         discount: d.descuento,
@@ -788,7 +800,20 @@ async function changeEstado(id, estado) {
 
 async function findAll() {
   const result = await Producto.find().sort({ id: 1 }).lean();
-  return result;
+  let list = [],
+    fotos = [],
+    url = "";
+
+  for (const model of result) {
+    fotos = [];
+    for (const f of model.fotos) {
+      url = await s3.getFileURL(f.nombre);
+      fotos.push({ url: url, nombre: f.nombre, orden: f.orden, _id: f._id });
+    }
+    model.fotos = fotos;
+    list.push({ ...model });
+  }
+  return list;
 }
 
 exports.findAll = findAll;
