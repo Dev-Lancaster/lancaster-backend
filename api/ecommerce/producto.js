@@ -132,6 +132,7 @@ router.get("/", auth, async (req, res) => {
 router.post("/masivo/:user", auth, upload.any(), async (req, res) => {
   const files = req.files;
   try {
+    await ErrorService.save("API /MASIVO/USER", "LLEGO A ESTE PUNTO");
     const result = await ProductoService.prepareLoad(files, req.params.user);
     res.send(result);
   } catch (e) {
