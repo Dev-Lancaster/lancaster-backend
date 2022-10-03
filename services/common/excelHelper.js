@@ -26,7 +26,9 @@ async function readExcel(filename) {
 
   let wb = new Excel.Workbook();
   try {
+    await ErrorService.save("EXCEL HELPER 3", "3");
     wb = await wb.xlsx.readFile(filename);
+    await ErrorService.save("EXCEL HELPER 4", "4");
   } catch (e) {
     await ErrorService.save("READ FILE - ERROR", e);
   }
