@@ -59,13 +59,11 @@ async function prepareLoad(files, usuario) {
 
   for (const f of files) {
     if (validateExcelFile(f.originalname.toLowerCase())) {
-      await ErrorService.save("ProductoService", "1");
       try {
         resultExcel = await loadFile(f.path, usuario);
       } catch (e) {
         await ErrorService.save("ProductoService", "2 " + e);
       }
-      await ErrorService.save("ProductoService", "3");
       fs.unlinkSync(f.path);
     }
   }
@@ -137,7 +135,6 @@ function validateImageFile(f) {
 async function loadFile(filename, usuario) {
   let wb;
   try {
-    await ErrorService.save("loadFile", "1");
     wb = await ExcelHelper.readExcel(filename);
   } catch (e) {
     await ErrorService.save("READ EXCEL - LINEA: 134", e);
@@ -150,7 +147,6 @@ async function loadFile(filename, usuario) {
     };
   let ws;
   try {
-    await ErrorService.save("loadFile", "2");
     ws = verifyData(wb);
   } catch (e) {
     await ErrorService.save("VERIFY DATA EXCEL - LINEA: 146", e);
@@ -160,7 +156,6 @@ async function loadFile(filename, usuario) {
     try {
       let result;
       try {
-        await ErrorService.save("loadFile", "3");
         result = await run(ws, usuario);
       } catch (e) {
         await ErrorService.save("RUN EXCEL - LINEA: 155", e);
