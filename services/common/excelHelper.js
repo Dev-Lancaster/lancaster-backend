@@ -19,14 +19,12 @@ async function existFile(filename) {
  */
 async function readExcel(filename) {
   let exist;
-  await ErrorService.save("EXCEL HELPER 1", filename);
   exist = await existFile(filename);
-  await ErrorService.save("EXCEL HELPER 2", exist);
   if (!exist) return null;
 
   let wb = new Excel.Workbook();
   try {
-    await ErrorService.save("EXCEL HELPER 3", "3");
+    console.log(filename);
     wb = await wb.xlsx.readFile(filename);
     await ErrorService.save("EXCEL HELPER 4", "4");
   } catch (e) {
