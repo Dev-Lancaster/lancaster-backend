@@ -1,12 +1,13 @@
 const Excel = require("exceljs");
 const fs = require("fs");
+const ErrorService = require("../admin/ErrorService");
 
-function existFile(filename) {
+async function existFile(filename) {
   try {
     if (fs.existsSync(filename)) return true;
     return false;
   } catch (e) {
-    console.error(e);
+    await ErrorService.save("EXIST FILE - ERROR", e);
     return false;
   }
 }
@@ -17,11 +18,18 @@ function existFile(filename) {
  * @returns worksheet
  */
 async function readExcel(filename) {
-  const exist = existFile(filename);
+  let exist;
+  await ErrorService.save("EXCEL HELPER 1", filename);
+  exist = await existFile(filename);
+  await ErrorService.save("EXCEL HELPER 2", exist);
   if (!exist) return null;
 
   let wb = new Excel.Workbook();
-  wb = await wb.xlsx.readFile(filename);
+  try {
+    wb = await wb.xlsx.readFile(filename);
+  } catch (e) {
+    await ErrorService.save("READ FILE - ERROR", e);
+  }
   return wb;
 }
 
