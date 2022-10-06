@@ -7,6 +7,7 @@ const productoSchema = new Schema({
 });
 
 const schema = new mongoose.Schema({
+  id: Number,
   codigo: String,
   culqui: String,
   codigoFact: String,
