@@ -10,6 +10,7 @@ const schema = new mongoose.Schema({
   codigo: String,
   culqui: String,
   codigoFact: String,
+  estado: String,
   detalle: [productoSchema],
   fechaCrea: Date,
 });
