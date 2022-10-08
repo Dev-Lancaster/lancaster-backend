@@ -20,7 +20,8 @@ async function generateOrdenado(model) {
 function getTotal(productos) {
   let total = 0.0;
   for (const producto of productos)
-    if (model.precio) total = model.precio * model.cantidad + total;
+    if (producto.precio && producto.cantidad)
+      total = producto.precio * producto.cantidad + total;
   return total;
 }
 
