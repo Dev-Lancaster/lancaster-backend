@@ -1,17 +1,27 @@
+const { model } = require("mongoose");
 const { OrdenCompra } = require("../../models/ordenCompra");
 const { Producto } = require("../../models/producto");
 
 async function generateOrdenado(model) {
   const codigo = await generateCodigo();
+  const total = getTotal(model.detalle);
 
   model.estado = "ORDENADO";
   model.id = codigo;
   model.codigo = "LNC-" + codigo;
+  model.total = total;
   model.fechaCrea = new Date();
 
   let orden = new OrdenCompra(model);
   orden = await orden.save();
   return orden;
+}
+
+function getTotal(productos) {
+  let total = 0.0;
+  for (const producto of productos)
+    if (model.precio) total = model.precio * model.cantidad + total;
+  return total;
 }
 
 async function generatePagado(id, model) {
