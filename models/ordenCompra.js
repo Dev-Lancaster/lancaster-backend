@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const productoSchema = new Schema({
   producto: { type: Schema.Types.ObjectId, ref: "producto" },
+  precio: Number,
   cantidad: Number,
 });
 
