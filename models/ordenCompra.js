@@ -27,7 +27,7 @@ const schema = new mongoose.Schema({
   codigoFact: String,
   estado: String,
   total: Number,
-  detalle: productoSchema,
+  detalle: [productoSchema],
   customerDetail: clienteSchema,
   fechaCrea: Date,
 });
