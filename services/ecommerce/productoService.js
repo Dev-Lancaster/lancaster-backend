@@ -479,6 +479,8 @@ async function findAllEcom() {
       $group: {
         _id: {
           codigo: "$codigo",
+          talla: "$talla",
+          color: "$color",
           nombre: "$nombre",
           categoria: "$categoriaNombre",
           categoriaHija: "$categoriaHijaNombre",
