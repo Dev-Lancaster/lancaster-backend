@@ -69,6 +69,7 @@ describe("Prueba de Categoria Service", () => {
       "6341a20021a45f69683fa554",
       orden
     );
+    console.log(result);
     expect(true).toBe(true);
   });*/
 });
