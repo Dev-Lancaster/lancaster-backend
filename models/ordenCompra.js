@@ -6,13 +6,28 @@ const productoSchema = new Schema({
   cantidad: Number,
 });
 
+const clienteSchema = new Schema({
+  firstname: String,
+  lastname: String,
+  dni: String,
+  phone: String,
+  email: String,
+  address: String,
+  country: String,
+  town: String,
+  state: String,
+  postalcode: String,
+});
+
 const schema = new mongoose.Schema({
   id: Number,
   codigo: String,
   culqui: String,
   codigoFact: String,
   estado: String,
+  total: Number,
   detalle: [productoSchema],
+  customerDetail: { clienteSchema },
   fechaCrea: Date,
 });
 
