@@ -1,3 +1,4 @@
+const { JsonWebTokenError } = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const OrdenCompraService = require("../../services/ecommerce/ordenCompraService");
 const { MONGO_URL } = require("../../startup/db_url");
@@ -37,8 +38,8 @@ const productos = [
 ];
 
 let orden = {
-  detalle: productos,
-  customerDetail: cliente,
+  products: productos,
+  customerDetails: cliente,
 };
 
 describe("Prueba de Categoria Service", () => {
@@ -51,21 +52,24 @@ describe("Prueba de Categoria Service", () => {
   afterAll(async () => {
     await mongoose.disconnect();
   });
+  /*
   it("validateNubeFact", async () => {
     const result = await OrdenCompraService.getCodeNubeFact(100);
     console.log(result);
     expect(true).toBe(true);
   });
-  /*it("generateOrdenado", async () => {
+    it("generateOrdenado", async () => {
     const result = await OrdenCompraService.generateOrdenado(orden);
+    console.log(result);
     expect(true).toBe(true);
   });
   it("generatePagado", async () => {
-    orden.culqui = "CODIGO CULQUI";
+    orden.culquiToken = "CODIGO CULQUI";
     const result = await OrdenCompraService.generatePagado(
-      "6341a20021a45f69683fa554",
+      "634339c7577502bab0c56ed2",
       orden
     );
+    console.log(result);
     expect(true).toBe(true);
   });
   it("generateFacturado", async () => {

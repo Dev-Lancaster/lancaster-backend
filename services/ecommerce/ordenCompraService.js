@@ -28,16 +28,18 @@ async function generateOrdenado(model) {
 async function generatePagado(id, model) {
   if (model.culquiToken) {
     model.status = "PAGADO";
-    const result = await OrdenCompra.findByIdAndUpdate(id, model);
+    await OrdenCompra.findByIdAndUpdate(id, model);
     await changeInventario(model.products);
-    return result;
+    const orden = await OrdenCompra.findById(id);
+    return orden;
   } else return null;
 }
 
 async function generateFacturado(id, model) {
   if (model.codigoFact) {
     model.status = "FACTURADO";
-    const result = await OrdenCompra.findByIdAndUpdate(id, model);
+    await OrdenCompra.findByIdAndUpdate(id, model);
+    const result = await OrdenCompra.findById(id);
     return result;
   }
 }
