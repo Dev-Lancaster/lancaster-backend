@@ -25,7 +25,6 @@ const schema = new mongoose.Schema({
   orderId: String,
   culquiToken: String,
   nubefactNumero: Number,
-  codigoFact: String,
   status: String,
   totalAmount: Number,
   nubeFact: Object,
