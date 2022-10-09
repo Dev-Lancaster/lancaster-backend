@@ -28,6 +28,7 @@ const schema = new mongoose.Schema({
   codigoFact: String,
   status: String,
   totalAmount: Number,
+  nubeFact: Object,
   products: [productoSchema],
   customerDetails: clienteSchema,
   date: Date,
