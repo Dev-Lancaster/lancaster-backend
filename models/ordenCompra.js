@@ -22,15 +22,15 @@ const clienteSchema = new Schema({
 
 const schema = new mongoose.Schema({
   id: Number,
-  codigo: String,
-  culqui: String,
-  codigoNubeFact: Number,
+  orderId: String,
+  culquiToken: String,
+  nubefactNumero: Number,
   codigoFact: String,
-  estado: String,
-  total: Number,
-  detalle: [productoSchema],
-  customerDetail: clienteSchema,
-  fechaCrea: Date,
+  status: String,
+  totalAmount: Number,
+  products: [productoSchema],
+  customerDetails: clienteSchema,
+  date: Date,
 });
 
 const OrdenCompra = mongoose.model("ordenCompra", schema);
