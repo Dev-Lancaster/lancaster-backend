@@ -5,7 +5,7 @@ const { Producto } = require("../../models/producto");
 
 async function generateOrdenado(model) {
   const codigo = await generateCodigo();
-  const resultNubeFact = await validateNubeFact(codigo);
+  const resultNubeFact = await getCodeNubeFact(codigo);
 
   if (resultNubeFact.type === "ERROR")
     return {
@@ -14,6 +14,7 @@ async function generateOrdenado(model) {
     };
 
   model.nubefactNumero = resultNubeFact.code;
+  model.nubeFact = resultNubeFact.result;
   model.status = "ORDENADO";
   model.id = codigo;
   model.orderId = "LNC-" + codigo;
@@ -75,7 +76,7 @@ async function getCodeNubeFact(code) {
     }
 
     if (result && result.numero && result.aceptada_por_sunat)
-      return { type: "SUCCESS", code: newCode };
+      return { type: "SUCCESS", code: newCode, result: result };
     else newCode = newCode + 1;
   }
   return { type: "ERROR" };
