@@ -13,37 +13,29 @@ async function generateOrdenado(model) {
       msg: "Ha ocurrido un error al generar el codigo de facturacion",
     };
 
-  model.codigoNubeFact = resultNubeFact.code;
-  model.estado = "ORDENADO";
+  model.nubefactNumero = resultNubeFact.code;
+  model.status = "ORDENADO";
   model.id = codigo;
-  model.codigo = "LNC-" + codigo;
-  model.fechaCrea = new Date();
+  model.orderId = "LNC-" + codigo;
+  model.date = new Date();
 
   let orden = new OrdenCompra(model);
   orden = await orden.save();
   return { type: "SUCCESS", orden: orden };
 }
 
-function getTotal(productos) {
-  let total = 0.0;
-  for (const producto of productos)
-    if (producto.precio && producto.cantidad)
-      total = producto.precio * producto.cantidad + total;
-  return total;
-}
-
 async function generatePagado(id, model) {
-  if (model.culqui) {
-    model.estado = "PAGADO";
+  if (model.culquiToken) {
+    model.status = "PAGADO";
     const result = await OrdenCompra.findByIdAndUpdate(id, model);
-    await changeInventario(model.detalle);
+    await changeInventario(model.products);
     return result;
   } else return null;
 }
 
 async function generateFacturado(id, model) {
   if (model.codigoFact) {
-    model.estado = "FACTURADO";
+    model.status = "FACTURADO";
     const result = await OrdenCompra.findByIdAndUpdate(id, model);
     return result;
   }
