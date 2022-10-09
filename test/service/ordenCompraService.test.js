@@ -43,6 +43,7 @@ let orden = {
 };
 
 describe("Prueba de Categoria Service", () => {
+  jest.setTimeout(1000000);
   beforeAll(async () => {
     await mongoose.connect(MONGO_URL, {
       useNewUrlParser: true,

@@ -54,7 +54,7 @@ async function changeInventario(productos) {
 
 async function generateCodigo() {
   const model = await OrdenCompra.findOne().sort({ id: -1 }).lean();
-  if (!model) return 1;
+  if (!model) return 9;
   return model.id + 1;
 }
 
