@@ -24,7 +24,7 @@ const schema = new mongoose.Schema({
   id: Number,
   codigo: String,
   culqui: String,
-  validateNubeFact: Number,
+  codigoNubeFact: Number,
   codigoFact: String,
   estado: String,
   total: Number,
