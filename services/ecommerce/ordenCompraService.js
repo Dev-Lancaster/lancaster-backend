@@ -14,10 +14,9 @@ async function generateOrdenado(model) {
     };
 
   model.nubefactNumero = resultNubeFact.code;
-  model.nubeFact = resultNubeFact.result;
   model.status = "ORDENADO";
-  model.id = codigo;
-  model.orderId = "LNC-" + codigo;
+  model.id = resultNubeFact.code;
+  model.orderId = "LNC-" + resultNubeFact.code;
   model.date = new Date();
 
   let orden = new OrdenCompra(model);
@@ -36,12 +35,10 @@ async function generatePagado(id, model) {
 }
 
 async function generateFacturado(id, model) {
-  if (model.codigoFact) {
-    model.status = "FACTURADO";
-    await OrdenCompra.findByIdAndUpdate(id, model);
-    const result = await OrdenCompra.findById(id);
-    return result;
-  }
+  model.status = "FACTURADO";
+  await OrdenCompra.findByIdAndUpdate(id, model);
+  const result = await OrdenCompra.findById(id);
+  return result;
 }
 
 async function changeInventario(productos) {
@@ -77,8 +74,7 @@ async function getCodeNubeFact(code) {
       return { type: "ERROR" };
     }
 
-    if (result && result.numero && result.aceptada_por_sunat)
-      return { type: "SUCCESS", code: newCode, result: result };
+    if (result && !result.numero) return { type: "SUCCESS", code: newCode };
     else newCode = newCode + 1;
   }
   return { type: "ERROR" };
