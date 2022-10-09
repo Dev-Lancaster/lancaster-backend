@@ -5,17 +5,23 @@ const { Producto } = require("../../models/producto");
 
 async function generateOrdenado(model) {
   const codigo = await generateCodigo();
-  const total = getTotal(model.detalle);
+  const resultNubeFact = await validateNubeFact(codigo);
 
+  if (resultNubeFact.type === "ERROR")
+    return {
+      type: "ERROR",
+      msg: "Ha ocurrido un error al generar el codigo de facturacion",
+    };
+
+  model.codigoNubeFact = resultNubeFact.code;
   model.estado = "ORDENADO";
   model.id = codigo;
   model.codigo = "LNC-" + codigo;
-  model.total = total;
   model.fechaCrea = new Date();
 
   let orden = new OrdenCompra(model);
   orden = await orden.save();
-  return orden;
+  return { type: "SUCCESS", orden: orden };
 }
 
 function getTotal(productos) {
