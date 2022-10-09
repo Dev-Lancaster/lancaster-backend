@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+const ErrorServices = require("../admin/ErrorService");
 const { OrdenCompra } = require("../../models/ordenCompra");
 const { Producto } = require("../../models/producto");
 
@@ -58,6 +60,54 @@ async function generateCodigo() {
   return model.id + 1;
 }
 
+async function getCodeNubeFact(code) {
+  if (!code) return { type: "ERROR" };
+  if (isNaN(code)) return { type: "ERROR" };
+
+  let newCode = code;
+  let validFlag = true;
+  let result;
+
+  while (validFlag) {
+    try {
+      result = await validateNubeFact(newCode);
+    } catch (e) {
+      await ErrorServices.save("getCodeNubeFact - Linea: 75", e);
+      return { type: "ERROR" };
+    }
+
+    if (result && result.numero && result.aceptada_por_sunat)
+      return { type: "SUCCESS", code: newCode };
+    else newCode = newCode + 1;
+  }
+  return { type: "ERROR" };
+}
+
+async function validateNubeFact(code) {
+  const body = {
+    operacion: "consultar_comprobante",
+    tipo_de_comprobante: "1",
+    serie: "FTV1",
+    numero: code,
+  };
+  const api =
+    "https://api.nubefact.com/api/v1/08732aed-16ff-435a-89e5-a73c450ae468";
+
+  const response = await fetch(api, {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      Authorization:
+        "Bearer 439aef5bc96540059e854ab3a9e09256a9789c6637504b5eadbf183ce6504947",
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
 exports.generateOrdenado = generateOrdenado;
 exports.generatePagado = generatePagado;
 exports.generateFacturado = generateFacturado;
+exports.validateNubeFact = validateNubeFact;
+exports.getCodeNubeFact = getCodeNubeFact;

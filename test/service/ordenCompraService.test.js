@@ -51,6 +51,11 @@ describe("Prueba de Categoria Service", () => {
   afterAll(async () => {
     await mongoose.disconnect();
   });
+  it("validateNubeFact", async () => {
+    const result = await OrdenCompraService.getCodeNubeFact(100);
+    console.log(result);
+    expect(true).toBe(true);
+  });
   /*it("generateOrdenado", async () => {
     const result = await OrdenCompraService.generateOrdenado(orden);
     expect(true).toBe(true);
