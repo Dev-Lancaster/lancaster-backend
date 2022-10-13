@@ -15,7 +15,7 @@ async function save(model) {
     model.password = await encrypt(model.password);
     model.email = model.email.toLowerCase();
     model.dateCreation = new Date();
-    let body = new Categoria(model);
+    let body = new UserShop(model);
     await body.save();
     return { type: "SUCCESS", model: body };
   } else return { type: "EXIST", msg: "Ya existe un usuario con este correo." };
