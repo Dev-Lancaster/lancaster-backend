@@ -10,7 +10,8 @@ async function generateOrdenado(model) {
   if (resultNubeFact.type === "ERROR")
     return {
       type: "ERROR",
-      msg: "Ha ocurrido un error al generar el codigo de facturacion",
+      message: "Ha ocurrido un error al generar el codigo de facturacion",
+      orden: null,
     };
 
   model.nubefactNumero = resultNubeFact.code;
@@ -21,7 +22,7 @@ async function generateOrdenado(model) {
 
   let orden = new OrdenCompra(model);
   orden = await orden.save();
-  return { type: "SUCCESS", orden: orden };
+  return { type: "SUCCESS", orden: orden, message: "" };
 }
 
 async function generatePagado(id, model) {
