@@ -35,7 +35,7 @@ async function generatePagado(id, model) {
   } else
     return {
       type: "ERROR",
-      orden: orden,
+      orden: null,
       message: "No se pudo generar la orden de pago",
     };
 }
