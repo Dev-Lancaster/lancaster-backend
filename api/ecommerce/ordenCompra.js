@@ -9,7 +9,11 @@ router.post("/ordenado", async (req, res) => {
     res.send(result);
   } catch (e) {
     console.error(e);
-    res.send({ type: "ERROR" });
+    res.send({
+      type: "ERROR",
+      orden: null,
+      message: "Ha ocurrido un error interno",
+    });
   }
 });
 
@@ -18,10 +22,14 @@ router.put("/pagado/:id", async (req, res) => {
   const body = req.body;
   try {
     const result = await OrdenCompraService.generatePagado(id, body);
-    res.send({ body: result, type: "SUCCESS" });
+    res.send(result);
   } catch (e) {
     console.error(e);
-    res.send({ type: "ERROR" });
+    res.send({
+      type: "ERROR",
+      orden: null,
+      message: "Ha ocurrido un error interno",
+    });
   }
 });
 
@@ -30,10 +38,14 @@ router.put("/facturado/:id", async (req, res) => {
   const body = req.body;
   try {
     const result = await OrdenCompraService.generateFacturado(id, body);
-    res.send({ body: result, type: "SUCCESS" });
+    res.send(result);
   } catch (e) {
     console.error(e);
-    res.send({ type: "ERROR" });
+    res.send({
+      type: "ERROR",
+      orden: null,
+      message: "Ha ocurrido un error interno",
+    });
   }
 });
 

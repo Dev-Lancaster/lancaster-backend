@@ -31,15 +31,20 @@ async function generatePagado(id, model) {
     await OrdenCompra.findByIdAndUpdate(id, model);
     await changeInventario(model.products);
     const orden = await OrdenCompra.findById(id);
-    return orden;
-  } else return null;
+    return { type: "SUCCESS", orden: orden, message: "" };
+  } else
+    return {
+      type: "ERROR",
+      orden: orden,
+      message: "No se pudo generar la orden de pago",
+    };
 }
 
 async function generateFacturado(id, model) {
   model.status = "FACTURADO";
   await OrdenCompra.findByIdAndUpdate(id, model);
   const result = await OrdenCompra.findById(id);
-  return result;
+  return { type: "SUCCESS", orden: result, message: "" };
 }
 
 async function changeInventario(productos) {
