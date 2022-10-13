@@ -12,6 +12,7 @@ const schema = new Schema({
   town: String,
   state: String,
   postalcode: String,
+  dateCreation: Date,
 });
 
 const UserShop = mongoose.model("userShop", schema);
