@@ -6,7 +6,7 @@ router.post("/ordenado", async (req, res) => {
   const body = req.body;
   try {
     const result = await OrdenCompraService.generateOrdenado(body);
-    res.send({ body: result, type: "SUCCESS" });
+    res.send(result);
   } catch (e) {
     console.error(e);
     res.send({ type: "ERROR" });
