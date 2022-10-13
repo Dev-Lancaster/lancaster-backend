@@ -1,5 +1,10 @@
 const bcrypt = require("bcryptjs");
 const { UserShop } = require("../../models/userShop");
+const { OrdenCompra } = require("../../models/ordenCompra");
+
+async function getOrdenCompra(userId) {
+  return await OrdenCompra.find({ userShop: userId }).sort({ id: -1 }).lean();
+}
 
 async function findAll() {
   return await UserShop.find().sort({ firstname: 1, lastname: 1 }).lean();
@@ -43,3 +48,4 @@ exports.findAll = findAll;
 exports.findById = findById;
 exports.save = save;
 exports.update = update;
+exports.getOrdenCompra = getOrdenCompra;
