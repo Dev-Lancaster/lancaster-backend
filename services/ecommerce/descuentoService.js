@@ -1,6 +1,29 @@
 const { Descuento } = require("../../models/descuento");
 const { Producto } = require("../../models/producto");
 
+async function inactivate(codigo) {
+  //RECUPERO TODOS LOS DESCUENTOS DEL CODIGO
+  const data = await findByCodigo(codigo);
+  // PONGO EN FALSE LOS PRODUCTOS EN EL ATRIBUTO POSEEDESCUENTO
+  await inactivateProducto(data);
+  //CAMBIO LOS ESTADOS A INACTIVADO EN LOS DESCUENTOS
+  await Producto.updateMany({ codigo: codigo }, { estado: "INACTIVO" });
+}
+
+async function findByCodigo(codigo) {
+  return await Descuento.find({ codigo: codigo });
+}
+
+async function inactivateProducto(data) {
+  for (const model of data) {
+    await Producto.findByIdAndUpdate(model.producto, {
+      precioDescuento: 0,
+      descuento: 0,
+      poseeDescuento: false,
+    });
+  }
+}
+
 async function maxCodigo() {
   const descuento = await Descuento.findOne().sort({ codigo: -1 }).lean();
   if (!descuento) return 1;
@@ -38,3 +61,5 @@ async function findAll() {
 exports.maxCodigo = maxCodigo;
 exports.save = save;
 exports.findAll = findAll;
+exports.findByCodigo = findByCodigo;
+exports.inactivate = inactivate;
