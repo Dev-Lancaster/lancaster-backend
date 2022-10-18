@@ -2,11 +2,8 @@ const { Descuento } = require("../../models/descuento");
 const { Producto } = require("../../models/producto");
 
 async function inactivate(codigo) {
-  //RECUPERO TODOS LOS DESCUENTOS DEL CODIGO
   const data = await findByCodigo(codigo);
-  // PONGO EN FALSE LOS PRODUCTOS EN EL ATRIBUTO POSEEDESCUENTO
   await inactivateProducto(data);
-  //CAMBIO LOS ESTADOS A INACTIVADO EN LOS DESCUENTOS
   await Producto.updateMany({ codigo: codigo }, { estado: "INACTIVO" });
 }
 
