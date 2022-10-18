@@ -28,6 +28,8 @@ async function save(list) {
 async function findAll() {
   const list = await Descuento.find()
     .populate("producto")
+    .populate("categoriaPadre")
+    .populate("categoriaHija")
     .sort({ codigo: -1 })
     .lean();
   return list;
