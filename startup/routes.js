@@ -7,8 +7,10 @@ const talla = require("../api/admin/talla");
 const descuento = require("../api/ecommerce/descuento");
 const ordenCompra = require("../api/ecommerce/ordenCompra");
 const userShop = require("../api/ecommerce/userShop");
+const nubefact = require("../api/ecommerce/nubefact");
 
 module.exports = function (app) {
+  app.use("/nubefact", nubefact);
   app.use("/user-shop", userShop);
   app.use("/orden", ordenCompra);
   app.use("/descuento", descuento);
