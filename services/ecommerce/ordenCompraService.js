@@ -2,6 +2,8 @@ const fetch = require("node-fetch");
 const ErrorServices = require("../admin/ErrorService");
 const { OrdenCompra } = require("../../models/ordenCompra");
 const { Producto } = require("../../models/producto");
+const api =
+  "https://api.nubefact.com/api/v1/08732aed-16ff-435a-89e5-a73c450ae468";
 
 async function generateOrdenado(model) {
   const codigo = await generateCodigo();
@@ -93,9 +95,21 @@ async function validateNubeFact(code) {
     serie: "FTV1",
     numero: code,
   };
-  const api =
-    "https://api.nubefact.com/api/v1/08732aed-16ff-435a-89e5-a73c450ae468";
 
+  const response = await fetch(api, {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      Authorization:
+        "Bearer 439aef5bc96540059e854ab3a9e09256a9789c6637504b5eadbf183ce6504947",
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
+async function prepareFactura(body) {
   const response = await fetch(api, {
     method: "POST",
     body: JSON.stringify(body),
@@ -114,3 +128,4 @@ exports.generatePagado = generatePagado;
 exports.generateFacturado = generateFacturado;
 exports.validateNubeFact = validateNubeFact;
 exports.getCodeNubeFact = getCodeNubeFact;
+exports.prepareFactura = prepareFactura;
