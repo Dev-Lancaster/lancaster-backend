@@ -4,7 +4,10 @@ const { Producto } = require("../../models/producto");
 async function inactivate(codigo) {
   const data = await findByCodigo(codigo);
   await inactivateProducto(data);
-  await Producto.updateMany({ codigo: codigo }, { estado: "INACTIVO" });
+  await Descuento.updateMany(
+    { codigo: codigo },
+    { $set: { estado: "INACTIVO" } }
+  );
 }
 
 async function findByCodigo(codigo) {
