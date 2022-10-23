@@ -8,7 +8,7 @@ const upload = multer({
 });
 
 router.get("/", async (req, res) => {
-  const result = await paginaService.findAll(id);
+  const result = await paginaService.findAll();
   res.send(result);
 });
 
