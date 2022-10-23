@@ -13,10 +13,13 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", upload.any(), async (req, res) => {
-  const files = req.files;
-  let body = req.body;
-  body.fotos = files;
-
+  const data = req.body;
+  const body = {
+    tema: data.tema,
+    descripcion: data.descripcion,
+    usuarioCrea: data.usuarioCrea,
+    fotos: req.files,
+  };
   try {
     const result = await paginaService.save(body);
     res.send({ type: "SUCCESS", model: result });
