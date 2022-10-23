@@ -1,4 +1,5 @@
 const s3 = require("../../middleware/s3");
+const fs = require("fs");
 const { Pagina } = require("../../models/pagina");
 
 async function save(body) {
@@ -56,6 +57,7 @@ async function saveFotos(fotos) {
     await s3.uploadFile(foto);
     url = await s3.getFileURL(foto.originalname);
     newFotos.push(foto.originalname);
+    fs.unlinkSync(foto.path);
   }
 
   return newFotos;
