@@ -39,6 +39,13 @@ async function findByCorreo(correo) {
   return user;
 }
 
+async function update(id, model) {
+  const salt = await bcrypt.genSalt(10);
+  model.password = await bcrypt.hash(model.password, salt);
+  await Usuario.findByIdAndUpdate(id, model);
+  return await Usuario.findById(id).lean();
+}
+
 async function createUser(model) {
   let user = await findByCorreo(model.correo);
   if (user) return { type: "NOT-VALID", message: "El usuario ya existe" };
@@ -99,3 +106,4 @@ exports.findByCorreo = findByCorreo;
 exports.createUser = createUser;
 exports.validatePassword = validatePassword;
 exports.findAll = findAll;
+exports.update = update;
