@@ -9,8 +9,10 @@ const ordenCompra = require("../api/ecommerce/ordenCompra");
 const userShop = require("../api/ecommerce/userShop");
 const nubefact = require("../api/ecommerce/nubefact");
 const pagina = require("../api/ecommerce/pagina");
+const usuario = require("../api/admin/usuario");
 
 module.exports = function (app) {
+  app.use("/usuario", usuario);
   app.use("/pagina", pagina);
   app.use("/nubefact", nubefact);
   app.use("/user-shop", userShop);
