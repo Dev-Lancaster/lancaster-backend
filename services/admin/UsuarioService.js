@@ -29,7 +29,8 @@ async function findById(id) {
 }
 
 async function findAll() {
-  return await Usuario.find({ nombre: 1 }).lean();
+  const list = await Usuario.find().sort({ nombre: 1 }).lean();
+  return list;
 }
 
 async function findByCorreo(correo) {
