@@ -28,6 +28,10 @@ async function findById(id) {
   return user;
 }
 
+async function findAll() {
+  return await Usuario.find({ nombre: 1 }).lean();
+}
+
 async function findByCorreo(correo) {
   if (!correo) return null;
   let correoLow = correo.toLowerCase();
@@ -94,3 +98,4 @@ exports.findById = findById;
 exports.findByCorreo = findByCorreo;
 exports.createUser = createUser;
 exports.validatePassword = validatePassword;
+exports.findAll = findAll;
