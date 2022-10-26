@@ -11,7 +11,7 @@ async function reservar(idProducto, cantidad) {
   if (noOcupados < cantidad)
     return {
       type: "ERROR",
-      msg: `La cantidad que se han solicitado no esta disponible. Solo hay ${noOcupados} disponible(s)`,
+      msg: `La cantidad que se han solicitado no esta disponible. Hay ${noOcupados} disponible(s)`,
       data: null,
     };
 
@@ -35,7 +35,7 @@ async function reservar(idProducto, cantidad) {
 }
 
 function manyOcupado(list, ocupado) {
-  const result = _.find(list, { ocupado: ocupado });
+  const result = _.filter(list, { ocupado: ocupado });
   return result;
 }
 
@@ -49,11 +49,23 @@ async function fillProductoReserva(idProducto) {
     await fillReserva(idProducto, cantidadFill);
 }
 
-async function liberar(idReserva) {
-  await ProductoInv.findByIdAndUpdate(idReserva, {
-    ocupado: false,
-    fechaOcupado: null,
-  });
+async function liberar(idProducto, cantidad) {
+  const list = await findByProducto(idProducto);
+  let i = 0;
+
+  for (const model of list) {
+    if (model.ocupado) {
+      await ProductoInv.findByIdAndUpdate(model._id, {
+        ocupado: false,
+        fechaOcupado: null,
+      });
+      i = i + 1;
+      if (i === cantidad)
+        return { type: "SUCCESS", msg: "Se han liberado los productos" };
+    }
+  }
+
+  if (i === 0) return { type: "WARNING", msg: "No se libero ningún producto" };
 }
 
 async function fillReserva(idProducto, cantidad) {
@@ -72,3 +84,4 @@ async function findByProducto(idProducto) {
 
 exports.reservar = reservar;
 exports.liberar = liberar;
+exports.fillProductoReserva = fillProductoReserva;

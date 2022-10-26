@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
   producto: { type: Schema.Types.ObjectId, ref: "producto" },
-  ocupado: boolean,
+  ocupado: Boolean,
   fechaOcupado: Date,
 });
 
