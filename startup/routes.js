@@ -10,8 +10,10 @@ const userShop = require("../api/ecommerce/userShop");
 const nubefact = require("../api/ecommerce/nubefact");
 const pagina = require("../api/ecommerce/pagina");
 const usuario = require("../api/admin/usuario");
+const productoInv = require("../api/ecommerce/productoInv");
 
 module.exports = function (app) {
+  app.use("/producto-inv", productoInv);
   app.use("/usuario", usuario);
   app.use("/pagina", pagina);
   app.use("/nubefact", nubefact);
