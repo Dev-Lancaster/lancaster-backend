@@ -41,10 +41,10 @@ async function findByCorreo(correo) {
 }
 
 async function update(id, model) {
-  const salt = await bcrypt.genSalt(10);
-  model.password = await bcrypt.hash(model.password, salt);
+  //const salt = await bcrypt.genSalt(10);
+  //model.password = await bcrypt.hash(model.password, salt);
   await Usuario.findByIdAndUpdate(id, model);
-  return await Usuario.findById(id).lean();
+  return { type: "SUCCESS" };
 }
 
 async function createUser(model) {

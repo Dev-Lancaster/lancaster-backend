@@ -21,8 +21,13 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
   const body = req.body;
-  const result = await UsuarioService.update(id, body);
-  res.send(result);
+  try {
+    const result = await UsuarioService.update(id, body);
+    res.send(result);
+  } catch (e) {
+    console.error(e);
+    res.send({ type: "ERROR" });
+  }
 });
 
 module.exports = router;
