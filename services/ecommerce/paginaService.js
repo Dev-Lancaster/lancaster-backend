@@ -3,8 +3,10 @@ const fs = require("fs");
 const { Pagina } = require("../../models/pagina");
 
 async function save(body) {
-  const fotos = await saveFotos(body.fotos);
-  body.fotos = fotos;
+  if (body.fotos) {
+    const fotos = await saveFotos(body.fotos);
+    body.fotos = fotos;
+  } else body.fotos = null;
 
   const exist = await Pagina.findOne({ tema: body.tema });
   if (exist) return await update(exist._id, body);
