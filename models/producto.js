@@ -36,6 +36,8 @@ const schema = new Schema({
   precioDescuento: Number,
   descuento: Number,
   poseeDescuento: Boolean,
+  sunat: String,
+  codigoCompleto: String,
 });
 
 const Producto = mongoose.model("productos", schema);
