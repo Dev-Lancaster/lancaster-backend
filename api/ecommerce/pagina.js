@@ -12,6 +12,15 @@ router.get("/", async (req, res) => {
   res.send(result);
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    await paginaService.remove(req.params.id);
+    res.send({ type: "SUCCESS" });
+  } catch (e) {
+    res.send({ type: "ERROR" });
+  }
+});
+
 router.post("/", upload.any(), async (req, res) => {
   const data = req.body;
   const body = {

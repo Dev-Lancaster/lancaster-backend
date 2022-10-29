@@ -2,6 +2,10 @@ const s3 = require("../../middleware/s3");
 const fs = require("fs");
 const { Pagina } = require("../../models/pagina");
 
+async function remove(id) {
+  await Pagina.findByIdAndDelete(id);
+}
+
 async function save(body) {
   if (body.fotos) {
     const fotos = await saveFotos(body.fotos);
@@ -68,3 +72,4 @@ async function saveFotos(fotos) {
 exports.save = save;
 exports.findAll = findAll;
 exports.update = update;
+exports.remove = remove;
