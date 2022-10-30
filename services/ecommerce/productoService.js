@@ -158,9 +158,10 @@ async function loadFile(filename, usuario) {
       try {
         result = await run(ws, usuario);
       } catch (e) {
+        console.error(e);
         await ErrorService.save("RUN EXCEL - LINEA: 155", e);
       }
-      if (result.error.length === 0)
+      if (result && result.error && result.error.length === 0)
         return {
           type: "SUCCESS",
           countSuccess: result.countSuccess,
@@ -218,6 +219,8 @@ async function run(ws, usuario) {
     const etiqueta = ws.getCell(`I${row}`).value;
     const cantidad = ws.getCell(`J${row}`).value;
     const precio = ws.getCell(`K${row}`).value;
+    const codigoCompleto = ws.getCell(`L${row}`).value;
+    const sunat = ws.getCell(`M${row}`).value;
 
     if (!categoria) flag = false;
     else {
@@ -286,8 +289,7 @@ async function run(ws, usuario) {
       producto = await findProductoLoad(codigo, talla, color);
 
       if (!flagError && producto) productoUpdates.push(producto);
-
-      if (!flagError && !producto) {
+      else if (!flagError && !producto) {
         body = {
           id: id,
           categoria: categoriaModel._id,
@@ -305,6 +307,8 @@ async function run(ws, usuario) {
           etiqueta: prepareEtiqueta(etiqueta),
           cantidad: cantidad,
           monto: precio,
+          codigoCompleto: codigoCompleto,
+          sunat: sunat,
           poseeDescuento: false,
           estado: "SIN FOTOS",
           usuarioCrea: usuario,
@@ -555,6 +559,8 @@ async function fill(results) {
         sale: d.poseeDescuento,
         discount: d.descuento,
         precioDescuento: d.precioDescuento,
+        sunat: d.sunat,
+        codigoCompleto: d.codigoCompleto,
       });
     }
 
