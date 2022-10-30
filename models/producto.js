@@ -40,6 +40,6 @@ const schema = new Schema({
   codigoCompleto: String,
 });
 
-const Producto = mongoose.model("productos", schema);
+const Producto = mongoose.model("productos_temp", schema);
 
 exports.Producto = Producto;

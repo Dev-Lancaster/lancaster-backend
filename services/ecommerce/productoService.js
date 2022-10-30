@@ -62,6 +62,7 @@ async function prepareLoad(files, usuario) {
       try {
         resultExcel = await loadFile(f.path, usuario);
       } catch (e) {
+        console.log(e);
         await ErrorService.save("ProductoService", "2 " + e);
       }
       fs.unlinkSync(f.path);
@@ -130,6 +131,61 @@ function validateImageFile(f) {
     f.includes("svg") ||
     f.includes("webp")
   );
+}
+
+async function updateExcelInfo(filename) {
+  let wb = await ExcelHelper.readExcel(filename);
+  let ws = wb.worksheets[0];
+  let flag = true;
+  let categoriaModel;
+  let cateHijaModel;
+  let row = 2;
+
+  while (flag) {
+    const categoria = ws.getCell(`A${row}`).value;
+    const categoriaHija = ws.getCell(`B${row}`).value;
+    const codigo = ws.getCell(`C${row}`).value;
+    const nombre = ws.getCell(`D${row}`).value;
+    const talla = ws.getCell(`E${row}`).value;
+    const color = ws.getCell(`F${row}`).value;
+    const calidad = ws.getCell(`G${row}`).value;
+    const especificaciones = ws.getCell(`H${row}`).value;
+    const etiqueta = ws.getCell(`I${row}`).value;
+    const cantidad = ws.getCell(`J${row}`).value;
+    const precio = ws.getCell(`K${row}`).value;
+    const codigoCompleto = ws.getCell(`L${row}`).value;
+    const sunat = ws.getCell(`M${row}`).value;
+    const id = ws.getCell(`N${row}`).value;
+
+    if (!categoria) flag = false;
+    else {
+      row = row + 1;
+      categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
+      cateHijaModel = await CategoriaService.findByCodigo(categoriaHija.trim());
+
+      await Producto.updateOne(
+        { id: id },
+        {
+          $set: {
+            categoria: categoriaModel._id,
+            categoriaNombre: categoriaModel.nombre,
+            categoriaHijaNombre: cateHijaModel.nombre,
+            categoriaFull: categoriaModel._id + "-" + categoriaModel.nombre,
+            categoriaHijaFull: cateHijaModel._id + "-" + cateHijaModel.nombre,
+            categoriaHija: cateHijaModel._id,
+            nombre: nombre,
+            talla: talla,
+            color: color,
+            especificaciones: especificaciones,
+            cantidad: cantidad,
+            monto: precio,
+            codigoCompleto: codigoCompleto,
+            sunat: sunat,
+          },
+        }
+      );
+    }
+  }
 }
 
 async function loadFile(filename, usuario) {
@@ -314,7 +370,8 @@ async function run(ws, usuario) {
           usuarioCrea: usuario,
           fechaCrea: new Date(),
         };
-        await saveProducto(body);
+        console.log(body);
+        //await saveProducto(body);
 
         countSuccess = countSuccess + 1;
         id = id + 1;
