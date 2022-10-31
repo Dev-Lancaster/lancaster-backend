@@ -7,6 +7,11 @@ const upload = multer({
   dest: "./upload",
 });
 
+router.get("/:id", async (req, res) => {
+  const result = await paginaService.findById(req.params.id);
+  res.send(result);
+});
+
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
   const body = req.body;
