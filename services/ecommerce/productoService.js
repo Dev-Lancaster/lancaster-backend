@@ -108,6 +108,7 @@ async function updateFotos(idProducto, files) {
       url: "",
       nombre: f.originalname,
     });
+    fs.unlinkSync(f.path);
   }
   await Producto.findByIdAndUpdate(idProducto, {
     fotos: fotos,
