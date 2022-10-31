@@ -2,6 +2,29 @@ const s3 = require("../../middleware/s3");
 const fs = require("fs");
 const { Pagina } = require("../../models/pagina");
 
+async function updateFotos(idPagina, files) {
+  let pagina = await Pagina.findById(idPagina);
+  if (!pagina)
+    return {
+      type: "ERROR",
+      msg: "No se encontró el registro que desea actualizar",
+    };
+
+  let fotos = pagina.fotos;
+  if (!fotos || fotos.length === 0) fotos = [];
+
+  for (const file of files) {
+    await s3.uploadFile(file);
+    fotos.push(file.originalname);
+    fs.unlinkSync(file.path);
+  }
+  await Pagina.findByIdAndUpdate(idPagina, {
+    fotos: fotos,
+  });
+  pagina.fotos = fotos;
+  return { type: "SUCCESS", model: pagina };
+}
+
 async function findById(id) {
   let result = await Pagina.findById(id).lean();
   if (result.fotos) {
@@ -83,3 +106,4 @@ exports.findAll = findAll;
 exports.update = update;
 exports.remove = remove;
 exports.findById = findById;
+exports.updateFotos = updateFotos;
