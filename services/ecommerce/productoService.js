@@ -847,8 +847,7 @@ async function updateInfo(id, model) {
   if (validate.type !== constants.SUCCESS) return validate;
   model.fechaAct = new Date();
   try {
-    console.log(model.color);
-    //await Producto.findByIdAndUpdate(id, model);
+    await Producto.findByIdAndUpdate(id, model);
     return { type: "SUCCESS" };
   } catch (e) {
     console.error(e);
