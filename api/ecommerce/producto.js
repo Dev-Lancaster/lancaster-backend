@@ -155,7 +155,7 @@ router.post("/update/fotos/:id", auth, upload.any(), async (req, res) => {
     res.send(result);
   } catch (e) {
     console.error(e);
-    res.send({ type: "ERROR" });
+    res.send({ type: "ERROR", msg: "Ha ocurrido un error inesperado" });
   }
 });
 
