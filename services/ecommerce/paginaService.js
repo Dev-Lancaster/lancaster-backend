@@ -24,7 +24,7 @@ async function findAll() {
     fotos = [];
 
   for (const model of result) {
-    fotos = await getFotos(model.fotos);
+    if (model.fotos) fotos = await getFotos(model.fotos);
     data.push({
       tema: model.tema,
       titulo: model.titulo,
