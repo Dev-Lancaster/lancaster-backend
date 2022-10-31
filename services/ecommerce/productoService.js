@@ -86,6 +86,37 @@ async function findProductoLoad(codigo, talla, color) {
   return model;
 }
 
+async function updateFotos(idProducto, files) {
+  let producto = await Producto.findById(idProducto);
+  if (!producto)
+    return {
+      type: "ERROR",
+      msg: "No se encontró el producto que desea actualizar",
+    };
+
+  let fotos = producto.fotos;
+  if (!fotos || fotos.length === 0) fotos = [];
+
+  for (const file of files) {
+    const validateImage = await validateFilename(file.originalname);
+    if (validateImage.type === "ERROR") return validateImage;
+    let { values } = validateImage;
+
+    await s3.uploadFile(f);
+    fotos.push({
+      orden: parseInt(values[1]),
+      url: "",
+      nombre: f.originalname,
+    });
+  }
+  await Producto.findByIdAndUpdate(idProducto, {
+    fotos: fotos,
+    estado: "ACTIVO",
+  });
+  producto.fotos = fotos;
+  return { type: "SUCCESS", model: producto };
+}
+
 async function loadImages(file) {
   const validateImage = await validateFilename(file.originalname);
   if (validateImage.type === "ERROR") return validateImage;
@@ -370,8 +401,7 @@ async function run(ws, usuario) {
           usuarioCrea: usuario,
           fechaCrea: new Date(),
         };
-        console.log(body);
-        //await saveProducto(body);
+        await saveProducto(body);
 
         countSuccess = countSuccess + 1;
         id = id + 1;
@@ -937,3 +967,4 @@ exports.onlyUpdateInfo = onlyUpdateInfo;
 exports.setOcupado = setOcupado;
 exports.checkOcupados = checkOcupados;
 exports.findActivosSinDescuento = findActivosSinDescuento;
+exports.updateFotos = updateFotos;

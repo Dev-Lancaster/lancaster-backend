@@ -146,6 +146,14 @@ router.post("/masivo/:user", auth, upload.any(), async (req, res) => {
   }
 });
 
+router.post("/update/fotos/:id", auth, upload.any(), async (req, res) => {
+  const files = req.files;
+  const id = req.params.id;
+
+  const result = await ProductoService.updateFotos(id, files);
+  res.send(result);
+});
+
 router.post("/", auth, upload.any(), async (req, res) => {
   const files = req.files;
   const body = req.body;
