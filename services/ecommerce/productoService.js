@@ -99,7 +99,10 @@ async function updateFotos(idProducto, files) {
 
   for (const file of files) {
     const validateImage = await validateFilename(file.originalname);
-    if (validateImage.type === "ERROR") return validateImage;
+    if (validateImage.type === "ERROR") {
+      fs.unlinkSync(f.path);
+      return validateImage;
+    }
     let { values } = validateImage;
 
     await s3.uploadFile(f);
