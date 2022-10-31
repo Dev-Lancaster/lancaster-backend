@@ -12,9 +12,6 @@ async function save(body) {
     body.fotos = fotos;
   } else body.fotos = null;
 
-  const exist = await Pagina.findOne({ tema: body.tema });
-  if (exist) return await update(exist._id, body);
-
   body.fechaCrea = new Date();
   let model = new Pagina(body);
   model = await model.save();
