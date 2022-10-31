@@ -42,6 +42,7 @@ async function findAll() {
       fotos: fotos,
       usuarioCrea: model.usuarioCrea,
       fechaCrea: model.fechaCrea,
+      _id: model._id,
     });
   }
 
