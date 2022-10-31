@@ -738,7 +738,19 @@ async function findByCategoriaEstado(categoria, estado) {
 }
 
 async function findById(id) {
-  const model = await Producto.findById(id);
+  let model = await Producto.findById(id).lean();
+  let fotos = [],
+    url = "";
+  for (const f of model.fotos) {
+    url = await s3.getFileURL(f.nombre);
+    fotos.push({
+      url: url,
+      nombre: f.nombre,
+      orden: f.orden,
+      _id: f._id,
+    });
+  }
+  model.fotos = fotos;
   return model;
 }
 
