@@ -2,6 +2,10 @@ const s3 = require("../../middleware/s3");
 const fs = require("fs");
 const { Pagina } = require("../../models/pagina");
 
+async function findById(id) {
+  return await Pagina.findById(id).lean();
+}
+
 async function remove(id) {
   await Pagina.findByIdAndDelete(id);
 }
@@ -72,3 +76,4 @@ exports.save = save;
 exports.findAll = findAll;
 exports.update = update;
 exports.remove = remove;
+exports.findById = findById;
