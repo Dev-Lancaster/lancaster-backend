@@ -30,6 +30,8 @@ async function findAll() {
     fotos = await getFotos(model.fotos);
     data.push({
       tema: model.tema,
+      titulo: model.titulo,
+      subtitulo: model.subtitulo,
       descripcion: model.descripcion,
       fotos: fotos,
       usuarioCrea: model.usuarioCrea,

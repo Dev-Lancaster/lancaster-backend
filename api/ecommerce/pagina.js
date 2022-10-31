@@ -25,6 +25,8 @@ router.post("/", upload.any(), async (req, res) => {
   const data = req.body;
   const body = {
     tema: data.tema,
+    titulo: data.titulo,
+    subtitulo: data.subtitulo,
     descripcion: data.descripcion,
     usuarioCrea: data.usuarioCrea,
     fotos: req.files,
