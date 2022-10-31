@@ -3,7 +3,12 @@ const fs = require("fs");
 const { Pagina } = require("../../models/pagina");
 
 async function findById(id) {
-  return await Pagina.findById(id).lean();
+  let result = await Pagina.findById(id).lean();
+  if (result.fotos) {
+    fotos = await getFotos(result.fotos);
+    result.fotos = fotos;
+  }
+  return result;
 }
 
 async function remove(id) {
