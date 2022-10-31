@@ -70,7 +70,7 @@ router.get("/:id", async (req, res) => {
 
 router.get("/only/:id", async (req, res) => {
   const id = req.params.id;
-  const result = await ProductoService.findEById(id);
+  const result = await ProductoService.findById(id);
   res.send(result);
 });
 
