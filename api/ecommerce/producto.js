@@ -150,8 +150,13 @@ router.post("/update/fotos/:id", auth, upload.any(), async (req, res) => {
   const files = req.files;
   const id = req.params.id;
 
-  const result = await ProductoService.updateFotos(id, files);
-  res.send(result);
+  try {
+    const result = await ProductoService.updateFotos(id, files);
+    res.send(result);
+  } catch (e) {
+    console.error(e);
+    res.send({ type: "ERROR" });
+  }
 });
 
 router.post("/", auth, upload.any(), async (req, res) => {
