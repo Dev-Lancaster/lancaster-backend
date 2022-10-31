@@ -100,18 +100,18 @@ async function updateFotos(idProducto, files) {
   for (const file of files) {
     const validateImage = await validateFilename(file.originalname);
     if (validateImage.type === "ERROR") {
-      fs.unlinkSync(f.path);
+      fs.unlinkSync(file.path);
       return validateImage;
     }
     let { values } = validateImage;
 
-    await s3.uploadFile(f);
+    await s3.uploadFile(file);
     fotos.push({
       orden: parseInt(values[1]),
       url: "",
-      nombre: f.originalname,
+      nombre: file.originalname,
     });
-    fs.unlinkSync(f.path);
+    fs.unlinkSync(file.path);
   }
   await Producto.findByIdAndUpdate(idProducto, {
     fotos: fotos,
