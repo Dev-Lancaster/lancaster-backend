@@ -68,6 +68,12 @@ router.get("/:id", async (req, res) => {
   res.send(result);
 });
 
+router.get("/only/:id", async (req, res) => {
+  const id = req.params.id;
+  const result = await ProductoService.findEById(id);
+  res.send(result);
+});
+
 /*********** FIN ECOMMERCE ***********/
 
 router.get("/sin/descuento", async (req, res) => {
