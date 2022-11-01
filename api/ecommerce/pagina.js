@@ -33,6 +33,19 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.post("/update/fotos/:id", upload.any(), async (req, res) => {
+  const files = req.files;
+  const id = req.params.id;
+
+  try {
+    const result = await paginaService.updateFotos(id, files);
+    res.send(result);
+  } catch (e) {
+    console.error(e);
+    res.send({ type: "ERROR", msg: "Ha ocurrido un error inesperado" });
+  }
+});
+
 router.post("/", upload.any(), async (req, res) => {
   const data = req.body;
   const body = {
