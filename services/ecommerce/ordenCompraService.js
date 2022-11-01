@@ -7,7 +7,7 @@ const api =
 
 async function generateOrdenado(model) {
   const codigo = await generateCodigo();
-  const resultNubeFact = await getCodeNubeFact(codigo);
+  const resultNubeFact = await getCodeNubeFact(codigo, model.tipo);
 
   if (resultNubeFact.type === "ERROR")
     return {
@@ -66,7 +66,7 @@ async function generateCodigo() {
   return model.id + 1;
 }
 
-async function getCodeNubeFact(code) {
+async function getCodeNubeFact(code, tipo) {
   if (!code) return { type: "ERROR" };
   if (isNaN(code)) return { type: "ERROR" };
 
@@ -76,7 +76,7 @@ async function getCodeNubeFact(code) {
 
   while (validFlag) {
     try {
-      result = await validateNubeFact(newCode);
+      result = await validateNubeFact(newCode, tipo);
     } catch (e) {
       await ErrorServices.save("getCodeNubeFact - Linea: 75", e);
       return { type: "ERROR" };
@@ -88,13 +88,18 @@ async function getCodeNubeFact(code) {
   return { type: "ERROR" };
 }
 
-async function validateNubeFact(code) {
+async function validateNubeFact(code, tipo) {
+  let tipoComprobante = tipo === "FTV1" ? "1" : "2";
+
   const body = {
     operacion: "consultar_comprobante",
-    tipo_de_comprobante: "1",
-    serie: "FTV1",
+    tipo_de_comprobante: tipoComprobante,
+    serie: tipo,
     numero: code,
   };
+
+  //FTV1 = 1
+  //BTV1 = 2
 
   const response = await fetch(api, {
     method: "POST",
