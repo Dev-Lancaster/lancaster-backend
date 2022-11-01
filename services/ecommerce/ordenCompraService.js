@@ -21,6 +21,7 @@ async function generateOrdenado(model) {
   model.id = resultNubeFact.code;
   model.orderId = "LNC-" + resultNubeFact.code;
   model.date = new Date();
+  model.tipoOrden = model.tipo === "FTV1" ? "FACTURA" : "BOLETA";
 
   let orden = new OrdenCompra(model);
   orden = await orden.save();
