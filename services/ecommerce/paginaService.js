@@ -2,6 +2,13 @@ const s3 = require("../../middleware/s3");
 const fs = require("fs");
 const { Pagina } = require("../../models/pagina");
 
+async function removeFoto(idPagina, foto) {
+  await Pagina.findByIdAndUpdate(idPagina, {
+    $pull: { fotos: foto },
+  });
+  return await Pagina.findById(idPagina);
+}
+
 async function updateFotos(idPagina, files) {
   let pagina = await Pagina.findById(idPagina);
   if (!pagina)
@@ -107,3 +114,4 @@ exports.update = update;
 exports.remove = remove;
 exports.findById = findById;
 exports.updateFotos = updateFotos;
+exports.removeFoto = removeFoto;
