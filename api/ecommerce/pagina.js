@@ -19,6 +19,12 @@ router.put("/:id", async (req, res) => {
   res.send(result);
 });
 
+router.get("/delete/foto/:idPagina/:foto", async (req, res) => {
+  const { idPagina, foto } = req.params;
+  const result = await paginaService.removeFoto(idPagina, foto);
+  res.send(result);
+});
+
 router.get("/", async (req, res) => {
   const result = await paginaService.findAll();
   res.send(result);
