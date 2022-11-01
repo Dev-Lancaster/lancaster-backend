@@ -6,7 +6,7 @@ async function removeFoto(idPagina, foto) {
   await Pagina.findByIdAndUpdate(idPagina, {
     $pull: { fotos: foto },
   });
-  return await Pagina.findById(idPagina);
+  return await findById(idPagina);
 }
 
 async function updateFotos(idPagina, files) {
@@ -35,7 +35,7 @@ async function updateFotos(idPagina, files) {
 async function findById(id) {
   let result = await Pagina.findById(id).lean();
   if (result.fotos) {
-    fotos = await getFotos(result.fotos);
+    fotos = await getFotosObject(result.fotos);
     result.fotos = fotos;
   }
   return result;
@@ -77,6 +77,16 @@ async function findAll() {
   }
 
   return data;
+}
+
+async function getFotosObject(fotos) {
+  let newFotos = [];
+  let url;
+  for (const model of fotos) {
+    url = await s3.getFileURL(model);
+    newFotos.push({ url: url, nombre: model });
+  }
+  return newFotos;
 }
 
 async function getFotos(fotos) {
