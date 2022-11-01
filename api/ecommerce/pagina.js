@@ -21,8 +21,13 @@ router.put("/:id", async (req, res) => {
 
 router.get("/delete/foto/:idPagina/:foto", async (req, res) => {
   const { idPagina, foto } = req.params;
-  const result = await paginaService.removeFoto(idPagina, foto);
-  res.send(result);
+  try {
+    const result = await paginaService.removeFoto(idPagina, foto);
+    res.send({ type: "SUCCESS", model: result });
+  } catch (e) {
+    console.error(e);
+  }
+  res.send({ type: "ERROR", message: "Ha ocurrido un error inesperado" });
 });
 
 router.get("/", async (req, res) => {
