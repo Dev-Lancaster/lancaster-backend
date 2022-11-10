@@ -6,7 +6,10 @@ const api =
   "https://api.nubefact.com/api/v1/08732aed-16ff-435a-89e5-a73c450ae468";
 
 async function generateOrdenado(model) {
-  const codigo = await generateCodigo();
+  let codigo;
+  if (model.tipo === "FTV1") codigo = await generateCodigo();
+  else codigo = await generateCodigoBoleta();
+
   const resultNubeFact = await getCodeNubeFact(codigo, model.tipo);
 
   if (resultNubeFact.type === "ERROR")
@@ -65,6 +68,12 @@ async function generateCodigo() {
   const model = await OrdenCompra.findOne().sort({ id: -1 }).lean();
   if (!model) return 9;
   return model.id + 1;
+}
+
+async function generateCodigoBoleta() {
+  const model = await OrdenCompra.findOne().sort({ idBoleta: -1 }).lean();
+  if (!model) return 1;
+  return model.idBoleta + 1;
 }
 
 async function getCodeNubeFact(code, tipo) {
