@@ -22,6 +22,7 @@ const clienteSchema = new Schema({
 
 const schema = new mongoose.Schema({
   id: Number,
+  idBoleta: Number,
   orderId: String,
   culquiToken: String,
   nubefactNumero: Number,
