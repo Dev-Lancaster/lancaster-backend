@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const OrdenCompraService = require("../../services/ecommerce/ordenCompraService");
 
+router.get("/", async (req, res) => {
+  const result = await OrdenCompraService.findAll();
+  res.send(result);
+});
+
 router.post("/ordenado", async (req, res) => {
   const body = req.body;
   try {
