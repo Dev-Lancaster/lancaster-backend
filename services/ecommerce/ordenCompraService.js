@@ -140,7 +140,7 @@ async function prepareFactura(body) {
 
 async function findAll() {
   const result = await OrdenCompra.find()
-    .sort({ tipoOrden: 1, date: 1 })
+    .sort({ tipoOrden: 1, date: -1 })
     .lean();
 
   let list = [];
