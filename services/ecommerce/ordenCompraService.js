@@ -138,9 +138,17 @@ async function prepareFactura(body) {
   return data;
 }
 
+async function findAll() {
+  const result = await OrdenCompra.find()
+    .sort({ tipoOrden: 1, date: 1 })
+    .lean();
+  return result;
+}
+
 exports.generateOrdenado = generateOrdenado;
 exports.generatePagado = generatePagado;
 exports.generateFacturado = generateFacturado;
 exports.validateNubeFact = validateNubeFact;
 exports.getCodeNubeFact = getCodeNubeFact;
 exports.prepareFactura = prepareFactura;
+exports.findAll = findAll;
