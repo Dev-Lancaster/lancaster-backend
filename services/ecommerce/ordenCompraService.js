@@ -142,7 +142,23 @@ async function findAll() {
   const result = await OrdenCompra.find()
     .sort({ tipoOrden: 1, date: 1 })
     .lean();
-  return result;
+
+  let list = [];
+  let productos = [];
+  let productoModel;
+
+  for (let model of result) {
+    productos = [];
+    for (const p of model.products) {
+      productoModel = await Producto.findById(p.producto);
+      if (productoModel)
+        productos.push({ ...p, nombreProducto: productoModel.nombre });
+    }
+
+    model.productos = productos;
+    list.push({ ...model });
+  }
+  return list;
 }
 
 exports.generateOrdenado = generateOrdenado;
