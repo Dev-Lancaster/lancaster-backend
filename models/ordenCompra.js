@@ -32,6 +32,7 @@ const schema = new mongoose.Schema({
   nubeFact: Object,
   products: [productoSchema],
   customerDetails: clienteSchema,
+  mailRegister: String,
   userShop: { type: Schema.Types.ObjectId, ref: "userShop" },
   date: Date,
 });
