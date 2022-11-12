@@ -61,3 +61,4 @@ exports.findById = findById;
 exports.save = save;
 exports.update = update;
 exports.getOrdenCompra = getOrdenCompra;
+exports.findByEmail = findByEmail;
