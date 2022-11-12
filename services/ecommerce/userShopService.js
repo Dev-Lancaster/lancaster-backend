@@ -2,8 +2,19 @@ const bcrypt = require("bcryptjs");
 const { UserShop } = require("../../models/userShop");
 const { OrdenCompra } = require("../../models/ordenCompra");
 
-async function getOrdenCompra(userId) {
-  return await OrdenCompra.find({ userShop: userId }).sort({ date: -1 }).lean();
+async function findByEmail(email) {
+  const emailLowerCase = email.toLowerCase();
+  const model = await UserShop.findOne({ email: emailLowerCase }).lean();
+  return model;
+}
+
+async function getOrdenCompra(email) {
+  const user = await findByEmail(email);
+  if (user)
+    return await OrdenCompra.find({ userShop: user._id })
+      .sort({ date: -1 })
+      .lean();
+  else return null;
 }
 
 async function findAll() {
