@@ -165,6 +165,7 @@ async function findAll() {
   let list = [];
   let productos = [];
   let productoModel;
+  let userShop;
 
   for (let model of result) {
     productos = [];
@@ -180,6 +181,13 @@ async function findAll() {
     }
 
     model.productos = productos;
+
+    if (model.userShop) {
+      userShop = await UserShop.findById(model.userShop);
+      model.customerDetails = userShop;
+      model.tipoUsuario = "REGISTRADO";
+    } else model.tipoUsuario = "NO REGISTRADO";
+
     list.push({ ...model });
   }
   return list;
