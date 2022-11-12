@@ -171,7 +171,12 @@ async function findAll() {
     for (const p of model.products) {
       productoModel = await Producto.findById(p.producto);
       if (productoModel)
-        productos.push({ ...p, nombreProducto: productoModel.nombre });
+        productos.push({
+          ...p,
+          nombreProducto: productoModel.nombre,
+          categoriaPadre: productoModel.categoriaNombre,
+          categoriaHija: productoModel.categoriaHijaNombre,
+        });
     }
 
     model.productos = productos;
