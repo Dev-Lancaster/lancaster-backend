@@ -4,7 +4,7 @@ const { OrdenCompra } = require("../../models/ordenCompra");
 
 async function findByEmail(email) {
   const emailLowerCase = email.toLowerCase();
-  const model = await UserShop.findOne({ email: emailLowerCase }).lean();
+  const model = await UserShop.findOne({ email: emailLowerCase });
   return model;
 }
 

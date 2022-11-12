@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const jwt = require("jsonwebtoken");
 
 const schema = new Schema({
   firstname: String,
@@ -15,6 +16,18 @@ const schema = new Schema({
   password: String,
   dateCreation: Date,
 });
+
+schema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    {
+      _id: this._id,
+      email: this.email,
+      firstname: this.firstname,
+    },
+    "ruinas_teotihuacan"
+  );
+  return token;
+};
 
 const UserShop = mongoose.model("userShop", schema);
 
