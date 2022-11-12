@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const UserShopService = require("../../services/ecommerce/userShopService");
 
-router.get("/orden/:id", async (req, res) => {
-  const id = req.params.id;
-  const result = await UserShopService.getOrdenCompra(id);
+router.get("/orden/:mail", async (req, res) => {
+  const mail = req.params.mail;
+  const result = await UserShopService.getOrdenCompra(mail);
   res.send(result);
 });
 
