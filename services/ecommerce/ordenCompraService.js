@@ -1,11 +1,30 @@
 const fetch = require("node-fetch");
 const ErrorServices = require("../admin/ErrorService");
+const { UserShop } = require("../../models/userShop");
 const { OrdenCompra } = require("../../models/ordenCompra");
 const { Producto } = require("../../models/producto");
 const api =
   "https://api.nubefact.com/api/v1/08732aed-16ff-435a-89e5-a73c450ae468";
 
+async function existUserShop(email) {
+  const emailLowerCase = email.toLowerCase();
+  const model = await UserShop.findOne({ email: emailLowerCase }).lean();
+  if (model) return { flag: true, model: model };
+  else return { flag: false };
+}
+
 async function generateOrdenado(model) {
+  if (model.mailRegister) {
+    const resultValidUser = await existUserShop(email);
+    if (!resultValidUser.flag)
+      return {
+        type: "ERROR",
+        message: "El usuario que desea comprar no esta registrado",
+        orden: null,
+      };
+    else model.userShop = resultValidUser.model._id;
+  }
+
   let codigo;
   if (model.tipo === "FTV1") codigo = await generateCodigo();
   else codigo = await generateCodigoBoleta();
@@ -168,3 +187,4 @@ exports.validateNubeFact = validateNubeFact;
 exports.getCodeNubeFact = getCodeNubeFact;
 exports.prepareFactura = prepareFactura;
 exports.findAll = findAll;
+exports.existUserShop = existUserShop;
