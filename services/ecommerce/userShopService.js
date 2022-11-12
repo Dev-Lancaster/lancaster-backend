@@ -33,7 +33,7 @@ async function save(model) {
     model.dateCreation = new Date();
     let body = new UserShop(model);
     await body.save();
-    return { type: "SUCCESS", model: body };
+    return { type: "SUCCESS", msg: "", model: body };
   } else return { type: "EXIST", msg: "Ya existe un usuario con este correo." };
 }
 
