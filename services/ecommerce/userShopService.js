@@ -3,7 +3,7 @@ const { UserShop } = require("../../models/userShop");
 const { OrdenCompra } = require("../../models/ordenCompra");
 
 async function getOrdenCompra(userId) {
-  return await OrdenCompra.find({ userShop: userId }).sort({ id: -1 }).lean();
+  return await OrdenCompra.find({ userShop: userId }).sort({ date: -1 }).lean();
 }
 
 async function findAll() {
