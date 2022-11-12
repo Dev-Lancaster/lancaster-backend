@@ -52,7 +52,8 @@ async function existUser(model) {
 }
 
 async function update(id, model) {
-  return await UserShop.findByIdAndUpdate(id, model);
+  await UserShop.findByIdAndUpdate(id, model);
+  return await UserShop.findById(id);
 }
 
 exports.findAll = findAll;
