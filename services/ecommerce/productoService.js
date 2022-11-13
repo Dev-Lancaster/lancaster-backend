@@ -400,6 +400,7 @@ async function run(ws, usuario) {
           monto: precio,
           codigoCompleto: codigoCompleto,
           sunat: sunat,
+          descuento: 0,
           poseeDescuento: false,
           estado: "SIN FOTOS",
           usuarioCrea: usuario,
