@@ -581,6 +581,7 @@ async function findAllEcom() {
           monto: "$monto",
           especificaciones: "$especificaciones",
           etiqueta: "$etiqueta",
+          discount: "$descuento",
         },
         data: { $push: "$$ROOT" },
       },
@@ -872,7 +873,7 @@ async function save(model, files) {
   body.fotos = fotos;
 
   try {
-    //await body.save();
+    await body.save();
     return { type: "SUCCESS" };
   } catch (e) {
     console.error(e);
