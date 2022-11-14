@@ -2,6 +2,18 @@ const s3 = require("../../middleware/s3");
 const fs = require("fs");
 const { Pagina } = require("../../models/pagina");
 
+/**FUNCIONES PARA ECOMMERCE */
+
+async function findOneByTema(tema) {
+  return await Pagina.findOne({ tema: tema }).lean();
+}
+
+async function findByTema(tema) {
+  return await Pagina.find({ tema: tema }).lean();
+}
+
+/**FUNCIONES PARA ECOMMERCE */
+
 async function removeFoto(idPagina, foto) {
   await Pagina.findByIdAndUpdate(idPagina, {
     $pull: { fotos: foto },
@@ -125,3 +137,5 @@ exports.remove = remove;
 exports.findById = findById;
 exports.updateFotos = updateFotos;
 exports.removeFoto = removeFoto;
+exports.findOneByTema = findOneByTema;
+exports.findByTema = findByTema;
