@@ -7,6 +7,71 @@ const upload = multer({
   dest: "./upload",
 });
 
+router.get("/contactanos/correo", async (req, res) => {
+  const result = await paginaService.findOneByTema("Contáctanos: correo");
+  res.send(result);
+});
+
+router.get("/contactanos/telefono", async (req, res) => {
+  const result = await paginaService.findOneByTema("Contáctanos: teléfono");
+  res.send(result);
+});
+
+router.get("/contactanos/direccion", async (req, res) => {
+  const result = await paginaService.findOneByTema("Contáctanos: Dirección");
+  res.send(result);
+});
+
+router.get("/pie/pagina", async (req, res) => {
+  const result = await paginaService.findOneByTema("Pie de pagina");
+  res.send(result);
+});
+
+router.get("/nuestra/historia", async (req, res) => {
+  const result = await paginaService.findOneByTema("Nuestra historia");
+  res.send(result);
+});
+
+router.get("/parallax", async (req, res) => {
+  const result = await paginaService.findOneByTema("Parallax");
+  res.send(result);
+});
+
+router.get("/compromiso/social", async (req, res) => {
+  const result = await paginaService.findOneByTema("Compromiso social");
+  res.send(result);
+});
+
+router.get("/acerca/segunda", async (req, res) => {
+  const result = await paginaService.findOneByTema("Acerca de segunda sección");
+  res.send(result);
+});
+
+router.get("/empleados", async (req, res) => {
+  const result = await paginaService.findByTema("Empleados");
+  res.send(result);
+});
+
+router.get("/acerca/encabezado", async (req, res) => {
+  const result = await paginaService.findByTema("Acerca de encabezado");
+  res.send(result);
+});
+
+router.get("/collection/type", async (req, res) => {
+  const result = await paginaService.findByTema("Collection Type");
+  res.send(result);
+});
+
+router.get("/collection", async (req, res) => {
+  const result = await paginaService.findByTema("Collection");
+  res.send(result);
+});
+
+router.get("/slider", async (req, res) => {
+  const result = await paginaService.findByTema("Slider");
+  res.send(result);
+});
+
 router.get("/:id", async (req, res) => {
   const result = await paginaService.findById(req.params.id);
   res.send(result);
