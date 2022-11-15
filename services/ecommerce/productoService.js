@@ -528,6 +528,7 @@ async function findEById(id) {
           especificaciones: "$especificaciones",
           etiqueta: "$etiqueta",
           discount: "$descuento",
+          sale: "$poseeDescuento",
         },
         data: { $push: "$$ROOT" },
       },
@@ -557,6 +558,7 @@ async function findECategoriaHija(categoria) {
           especificaciones: "$especificaciones",
           etiqueta: "$etiqueta",
           discount: "$descuento",
+          sale: "$poseeDescuento",
         },
         data: { $push: "$$ROOT" },
       },
@@ -585,6 +587,7 @@ async function findAllEcom() {
           especificaciones: "$especificaciones",
           etiqueta: "$etiqueta",
           discount: "$descuento",
+          sale: "$poseeDescuento",
         },
         data: { $push: "$$ROOT" },
       },
@@ -615,6 +618,7 @@ async function findECategorias(categoriaPadre, categoriaHija) {
           especificaciones: "$especificaciones",
           etiqueta: "$etiqueta",
           discount: "$descuento",
+          sale: "$poseeDescuento",
         },
         data: { $push: "$$ROOT" },
       },
@@ -630,6 +634,7 @@ async function fill(results) {
     tallas = [],
     fotos = [],
     foto;
+  index = 1;
 
   for (const model of results) {
     dataList = [];
@@ -665,10 +670,12 @@ async function fill(results) {
     tallas = [...new Set(dataList.map((item) => item.talla))];
     lst.push({
       ...model._id,
+      groupId: index,
       colors: colors,
       tallas: tallas,
       data: dataList,
     });
+    index = index + 1;
   }
   return lst;
 }
@@ -694,6 +701,7 @@ async function findEByEtiqueta(etiqueta) {
           especificaciones: "$especificaciones",
           etiqueta: "$etiqueta",
           discount: "$descuento",
+          sale: "$poseeDescuento",
         },
         data: { $push: "$$ROOT" },
       },
@@ -724,6 +732,7 @@ async function findEByCategoriaPadre(categoria) {
           especificaciones: "$especificaciones",
           etiqueta: "$etiqueta",
           discount: "$descuento",
+          sale: "$poseeDescuento",
         },
         data: { $push: "$$ROOT" },
       },
