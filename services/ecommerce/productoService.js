@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 const ObjectId = mongoose.Types.ObjectId;
 const { Producto } = require("../../models/producto");
+const { group } = require("console");
 
 async function findActivosSinDescuento() {
   return await Producto.find({ estado: "ACTIVO", poseeDescuento: false })
@@ -633,8 +634,8 @@ async function fill(results) {
     colors = [],
     tallas = [],
     fotos = [],
-    foto;
-  index = 1;
+    foto,
+    groupId;
 
   for (const model of results) {
     dataList = [];
@@ -662,20 +663,23 @@ async function fill(results) {
         precioDescuento: d.precioDescuento,
         sunat: d.sunat,
         codigoCompleto: d.codigoCompleto,
+        id: d.id,
       });
     }
 
     colorNombre = [...new Set(dataList.map((item) => item.colorNombre))];
     colors = [...new Set(dataList.map((item) => item.color))];
     tallas = [...new Set(dataList.map((item) => item.talla))];
+    groupId = "";
+    for (const m of dataList) groupId = groupId + String(m.id);
+
     lst.push({
       ...model._id,
-      groupId: index,
+      groupId: groupId,
       colors: colors,
       tallas: tallas,
       data: dataList,
     });
-    index = index + 1;
   }
   return lst;
 }
