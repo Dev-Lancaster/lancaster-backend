@@ -3,6 +3,7 @@ const ErrorServices = require("../admin/ErrorService");
 const { UserShop } = require("../../models/userShop");
 const { OrdenCompra } = require("../../models/ordenCompra");
 const { Producto } = require("../../models/producto");
+const { result } = require("lodash");
 const api =
   "https://api.nubefact.com/api/v1/08732aed-16ff-435a-89e5-a73c450ae468";
 
@@ -15,7 +16,7 @@ async function existUserShop(email) {
 
 async function generateOrdenado(model) {
   if (model.mailRegister) {
-    const resultValidUser = await existUserShop(email);
+    const resultValidUser = await existUserShop(model.mailRegister);
     if (!resultValidUser.flag)
       return {
         type: "ERROR",
@@ -92,10 +93,12 @@ async function generateCodigo() {
 async function generateCodigoBoleta() {
   const model = await OrdenCompra.findOne().sort({ idBoleta: -1 }).lean();
   if (!model) return 1;
+  else if (!model.idBoleta) return 1;
   return model.idBoleta + 1;
 }
 
 async function getCodeNubeFact(code, tipo) {
+  console.log(code, tipo);
   if (!code) return { type: "ERROR" };
   if (isNaN(code)) return { type: "ERROR" };
 
@@ -107,6 +110,7 @@ async function getCodeNubeFact(code, tipo) {
     try {
       result = await validateNubeFact(newCode, tipo);
     } catch (e) {
+      console.error(e);
       await ErrorServices.save("getCodeNubeFact - Linea: 75", e);
       return { type: "ERROR" };
     }
