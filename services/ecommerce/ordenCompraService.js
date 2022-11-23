@@ -1,11 +1,17 @@
 const fetch = require("node-fetch");
 const ErrorServices = require("../admin/ErrorService");
+const mail = require("../../middleware/mail");
 const { UserShop } = require("../../models/userShop");
 const { OrdenCompra } = require("../../models/ordenCompra");
 const { Producto } = require("../../models/producto");
-const { result } = require("lodash");
 const api =
   "https://api.nubefact.com/api/v1/08732aed-16ff-435a-89e5-a73c450ae468";
+
+async function sendMailFacturado(orden) {
+  const subject =
+    "Se ha generado una orden de compra de tipo: " + orden.tipoOrden;
+  const text = `Buen dia,<br/> Se ha generado una nueva orden de compra de tipo ${orden.tipoOrden} equivalente a un valor de:  `;
+}
 
 async function existUserShop(email) {
   const emailLowerCase = email.toLowerCase();
