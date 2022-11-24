@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { UserShop } = require("../../models/userShop");
 const { OrdenCompra } = require("../../models/ordenCompra");
+const { Producto } = require("../../models/producto");
 
 async function findByEmail(email) {
   const emailLowerCase = email.toLowerCase();
@@ -10,11 +11,33 @@ async function findByEmail(email) {
 
 async function getOrdenCompra(email) {
   const user = await findByEmail(email);
-  if (user)
-    return await OrdenCompra.find({ userShop: user._id })
+  if (user) {
+    const list = await OrdenCompra.find({ userShop: user._id })
       .sort({ date: -1 })
       .lean();
-  else return null;
+
+    let result = [],
+      productos = [];
+    let producto;
+
+    for (const model of list) {
+      productos = [];
+      for (const p of model.products) {
+        producto = await Producto.findById(p.producto);
+        productos.push({
+          producto: producto.nombre,
+          categoriaPadre: producto.categoriaNombre,
+          categoriaHija: producto.categoriaHijaNombre,
+          talla: producto.talla,
+          color: producto.color,
+          precio: p.precio,
+          cantidad: p.cantidad,
+        });
+      }
+      result.push({ ...model, productos: productos });
+    }
+    return result;
+  } else return null;
 }
 
 async function findAll() {
