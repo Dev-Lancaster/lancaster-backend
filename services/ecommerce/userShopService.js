@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const moment = require("moment");
 const { UserShop } = require("../../models/userShop");
 const { OrdenCompra } = require("../../models/ordenCompra");
 const { Producto } = require("../../models/producto");
@@ -29,12 +30,16 @@ async function getOrdenCompra(email) {
           categoriaPadre: producto.categoriaNombre,
           categoriaHija: producto.categoriaHijaNombre,
           talla: producto.talla,
-          color: producto.color,
+          color: producto.color && producto.color.split("-")[1],
           precio: p.precio,
           cantidad: p.cantidad,
         });
       }
-      result.push({ ...model, productos: productos });
+      result.push({
+        ...model,
+        productos: productos,
+        fecha: moment(model.date).format("DD/MM/YYYY hh:mm:ss"),
+      });
     }
     return result;
   } else return null;
