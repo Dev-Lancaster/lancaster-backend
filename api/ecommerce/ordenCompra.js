@@ -43,6 +43,7 @@ router.put("/facturado/:id", async (req, res) => {
   const body = req.body;
   try {
     const result = await OrdenCompraService.generateFacturado(id, body);
+    await OrdenCompraService.sendMailFacturado(result.orden);
     res.send(result);
   } catch (e) {
     console.error(e);
