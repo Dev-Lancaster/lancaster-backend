@@ -28,6 +28,10 @@ async function findById(id) {
   return user;
 }
 
+async function findRecibe() {
+  return await Usuario.findOne({ recibe: true });
+}
+
 async function findAll() {
   const list = await Usuario.find().sort({ nombre: 1 }).lean();
   return list;
@@ -108,3 +112,4 @@ exports.createUser = createUser;
 exports.validatePassword = validatePassword;
 exports.findAll = findAll;
 exports.update = update;
+exports.findRecibe = findRecibe;
