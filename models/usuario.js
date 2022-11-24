@@ -8,6 +8,7 @@ const schema = new Schema({
   correo: String,
   activo: Boolean,
   rol: String,
+  recibe: Boolean,
 });
 
 schema.methods.generateAuthToken = function () {
