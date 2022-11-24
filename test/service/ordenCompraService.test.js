@@ -2,6 +2,7 @@ const { JsonWebTokenError } = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const OrdenCompraService = require("../../services/ecommerce/ordenCompraService");
 const { MONGO_URL } = require("../../startup/db_url");
+const { OrdenCompra } = require("../../models/ordenCompra");
 
 const cliente = {
   firstname: "Prueba",
@@ -52,6 +53,11 @@ describe("Prueba de Categoria Service", () => {
   });
   afterAll(async () => {
     await mongoose.disconnect();
+  });
+  it("mail facturado", async () => {
+    const orden = await OrdenCompra.findById("637a818ce89497d7eb10c48b");
+    await OrdenCompraService.sendMailFacturado(orden);
+    expect(true).toBe(true);
   });
   /*
   it("validateNubeFact", async () => {

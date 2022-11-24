@@ -1,6 +1,7 @@
 const fetch = require("node-fetch");
 const ErrorServices = require("../admin/ErrorService");
 const mail = require("../../middleware/mail");
+const usuarioService = require("../admin/UsuarioService");
 const { UserShop } = require("../../models/userShop");
 const { OrdenCompra } = require("../../models/ordenCompra");
 const { Producto } = require("../../models/producto");
@@ -10,7 +11,10 @@ const api =
 async function sendMailFacturado(orden) {
   const subject =
     "Se ha generado una orden de compra de tipo: " + orden.tipoOrden;
-  const text = `Buen dia,<br/> Se ha generado una nueva orden de compra de tipo ${orden.tipoOrden} equivalente a un valor de:  `;
+  const text = `Buen dia,<br/> Se ha generado una nueva orden de compra de tipo <strong>${orden.tipoOrden}</strong> del usuario <strong>${orden.customerDetails.firstname} ${orden.customerDetails.lastname}</strong> equivalente a un valor de: <strong>S/ ${orden.totalAmount}</strong>.<br/> Para ver mas detalles ingrese al sistema.`;
+
+  const user = await usuarioService.findRecibe();
+  if (user) await mail.sendMail(user.correo, subject, text);
 }
 
 async function existUserShop(email) {
@@ -211,3 +215,4 @@ exports.getCodeNubeFact = getCodeNubeFact;
 exports.prepareFactura = prepareFactura;
 exports.findAll = findAll;
 exports.existUserShop = existUserShop;
+exports.sendMailFacturado = sendMailFacturado;
