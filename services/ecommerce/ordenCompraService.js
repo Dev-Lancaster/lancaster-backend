@@ -9,12 +9,16 @@ const api =
   "https://api.nubefact.com/api/v1/08732aed-16ff-435a-89e5-a73c450ae468";
 
 async function sendMailFacturado(orden) {
-  const subject =
-    "Se ha generado una orden de compra de tipo: " + orden.tipoOrden;
-  const text = `Buen dia,<br/> Se ha generado una nueva orden de compra de tipo <strong>${orden.tipoOrden}</strong> del usuario <strong>${orden.customerDetails.firstname} ${orden.customerDetails.lastname}</strong> equivalente a un valor de: <strong>S/ ${orden.totalAmount}</strong>.<br/> Para ver mas detalles ingrese al sistema.`;
+  try {
+    const subject =
+      "Se ha generado una orden de compra de tipo: " + orden.tipoOrden;
+    const text = `Buen dia,<br/> Se ha generado una nueva orden de compra de tipo <strong>${orden.tipoOrden}</strong> del usuario <strong>${orden.customerDetails.firstname} ${orden.customerDetails.lastname}</strong> equivalente a un valor de: <strong>S/ ${orden.totalAmount}</strong>.<br/> Para ver mas detalles ingrese al sistema.`;
 
-  const user = await usuarioService.findRecibe();
-  if (user) await mail.sendMail(user.correo, subject, text);
+    const user = await usuarioService.findRecibe();
+    if (user) await mail.sendMail(user.correo, subject, text);
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function existUserShop(email) {
