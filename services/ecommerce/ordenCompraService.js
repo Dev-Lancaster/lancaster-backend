@@ -112,7 +112,6 @@ async function generateCodigoBoleta() {
 }
 
 async function getCodeNubeFact(code, tipo) {
-  console.log(code, tipo);
   if (!code) return { type: "ERROR" };
   if (isNaN(code)) return { type: "ERROR" };
 
