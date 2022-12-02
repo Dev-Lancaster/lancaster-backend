@@ -128,8 +128,11 @@ async function getCodeNubeFact(code, tipo) {
       return { type: "ERROR" };
     }
 
-    if (result && !result.numero) return { type: "SUCCESS", code: newCode };
-    else newCode = newCode + 1;
+    if (result && result.errors && result.codigo && result.codigo === 21)
+      return { type: "ERROR" };
+    else if (result && result.numero) newCode = newCode + 1;
+    else if (result && result.errors && result.codigo && result.codigo === 24)
+      return { type: "SUCCESS", code: newCode };
   }
   return { type: "ERROR" };
 }
