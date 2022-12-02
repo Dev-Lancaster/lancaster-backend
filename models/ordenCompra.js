@@ -18,6 +18,7 @@ const clienteSchema = new Schema({
   town: String,
   state: String,
   postalcode: String,
+  district: String,
 });
 
 const schema = new mongoose.Schema({
