@@ -12,6 +12,7 @@ const schema = new Schema({
   country: String,
   town: String,
   state: String,
+  district: String,
   postalcode: String,
   password: String,
   dateCreation: Date,
