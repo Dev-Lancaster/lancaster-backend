@@ -36,6 +36,7 @@ const schema = new mongoose.Schema({
   mailRegister: String,
   userShop: { type: Schema.Types.ObjectId, ref: "userShop" },
   date: Date,
+  bodyNubefact: Object,
 });
 
 const OrdenCompra = mongoose.model("ordenCompra", schema);
