@@ -213,6 +213,10 @@ async function findAll() {
   return list;
 }
 
+async function findById(id) {
+  return await OrdenCompra.findById(id);
+}
+
 exports.generateOrdenado = generateOrdenado;
 exports.generatePagado = generatePagado;
 exports.generateFacturado = generateFacturado;
@@ -222,3 +226,4 @@ exports.prepareFactura = prepareFactura;
 exports.findAll = findAll;
 exports.existUserShop = existUserShop;
 exports.sendMailFacturado = sendMailFacturado;
+exports.findById = findById;
