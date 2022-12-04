@@ -217,6 +217,16 @@ async function findById(id) {
   return await OrdenCompra.findById(id);
 }
 
+async function updateNubefactBody(id, body) {
+  try {
+    await OrdenCompra.findById(id, { bodyNubefact: body });
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+}
+
 exports.generateOrdenado = generateOrdenado;
 exports.generatePagado = generatePagado;
 exports.generateFacturado = generateFacturado;
@@ -227,3 +237,4 @@ exports.findAll = findAll;
 exports.existUserShop = existUserShop;
 exports.sendMailFacturado = sendMailFacturado;
 exports.findById = findById;
+exports.updateNubefactBody = updateNubefactBody;
