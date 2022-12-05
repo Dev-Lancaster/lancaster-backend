@@ -8,6 +8,29 @@ const { Producto } = require("../../models/producto");
 const api =
   "https://api.nubefact.com/api/v1/08732aed-16ff-435a-89e5-a73c450ae468";
 
+async function errorNubefact(idOrden, body) {
+  await OrdenCompra.findByIdAndUpdate(idOrden, {
+    errorNubefact: true,
+    textoErrorNubefact: body.errors,
+  });
+  const orden = await OrdenCompra.findById(idOrden);
+  await sendMailErrorFactura(orden);
+}
+
+async function sendMailErrorFactura(orden) {
+  try {
+    const subject =
+      "Se ha generado un error en la orden de compra de tipo: " +
+      orden.tipoOrden;
+    const text = `Buen dia,<br/> Se ha generado un error en la orden de compra de tipo <strong>${orden.tipoOrden}</strong> del usuario <strong>${orden.customerDetails.firstname} ${orden.customerDetails.lastname}</strong> equivalente a un valor de: <strong>S/ ${orden.totalAmount}</strong>.<br/> Para ver mas detalles ingrese al sistema.`;
+
+    const user = await usuarioService.findRecibe();
+    if (user) await mail.sendMail(user.correo, subject, text);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 async function sendMailFacturado(orden) {
   try {
     const subject =
@@ -219,7 +242,7 @@ async function findById(id) {
 
 async function updateNubefactBody(id, body) {
   try {
-    await OrdenCompra.findById(id, { bodyNubefact: body });
+    await OrdenCompra.findByIdAndUpdate(id, { bodyNubefact: body });
     return true;
   } catch (e) {
     console.error(e);
@@ -238,3 +261,4 @@ exports.existUserShop = existUserShop;
 exports.sendMailFacturado = sendMailFacturado;
 exports.findById = findById;
 exports.updateNubefactBody = updateNubefactBody;
+exports.errorNubefact = errorNubefact;
