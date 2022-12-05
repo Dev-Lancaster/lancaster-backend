@@ -42,6 +42,21 @@ router.put("/facturado/:id", async (req, res) => {
   const id = req.params.id;
   const body = req.body;
   try {
+    const ordenCheck = await OrdenCompraService.findById(id);
+    if (!ordenCheck)
+      res.send({
+        type: "ERROR",
+        orden: null,
+        message: "Ha ocurrido un error interno",
+      });
+
+    if (ordenCheck.errorNubefact)
+      res.send({
+        type: "ERROR",
+        orden: null,
+        message: "Ha ocurrido un error interno",
+      });
+
     const result = await OrdenCompraService.generateFacturado(id, body);
     await OrdenCompraService.sendMailFacturado(result.orden);
     res.send(result);
