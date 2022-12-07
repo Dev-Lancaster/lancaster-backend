@@ -49,17 +49,17 @@ router.put("/facturado/:id", async (req, res) => {
         orden: null,
         message: "Ha ocurrido un error interno",
       });
-
-    if (ordenCheck.errorNubefact)
+    else if (ordenCheck.errorNubefact)
       res.send({
         type: "ERROR",
         orden: null,
         message: "Ha ocurrido un error interno",
       });
-
-    const result = await OrdenCompraService.generateFacturado(id, body);
-    await OrdenCompraService.sendMailFacturado(result.orden);
-    res.send(result);
+    else {
+      const result = await OrdenCompraService.generateFacturado(id, body);
+      await OrdenCompraService.sendMailFacturado(result.orden);
+      res.send(result);
+    }
   } catch (e) {
     console.error(e);
     res.send({
