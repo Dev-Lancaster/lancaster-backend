@@ -32,7 +32,6 @@ router.post("/:id", async (req, res) => {
         message: "Ha ocurrido un error interno",
       });
     }
-    console.log("5");
     res.send({ type: "SUCCESS", factura: result });
   } catch (e) {
     console.error(e);
