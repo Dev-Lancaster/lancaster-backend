@@ -11,7 +11,7 @@ const OrdenCompraService = require("../../services/ecommerce/ordenCompraService"
  *    si si, poner un atributo en la orden que diga de ese error y mandar correo a valeria
  *    si da error mandar todo bien
  *    si todo sale bien mandar todo bien
- * en la api de facturado verificar si existe ese atributo para cambiar o no su estado a facturado
+ *    en la api de facturado verificar si existe ese atributo para cambiar o no su estado a facturado
  * en la consulta de orden mostrar las que tuvieron error y cual es
  */
 
@@ -39,7 +39,11 @@ router.post("/:id", async (req, res) => {
     const result = await OrdenCompraService.prepareFactura(body);
     if (result && result.errors && result.codigo && result.codigo === 21) {
       await OrdenCompraService.errorNubefact(idOrden, body);
-      return { type: "ERROR-NUBEFACT", factura: result, message: "" };
+      return {
+        type: "ERROR",
+        factura: result,
+        message: "Ha ocurrido un error interno",
+      };
     }
 
     res.send({ type: "SUCCESS", factura: result });
