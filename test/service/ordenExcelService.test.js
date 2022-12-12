@@ -13,7 +13,8 @@ describe("Prueba de Orden Excel Service", () => {
     await mongoose.disconnect();
   });
   it("findOrden", async () => {
-    await ordenExcelService.findOrden(12, 2022);
+    const result = await ordenExcelService.generateResumen(12, 2022);
+    console.log(result);
     expect(true).toBe(true);
   });
 });
