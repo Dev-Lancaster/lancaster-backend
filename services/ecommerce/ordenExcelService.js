@@ -34,16 +34,18 @@ async function generateResumen(month, year) {
 
 async function findOrden(month, year) {
   const ini = new Date(year, month - 1, 1, -6, 0, 0);
-  const end = new Date(year, month + 1, 0, -6, 0, 0);
+  const endTemp = new Date(year, month, 0);
+  const end = moment(endTemp).endOf("month").toDate();
 
   const result = await OrdenCompra.find({
     date: {
       $gte: ini,
-      $lt: end,
+      $lte: end,
     },
   })
     .sort({ date: 1 })
     .lean();
+
   return result;
 }
 
