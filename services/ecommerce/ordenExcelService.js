@@ -42,6 +42,7 @@ async function findOrden(month, year) {
       $gte: ini,
       $lte: end,
     },
+    status: ["FACTURADO", "PAGADO"],
   })
     .sort({ date: 1 })
     .lean();
