@@ -8,7 +8,6 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 const ObjectId = mongoose.Types.ObjectId;
 const { Producto } = require("../../models/producto");
-const { group } = require("console");
 
 async function findActivosSinDescuento() {
   return await Producto.find({ estado: "ACTIVO", poseeDescuento: false })
