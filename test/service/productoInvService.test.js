@@ -14,7 +14,7 @@ describe("Prueba de Categoria Service", () => {
     await mongoose.disconnect();
   });
 
-  it("reservar", async () => {
+  /*  it("reservar", async () => {
     const result = await productoInvService.liberar(
       "6338d4c9e4198da374494b35",
       3
@@ -25,7 +25,7 @@ describe("Prueba de Categoria Service", () => {
   it("fillProductoReserva", async () => {
     await productoInvService.fillProductoReserva("6338d4c9e4198da374494b35");
     expect(true).toBe(true);
-  });
+  });*/
 
   /*it("reservar", async () => {
     const result = await productoInvService.reservar(
