@@ -168,6 +168,10 @@ function validateImageFile(f) {
   );
 }
 
+/**
+ * Este metodo es temporal
+ * @param {String} filename
+ */
 async function updateExcelInfo(filename) {
   let wb = await ExcelHelper.readExcel(filename);
   let ws = wb.worksheets[0];
@@ -175,6 +179,7 @@ async function updateExcelInfo(filename) {
   let categoriaModel;
   let cateHijaModel;
   let row = 2;
+  let etiquetaArray = [];
 
   while (flag) {
     const categoria = ws.getCell(`A${row}`).value;
@@ -197,6 +202,8 @@ async function updateExcelInfo(filename) {
       row = row + 1;
       categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
       cateHijaModel = await CategoriaService.findByCodigo(categoriaHija.trim());
+      etiquetaArray = [];
+      etiquetaArray.push(etiqueta);
 
       await Producto.updateOne(
         { id: id },
@@ -210,7 +217,8 @@ async function updateExcelInfo(filename) {
             categoriaHija: cateHijaModel._id,
             nombre: nombre,
             talla: talla,
-            color: color,
+            etiqueta: etiquetaArray,
+            //color: color,
             especificaciones: especificaciones,
             cantidad: cantidad,
             monto: precio,
@@ -991,3 +999,4 @@ exports.setOcupado = setOcupado;
 exports.checkOcupados = checkOcupados;
 exports.findActivosSinDescuento = findActivosSinDescuento;
 exports.updateFotos = updateFotos;
+exports.updateExcelInfo = updateExcelInfo;
