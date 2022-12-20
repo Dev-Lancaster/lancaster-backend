@@ -843,16 +843,6 @@ function validateProducto(model) {
       type: constants.ATR_MISSED,
       message: "La talla del producto no puede estar vacio",
     };
-  if (!model.etiqueta)
-    return {
-      type: constants.ATR_MISSED,
-      message: "Debe definir al menos una etiqueta para el producto",
-    };
-  if (model.etiqueta.length === 0)
-    return {
-      type: constants.ATR_MISSED,
-      message: "Debe definir al menos una etiqueta para el producto",
-    };
   if (!model.color)
     return {
       type: constants.ATR_MISSED,
