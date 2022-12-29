@@ -88,7 +88,7 @@ async function generateExtracto(month, year) {
           talla: producto && producto.talla,
           color: producto && producto.color,
           Uds: body.cantidad,
-          Precio: b0d7.precio_unitario,
+          Precio: body.precio_unitario,
         });
       }
 
