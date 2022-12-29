@@ -1,5 +1,6 @@
 const moment = require("moment");
 const { OrdenCompra } = require("../../models/ordenCompra");
+const { Producto } = require("../../models/producto");
 
 async function generateResumen(month, year) {
   const result = await findOrden(month, year);
@@ -19,7 +20,7 @@ async function generateResumen(month, year) {
           Numero: model.bodyNubefact.numero,
           Fecha: moment(model.fecha).format("DD/MM/YYYY"),
           Nombre: model.bodyNubefact.cliente_denominacion,
-          "% Dto": 0,
+          "% Dto": model.bodyNubefact.descuento_global,
           "Dto PP": 0,
           "Suma Dtos": body.descuento,
           "Base Imponible": body.precio_unitario,
@@ -50,5 +51,50 @@ async function findOrden(month, year) {
   return result;
 }
 
+async function generateExtracto(month, year) {
+  const result = await findOrden(month, year);
+  if (!result || result.length == 0) return null;
+
+  let list = [];
+  let producto;
+
+  for (const model of result)
+    if (
+      model.bodyNubefact &&
+      model.bodyNubefact.items &&
+      model.bodyNubefact.items.length > 0
+    )
+      for (const body of model.bodyNubefact.items) {
+        producto = await Producto.findOne({
+          codigoCompleto: body.codigo,
+        }).lean();
+
+        list.push({
+          Serie: model.bodyNubefact.serie,
+          Numero: model.bodyNubefact.numero,
+          Fecha: moment(model.fecha).format("DD/MM/YYYY"),
+          Nombre: model.bodyNubefact.cliente_denominacion,
+          "% Dto": model.bodyNubefact.descuento_global,
+          "Dto PP": 0,
+          "Suma Dtos": body.descuento,
+          "Base Imponible": body.precio_unitario,
+          Impuestos: body.igv,
+          Total: body.igv + body.precio_unitario,
+          CIF: model.bodyNubefact.cliente_numero_de_documento,
+          NIF20: model.bodyNubefact.cliente_numero_de_documento,
+          "NOMBRE COMERCIAL": model.bodyNubefact.cliente_denominacion,
+          Referencia: body.codigo,
+          Descripcion: body.descripcion,
+          talla: producto && producto.talla,
+          color: producto && producto.color,
+          Uds: body.cantidad,
+          Precio: b0d7.precio_unitario,
+        });
+      }
+
+  return list;
+}
+
 exports.findOrden = findOrden;
 exports.generateResumen = generateResumen;
+exports.generateExtracto = generateExtracto;
