@@ -13,11 +13,11 @@ async function despachado(idOrden) {
   const DESPACHADO = "DESPACHADO";
   const NO_DESPACHADO = "NO DESPACHADO";
   if (orden) {
-    if (!orden.estado) orden.estado = DESPACHADO;
-    else if (orden.estado && orden.estado === DESPACHADO)
-      orden.estado = NO_DESPACHADO;
-    else if (orden.estado && orden.estado === NO_DESPACHADO)
-      orden.estado = DESPACHADO;
+    if (!orden.despachado) orden.despachado = DESPACHADO;
+    else if (orden.despachado && orden.despachado === DESPACHADO)
+      orden.despachado = NO_DESPACHADO;
+    else if (orden.despachado && orden.despachado === NO_DESPACHADO)
+      orden.despachado = DESPACHADO;
 
     await orden.save();
     return orden;
