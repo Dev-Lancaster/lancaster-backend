@@ -39,6 +39,7 @@ const schema = new mongoose.Schema({
   bodyNubefact: Object,
   errorNubefact: Boolean,
   textoErrorNubefact: String,
+  estado: String,
 });
 
 const OrdenCompra = mongoose.model("ordenCompra", schema);
