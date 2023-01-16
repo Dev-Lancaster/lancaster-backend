@@ -3,7 +3,7 @@ const router = express.Router();
 const OrdenCompraService = require("../../services/ecommerce/ordenCompraService");
 
 router.put("/despachado/:id", async (req, res) => {
-  const id = req.params;
+  const id = req.params.id;
   const result = await OrdenCompraService.despachado(id);
   res.send(result);
 });
