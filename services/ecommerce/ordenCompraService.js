@@ -8,6 +8,22 @@ const { Producto } = require("../../models/producto");
 const api =
   "https://api.nubefact.com/api/v1/08732aed-16ff-435a-89e5-a73c450ae468";
 
+async function despachado(idOrden) {
+  const orden = await OrdenCompra.findById(idOrden);
+  const DESPACHADO = "DESPACHADO";
+  const NO_DESPACHADO = "NO DESPACHADO";
+  if (orden) {
+    if (!orden.estado) orden.estado = DESPACHADO;
+    else if (orden.estado && orden.estado === DESPACHADO)
+      orden.estado = NO_DESPACHADO;
+    else if (orden.estado && orden.estado === NO_DESPACHADO)
+      orden.estado = DESPACHADO;
+
+    await orden.save();
+    return orden;
+  }
+}
+
 async function errorNubefact(idOrden, body) {
   await OrdenCompra.findByIdAndUpdate(idOrden, {
     errorNubefact: true,
@@ -263,3 +279,4 @@ exports.sendMailFacturado = sendMailFacturado;
 exports.findById = findById;
 exports.updateNubefactBody = updateNubefactBody;
 exports.errorNubefact = errorNubefact;
+exports.despachado = despachado;
