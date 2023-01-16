@@ -15,7 +15,9 @@ describe("Prueba de Producto Service", () => {
   });
 
   it("updateExcelInfo", async () => {
-    await productoService.updateExcelInfo("/Users/wjuarez/Desktop/damas.xlsx");
+    await productoService.updateExcelInfo(
+      "/Users/wjuarez/Desktop/Productos Web.xlsx"
+    );
     expect(true).toBe(true);
   });
 });

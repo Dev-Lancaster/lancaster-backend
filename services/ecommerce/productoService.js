@@ -182,7 +182,7 @@ async function updateExcelInfo(filename) {
   let etiquetaArray = [];
 
   while (flag) {
-    const categoria = ws.getCell(`A${row}`).value;
+    /*const categoria = ws.getCell(`A${row}`).value;
     const categoriaHija = ws.getCell(`B${row}`).value;
     const codigo = ws.getCell(`C${row}`).value;
     const nombre = ws.getCell(`D${row}`).value;
@@ -195,35 +195,38 @@ async function updateExcelInfo(filename) {
     const precio = ws.getCell(`K${row}`).value;
     const codigoCompleto = ws.getCell(`L${row}`).value;
     const sunat = ws.getCell(`M${row}`).value;
-    const id = ws.getCell(`N${row}`).value;
+    const id = ws.getCell(`N${row}`).value;*/
+    const id = ws.getCell(`B${row}`).value;
+    const nombre = ws.getCell(`C${row}`).value;
+    const especificaciones = ws.getCell(`A${row}`).value;
 
-    if (!categoria) flag = false;
+    if (!id) flag = false;
     else {
       row = row + 1;
-      categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
+      /*categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
       cateHijaModel = await CategoriaService.findByCodigo(categoriaHija.trim());
       etiquetaArray = [];
-      etiquetaArray.push(etiqueta);
+      etiquetaArray.push(etiqueta);*/
 
       await Producto.updateOne(
         { id: id },
         {
           $set: {
-            categoria: categoriaModel._id,
-            categoriaNombre: categoriaModel.nombre,
-            categoriaHijaNombre: cateHijaModel.nombre,
-            categoriaFull: categoriaModel._id + "-" + categoriaModel.nombre,
-            categoriaHijaFull: cateHijaModel._id + "-" + cateHijaModel.nombre,
-            categoriaHija: cateHijaModel._id,
+            //categoria: categoriaModel._id,
+            //categoriaNombre: categoriaModel.nombre,
+            //categoriaHijaNombre: cateHijaModel.nombre,
+            //categoriaFull: categoriaModel._id + "-" + categoriaModel.nombre,
+            //categoriaHijaFull: cateHijaModel._id + "-" + cateHijaModel.nombre,
+            //categoriaHija: cateHijaModel._id,
             nombre: nombre,
-            talla: talla,
-            etiqueta: etiquetaArray,
+            //talla: talla,
+            //etiqueta: etiquetaArray,
             //color: color,
             especificaciones: especificaciones,
-            cantidad: cantidad,
-            monto: precio,
-            codigoCompleto: codigoCompleto,
-            sunat: sunat,
+            //cantidad: cantidad,
+            //monto: precio,
+            //codigoCompleto: codigoCompleto,
+            //sunat: sunat,
           },
         }
       );
