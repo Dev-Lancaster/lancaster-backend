@@ -70,13 +70,23 @@ async function existUserShop(email) {
 async function generateOrdenado(model) {
   if (model.mailRegister) {
     const resultValidUser = await existUserShop(model.mailRegister);
+    await ErrorServices.save(
+      "ordenCompraService - linea 73",
+      resultValidUser.flag
+    );
     if (!resultValidUser.flag)
       return {
         type: "ERROR",
         message: "El usuario que desea comprar no esta registrado",
         orden: null,
       };
-    else model.userShop = resultValidUser.model._id;
+    else {
+      model.userShop = resultValidUser.model._id;
+      await ErrorServices.save(
+        "ordenCompraService - linea 85",
+        model.mail + " " + model._id
+      );
+    }
   }
 
   let codigo;
@@ -99,6 +109,7 @@ async function generateOrdenado(model) {
   model.date = new Date();
   model.tipoOrden = model.tipo === "FTV1" ? "FACTURA" : "BOLETA";
 
+  await ErrorServices.save("ordenCompraService - linea: 122", model.id);
   let orden = new OrdenCompra(model);
   orden = await orden.save();
   return { type: "SUCCESS", orden: orden, message: "" };
