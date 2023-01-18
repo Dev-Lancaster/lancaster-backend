@@ -109,7 +109,10 @@ async function generateOrdenado(model) {
   model.date = new Date();
   model.tipoOrden = model.tipo === "FTV1" ? "FACTURA" : "BOLETA";
 
-  await ErrorServices.save("ordenCompraService - linea: 122", model.id);
+  await ErrorServices.save(
+    "ordenCompraService - linea: 112",
+    model.customerDetails
+  );
   let orden = new OrdenCompra(model);
   orden = await orden.save();
   return { type: "SUCCESS", orden: orden, message: "" };
