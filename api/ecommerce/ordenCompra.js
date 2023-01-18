@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const errorService = require("../../services/admin/ErrorService");
 const OrdenCompraService = require("../../services/ecommerce/ordenCompraService");
 
 router.put("/despachado/:id", async (req, res) => {
@@ -19,6 +20,7 @@ router.post("/ordenado", async (req, res) => {
     const result = await OrdenCompraService.generateOrdenado(body);
     res.send(result);
   } catch (e) {
+    await errorService.save("/ordenado", e.message);
     console.error(e);
     res.send({
       type: "ERROR",
@@ -36,6 +38,7 @@ router.put("/pagado/:id", async (req, res) => {
     res.send(result);
   } catch (e) {
     console.error(e);
+    await errorService.save(`/pagado/${id}`, e.message);
     res.send({
       type: "ERROR",
       orden: null,
@@ -49,25 +52,28 @@ router.put("/facturado/:id", async (req, res) => {
   const body = req.body;
   try {
     const ordenCheck = await OrdenCompraService.findById(id);
-    if (!ordenCheck)
+    if (!ordenCheck) {
+      await errorService.save(`/facturado/${id}`, "ordenCheck");
       res.send({
         type: "ERROR",
         orden: null,
         message: "Ha ocurrido un error interno",
       });
-    else if (ordenCheck.errorNubefact)
+    } else if (ordenCheck.errorNubefact) {
+      await errorService.save(`/facturado/${id}`, "errorNubefact");
       res.send({
         type: "ERROR",
         orden: null,
         message: "Ha ocurrido un error interno",
       });
-    else {
+    } else {
       const result = await OrdenCompraService.generateFacturado(id, body);
       await OrdenCompraService.sendMailFacturado(result.orden);
       res.send(result);
     }
   } catch (e) {
     console.error(e);
+    await errorService.save(`/facturado/${id}`, e.message);
     res.send({
       type: "ERROR",
       orden: null,
