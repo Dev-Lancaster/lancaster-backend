@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const reclamoService = require("../../services/ecommerce/reclamoService");
+const errorService = require("../../services/admin/ErrorService");
 
 router.get("/email/:email", async (req, res) => {
   const email = req.params.email;
@@ -17,6 +18,7 @@ router.post("/", async (req, res) => {
       message: "Se ha guardado correctamente el reclamo",
     });
   } catch (e) {
+    await errorService.save("reclamo.js / router", e.message);
     console.error(e);
     res.send({
       type: "ERROR",
