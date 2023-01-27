@@ -12,8 +12,10 @@ const pagina = require("../api/ecommerce/pagina");
 const usuario = require("../api/admin/usuario");
 const productoInv = require("../api/ecommerce/productoInv");
 const ordenExcel = require("../api/ecommerce/ordenExcel");
+const reclamo = require("../api/ecommerce/reclamo");
 
 module.exports = function (app) {
+  app.use("/reclamo", reclamo);
   app.use("/orden-excel", ordenExcel);
   app.use("/producto-inv", productoInv);
   app.use("/usuario", usuario);
