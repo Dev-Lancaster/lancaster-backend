@@ -22,6 +22,7 @@ const schema = new Schema({
   disconformidad: String,
   detalle: String,
   pedido: String,
+  naturaleza: String,
   fechaCrea: Date,
 });
 
