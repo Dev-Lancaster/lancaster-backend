@@ -1,3 +1,5 @@
+const mail = require("../../middleware/mail");
+const general = require("../common/general");
 const { Reclamo } = require("../../models/reclamo");
 
 async function save(model) {
@@ -13,5 +15,12 @@ async function findByEmail(email) {
   return result;
 }
 
+async function sendEmail(reclamo) {
+  const textHeader = "Se ha generado un reclamo con la siguiente informacion:";
+  const html = general.mailTemplate(textHeader);
+  await mail.sendMail("wgbila@gmail.com", "Generacion de Reclamo", html);
+}
+
 exports.save = save;
 exports.findByEmail = findByEmail;
+exports.sendEmail = sendEmail;
