@@ -1,18 +1,12 @@
 const { ImagenesSistema } = require("../../models/imagenesSistema");
 
-function thStyle() {
-  return `style =
+const thStyle = `style =
     "border: none;padding: 15px 5px; display: table-cell; text-align: right; vertical-align: middle; border-radius: 2px;"`;
-}
 
-function tdStyle() {
-  return `style =
+const tdStyle = `style =
     "border: none;padding: 15px; display: table-cell; vertical-align: middle; border-radius: 2px;"`;
-}
 
-function trStyle() {
-  return `style="border-bottom: 1px solid #efefef;"`;
-}
+const trStyle = `style="border-bottom: 1px solid #efefef;"`;
 
 async function mailTemplate(textHeader) {
   const logo = await ImagenesSistema.findOne({ tipo: "logo" }).lean();
@@ -83,3 +77,8 @@ async function mailTemplate(textHeader) {
 </html>
 `;
 }
+
+exports.mailTemplate = mailTemplate;
+exports.thStyle = thStyle;
+exports.tdStyle = tdStyle;
+exports.trStyle = trStyle;
