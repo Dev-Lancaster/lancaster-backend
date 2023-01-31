@@ -16,7 +16,7 @@ describe("Prueba de Producto Service", () => {
 
   it("updateExcelInfo", async () => {
     await productoService.updateExcelInfo(
-      "/Users/wjuarez/Desktop/Productos Web.xlsx"
+      "/Users/wjuarez/Desktop/Matriz Web.xlsx"
     );
     expect(true).toBe(true);
   });
