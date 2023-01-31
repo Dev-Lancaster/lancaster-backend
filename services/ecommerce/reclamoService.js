@@ -7,6 +7,7 @@ async function save(model) {
   model.fechaCrea = new Date();
   let body = new Reclamo(model);
   await body.save();
+  return body;
 }
 
 async function findByEmail(email) {
