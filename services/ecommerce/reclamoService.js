@@ -1,6 +1,7 @@
 const mail = require("../../middleware/mail");
 const moment = require("moment");
 const general = require("../common/general");
+const usuarioService = require("../admin/UsuarioService");
 const { Reclamo } = require("../../models/reclamo");
 
 async function save(model) {
@@ -57,7 +58,10 @@ async function sendEmail(reclamo) {
             </div>
           </div>`;
     const html = await general.mailTemplate(textHeader);
-    await mail.sendMail("wgbila@gmail.com", "Generacion de Reclamo", html);
+    const user = await usuarioService.findRecibe();
+    await mail.sendMailWithCC(reclamo.email, "Generación de Reclamo", html, [
+      user.correo,
+    ]);
   }
 }
 

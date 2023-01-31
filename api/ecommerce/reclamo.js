@@ -12,7 +12,8 @@ router.get("/email/:email", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     let body = req.body;
-    await reclamoService.save(body);
+    const model = await reclamoService.save(body);
+    await reclamoService.sendEmail(model);
     res.send({
       type: "SUCCESS",
       message: "Se ha guardado correctamente el reclamo",
