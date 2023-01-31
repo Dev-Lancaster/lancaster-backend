@@ -14,63 +14,63 @@ async function mailTemplate(textHeader) {
   return `<!DOCTYPE html>
 <html>
   <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
     <style>
-      body {
-        font-size: 22px;margin:0
-      }
-        html {
-        line-height: 1.5;
-      }
-      .container {
-        width: 70%;
-        margin: 0 auto;
-        max-width: 1280px;
-      }
-      .row {
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 20px;
-      }
-      .row .col {
-        float: left;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 0 .75rem;
-        min-height: 1px;
-      }
-      .row .col.s12 {
-        width: 100%;
-        margin-left: auto;
-        left: auto;
-        right: auto;
-      }
-      *, *:before, *:after {
-        -webkit-box-sizing: inherit;
-        box-sizing: inherit;
-      }
+    *{font-size: 19px}
+    table{
+      width: 100%;
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 0;
+    }
+    tr {
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+td, th {
+    padding: 15px 5px;
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+    border-radius: 2px;
+}
     </style>
   </head>
-  <body style="background: #e1e6e9">
-    <div style="width: 70%;margin: 0 auto;max-width: 1280px;">
-      <div class="row" style="margin-bottom: 0px">
-        <div class="col s12" style="text-align: center;">
-          <img
-            src="${logo.url}"
-            alt="Logo"
-            style="width: 9%; margin-top: 10px"
-          />
+  <body>
+    <div class="container">
+      <div
+        class="row"
+        style="
+          background-color: #efefef;
+          height: 100%;
+          padding: 25px;
+          margin: 25px;
+        "
+      >
+        <div
+          class="col s12 m6"
+          style="background-color: #fff; padding: 25px; margin: 25px"
+        >
+          <div class="row">
+            <div class="col s12">
+            <img src='${logo.url}'/>
+              <div
+                style="
+                  font-size: 2.28rem;
+                  font-weight: 400;
+                  font-family: sans-serif;
+                  display: initial;
+                  float: right
+                "
+              >
+                Ecommerce
+              </div>
+            </div>
+          </div>
+          ${textHeader}
         </div>
-      </div>
-      <div class="row" style="text-align: center;">
-        <div class="col 12" style="width: 100%">
-          <h4 style="font-size: 2.28rem;line-height: 110%;margin: 1.52rem 0 .912rem 0;font-weight: 400;font-family:sans-serif">Ecommerce</h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12" style="background: #fff; padding: 15px;text-align: justify;font-family:sans-serif;font-size:18px">
-            ${textHeader}
-        </div>
-      </div>
       </div>
     </div>
   </body>
