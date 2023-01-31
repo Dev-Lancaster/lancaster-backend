@@ -24,7 +24,8 @@ const schema = new Schema({
   pedido: String,
   naturaleza: String,
   fechaCrea: Date,
-  id: String,
+  id: Number,
+  year: Number,
 });
 
 const Reclamo = mongoose.model("reclamo", schema);
