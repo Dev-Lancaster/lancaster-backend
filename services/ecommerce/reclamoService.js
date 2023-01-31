@@ -5,7 +5,10 @@ const usuarioService = require("../admin/UsuarioService");
 const { Reclamo } = require("../../models/reclamo");
 
 async function save(model) {
-  model.fechaCrea = new Date();
+  const date = new Date();
+  model.fechaCrea = date;
+  model.year = date.getFullYear();
+  model.id = await generateId();
   let body = new Reclamo(model);
   await body.save();
   return body;
@@ -18,6 +21,13 @@ async function findByEmail(email) {
   return result;
 }
 
+async function generateId() {
+  const year = new Date().getFullYear();
+  const reclamo = await Reclamo.findOne({ year: year }).sort({ id: -1 });
+  if (!reclamo) return 1;
+  return reclamo.id + 1;
+}
+
 async function sendEmail(reclamo) {
   if (reclamo) {
     const textHeader = `
@@ -27,6 +37,10 @@ async function sendEmail(reclamo) {
           <div class="row" style='margin-top: 25px'>
             <div class="col s12">
               <table>
+                <tr>
+                  <td><strong>ID del reclamo:</strong></td>
+                  <td>${reclamo.id}-${reclamo.year}</td>
+                </tr>
                 <tr>
                   <td><strong>Nombre:</strong></td>
                   <td>${reclamo.firstname} ${reclamo.apellidoPaterno}</td>
@@ -51,7 +65,7 @@ async function sendEmail(reclamo) {
                   <td><strong>Fecha de creaci&oacute;n:</strong></td>
                   <td>${
                     reclamo.fechaCrea &&
-                    moment(reclamo.fechaCrea).format("DD/MM/YYYY")
+                    moment(reclamo.fechaCrea).utc().format("DD/MM/YYYY")
                   }</td>
                 </tr>
               </table>
@@ -59,9 +73,12 @@ async function sendEmail(reclamo) {
           </div>`;
     const html = await general.mailTemplate(textHeader);
     const user = await usuarioService.findRecibe();
-    await mail.sendMailWithCC(reclamo.email, "Generación de Reclamo", html, [
-      user.correo,
-    ]);
+    await mail.sendMailWithCC(
+      reclamo.email,
+      "Generación de Reclamo: " + reclamo.id + "-" + reclamo.year,
+      html,
+      [user.correo]
+    );
   }
 }
 
