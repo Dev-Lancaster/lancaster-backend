@@ -180,6 +180,7 @@ async function updateExcelInfo(filename) {
   let cateHijaModel;
   let row = 2;
   let etiquetaArray = [];
+  let espArray;
 
   while (flag) {
     /*const categoria = ws.getCell(`A${row}`).value;
@@ -198,7 +199,7 @@ async function updateExcelInfo(filename) {
     const id = ws.getCell(`N${row}`).value;*/
     const id = ws.getCell(`B${row}`).value;
     const nombre = ws.getCell(`C${row}`).value;
-    const especificaciones = ws.getCell(`A${row}`).value;
+    let especificaciones = ws.getCell(`A${row}`).value;
 
     if (!id) flag = false;
     else {
@@ -207,6 +208,12 @@ async function updateExcelInfo(filename) {
       cateHijaModel = await CategoriaService.findByCodigo(categoriaHija.trim());
       etiquetaArray = [];
       etiquetaArray.push(etiqueta);*/
+
+      /*if (especificaciones.includes("/")) {
+        espArray = especificaciones.split("/");
+        for (const e of espArray) especificaciones = `<li>${e.trim()}</li>`;
+        especificaciones = `<ul>${especificaciones.trim()}</ul>`;
+      }*/
 
       await Producto.updateOne(
         { id: id },
