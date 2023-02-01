@@ -99,6 +99,9 @@ async function generateOrdenado(model) {
   model.date = new Date();
   model.tipoOrden = model.tipo === "FTV1" ? "FACTURA" : "BOLETA";
 
+  if (model.customerDetails && model.customerDetails._id === "")
+    delete model.customerDetails["_id"];
+
   let orden = new OrdenCompra(model);
   orden = await orden.save();
   return { type: "SUCCESS", orden: orden, message: "" };
