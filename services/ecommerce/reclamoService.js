@@ -9,6 +9,7 @@ async function save(model) {
   model.fechaCrea = date;
   model.year = date.getFullYear();
   model.id = await generateId();
+  model.estado = "PROCESADO";
   let body = new Reclamo(model);
   await body.save();
   return body;
