@@ -26,6 +26,7 @@ const schema = new Schema({
   fechaCrea: Date,
   id: Number,
   year: Number,
+  estado: String,
 });
 
 const Reclamo = mongoose.model("reclamo", schema);
