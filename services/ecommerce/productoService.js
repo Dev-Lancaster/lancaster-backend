@@ -424,7 +424,7 @@ async function run(ws, usuario) {
           usuarioCrea: usuario,
           fechaCrea: new Date(),
         };
-        await saveProducto(body);
+        //await saveProducto(body);
 
         countSuccess = countSuccess + 1;
         id = id + 1;
