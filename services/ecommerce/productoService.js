@@ -333,7 +333,7 @@ async function run(ws, usuario) {
 
     if (!categoria) flag = false;
     else {
-      categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
+      /*categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
       if (!categoriaModel) {
         error.push({
           message: `La categoría padre esta incorrecta (Fila ${row})`,
@@ -394,7 +394,7 @@ async function run(ws, usuario) {
         error.push({
           message: `El campo precio debe ser un numero (Fila ${row})`,
         });
-      }
+      }*/
       producto = await findProductoLoad(codigo, talla, color);
 
       if (!flagError && producto) productoUpdates.push(producto);
