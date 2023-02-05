@@ -399,8 +399,41 @@ async function run(ws, usuario) {
       if (idProduct)
         producto = await Producto.findOne({ id: idProduct }).lean();
 
-      if (!flagError && producto) productoUpdates.push(producto);
-      else if (!flagError && !producto) {
+      if (!flagError && producto) {
+        /*categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
+      cateHijaModel = await CategoriaService.findByCodigo(categoriaHija.trim());
+      etiquetaArray = [];
+      etiquetaArray.push(etiqueta);*/
+
+        /*if (especificaciones.includes("/")) {
+        espArray = especificaciones.split("/");
+        for (const e of espArray) especificaciones = `<li>${e.trim()}</li>`;
+        especificaciones = `<ul>${especificaciones.trim()}</ul>`;
+      }*/
+
+        await Producto.updateOne(
+          { id: id },
+          {
+            $set: {
+              //categoria: categoriaModel._id,
+              //categoriaNombre: categoriaModel.nombre,
+              //categoriaHijaNombre: cateHijaModel.nombre,
+              //categoriaFull: categoriaModel._id + "-" + categoriaModel.nombre,
+              //categoriaHijaFull: cateHijaModel._id + "-" + cateHijaModel.nombre,
+              //categoriaHija: cateHijaModel._id,
+              nombre: nombre,
+              talla: talla,
+              //etiqueta: etiquetaArray,
+              //color: color,
+              especificaciones: especificaciones,
+              //cantidad: cantidad,
+              //monto: precio,
+              //codigoCompleto: codigoCompleto,
+              //sunat: sunat,
+            },
+          }
+        );
+      } else if (!flagError && !producto) {
         console.log(producto, codigo, talla, color);
         body = {
           id: id,
