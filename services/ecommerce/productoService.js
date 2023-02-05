@@ -334,7 +334,7 @@ async function run(ws, usuario) {
 
     if (!categoria) flag = false;
     else {
-      /*categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
+      categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
       if (!categoriaModel) {
         error.push({
           message: `La categoría padre esta incorrecta (Fila ${row})`,
@@ -395,15 +395,18 @@ async function run(ws, usuario) {
         error.push({
           message: `El campo precio debe ser un numero (Fila ${row})`,
         });
-      }*/
+      }
+
       if (idProduct)
         producto = await Producto.findOne({ id: idProduct }).lean();
 
       if (!flagError && producto) {
-        /*categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
-      cateHijaModel = await CategoriaService.findByCodigo(categoriaHija.trim());
-      etiquetaArray = [];
-      etiquetaArray.push(etiqueta);*/
+        categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
+        cateHijaModel = await CategoriaService.findByCodigo(
+          categoriaHija.trim()
+        );
+        etiquetaArray = [];
+        etiquetaArray.push(etiqueta);
 
         /*if (especificaciones.includes("/")) {
         espArray = especificaciones.split("/");
@@ -415,26 +418,25 @@ async function run(ws, usuario) {
           { id: id },
           {
             $set: {
-              //categoria: categoriaModel._id,
-              //categoriaNombre: categoriaModel.nombre,
-              //categoriaHijaNombre: cateHijaModel.nombre,
-              //categoriaFull: categoriaModel._id + "-" + categoriaModel.nombre,
-              //categoriaHijaFull: cateHijaModel._id + "-" + cateHijaModel.nombre,
-              //categoriaHija: cateHijaModel._id,
+              categoria: categoriaModel._id,
+              categoriaNombre: categoriaModel.nombre,
+              categoriaHijaNombre: cateHijaModel.nombre,
+              categoriaFull: categoriaModel._id + "-" + categoriaModel.nombre,
+              categoriaHijaFull: cateHijaModel._id + "-" + cateHijaModel.nombre,
+              categoriaHija: cateHijaModel._id,
               nombre: nombre,
               talla: talla,
-              //etiqueta: etiquetaArray,
-              //color: color,
+              etiqueta: etiquetaArray,
+              color: color,
               especificaciones: especificaciones,
-              //cantidad: cantidad,
-              //monto: precio,
-              //codigoCompleto: codigoCompleto,
-              //sunat: sunat,
+              cantidad: cantidad,
+              monto: precio,
+              codigoCompleto: codigoCompleto,
+              sunat: sunat,
             },
           }
         );
       } else if (!flagError && !producto) {
-        console.log(producto, codigo, talla, color);
         body = {
           id: id,
           categoria: categoriaModel._id,
@@ -460,7 +462,7 @@ async function run(ws, usuario) {
           usuarioCrea: usuario,
           fechaCrea: new Date(),
         };
-        //await saveProducto(body);
+        await saveProducto(body);
 
         countSuccess = countSuccess + 1;
         id = id + 1;
