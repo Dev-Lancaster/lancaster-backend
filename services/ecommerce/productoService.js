@@ -330,6 +330,7 @@ async function run(ws, usuario) {
     const precio = ws.getCell(`K${row}`).value;
     const codigoCompleto = ws.getCell(`L${row}`).value;
     const sunat = ws.getCell(`M${row}`).value;
+    const idProduct = ws.getCell(`N${row}`).value;
 
     if (!categoria) flag = false;
     else {
@@ -395,10 +396,12 @@ async function run(ws, usuario) {
           message: `El campo precio debe ser un numero (Fila ${row})`,
         });
       }*/
-      producto = await findProductoLoad(codigo, talla, color);
+      if (idProduct)
+        producto = await Producto.findOne({ id: idProduct }).lean();
 
       if (!flagError && producto) productoUpdates.push(producto);
       else if (!flagError && !producto) {
+        console.log(producto, codigo, talla, color);
         body = {
           id: id,
           categoria: categoriaModel._id,
