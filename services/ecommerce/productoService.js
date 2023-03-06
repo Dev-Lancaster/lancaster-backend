@@ -187,7 +187,6 @@ async function updateExcelInfo(filename) {
     const categoriaHija = ws.getCell(`B${row}`).value;
     const codigo = ws.getCell(`C${row}`).value;
     const nombre = ws.getCell(`D${row}`).value;
-    const talla = ws.getCell(`E${row}`).value;
     const color = ws.getCell(`F${row}`).value;
     const calidad = ws.getCell(`G${row}`).value;
     const especificaciones = ws.getCell(`H${row}`).value;
@@ -196,10 +195,11 @@ async function updateExcelInfo(filename) {
     const precio = ws.getCell(`K${row}`).value;
     const codigoCompleto = ws.getCell(`L${row}`).value;
     const sunat = ws.getCell(`M${row}`).value;
-    const id = ws.getCell(`N${row}`).value;*/
-    const id = ws.getCell(`B${row}`).value;
-    const nombre = ws.getCell(`C${row}`).value;
-    let especificaciones = ws.getCell(`A${row}`).value;
+    */
+    const id = ws.getCell(`G${row}`).value;
+    const nombre = ws.getCell(`I${row}`).value;
+    const talla = ws.getCell(`J${row}`).value;
+    let especificaciones = ws.getCell(`F${row}`).value;
 
     if (!id) flag = false;
     else {
@@ -226,7 +226,7 @@ async function updateExcelInfo(filename) {
             //categoriaHijaFull: cateHijaModel._id + "-" + cateHijaModel.nombre,
             //categoriaHija: cateHijaModel._id,
             nombre: nombre,
-            //talla: talla,
+            talla: talla,
             //etiqueta: etiquetaArray,
             //color: color,
             especificaciones: especificaciones,
@@ -400,7 +400,7 @@ async function run(ws, usuario) {
       if (idProduct)
         producto = await Producto.findOne({ id: idProduct }).lean();
 
-      if (!flagError && producto) {
+      if (!flagError && idProduct) {
         categoriaModel = await CategoriaService.findByCodigo(categoria.trim());
         cateHijaModel = await CategoriaService.findByCodigo(
           categoriaHija.trim()
@@ -414,8 +414,10 @@ async function run(ws, usuario) {
         especificaciones = `<ul>${especificaciones.trim()}</ul>`;
       }*/
 
+        console.log(idProduct);
+
         await Producto.updateOne(
-          { id: id },
+          { id: idProduct },
           {
             $set: {
               categoria: categoriaModel._id,
@@ -436,7 +438,7 @@ async function run(ws, usuario) {
             },
           }
         );
-      } else if (!flagError && !producto) {
+      } else if (!flagError && !idProduct) {
         body = {
           id: id,
           categoria: categoriaModel._id,
