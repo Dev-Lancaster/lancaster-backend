@@ -414,7 +414,7 @@ async function run(ws, usuario) {
         especificaciones = `<ul>${especificaciones.trim()}</ul>`;
       }*/
 
-        console.log(idProduct);
+        //console.log(idProduct);
 
         await Producto.updateOne(
           { id: idProduct },
