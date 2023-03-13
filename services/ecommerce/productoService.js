@@ -414,6 +414,8 @@ async function run(ws, usuario) {
         especificaciones = `<ul>${especificaciones.trim()}</ul>`;
       }*/
 
+        //console.log(idProduct);
+
         await Producto.updateOne(
           { id: idProduct },
           {
@@ -483,7 +485,7 @@ function prepareEtiqueta(etiqueta) {
   if (!etiqueta) return null;
   let result = etiqueta.split(",");
   let resultReturn = [];
-  for (const r of result) if (r) resultReturn.push(r);
+  for (const r of result) if (r) resultReturn.push(r.trim());
   return resultReturn;
 }
 
