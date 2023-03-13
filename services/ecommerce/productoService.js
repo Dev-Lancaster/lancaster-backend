@@ -405,16 +405,14 @@ async function run(ws, usuario) {
         cateHijaModel = await CategoriaService.findByCodigo(
           categoriaHija.trim()
         );
-        etiquetaArray = [];
-        etiquetaArray.push(etiqueta);
+        //etiquetaArray = [];
+        //etiquetaArray.push(etiqueta);
 
         /*if (especificaciones.includes("/")) {
         espArray = especificaciones.split("/");
         for (const e of espArray) especificaciones = `<li>${e.trim()}</li>`;
         especificaciones = `<ul>${especificaciones.trim()}</ul>`;
       }*/
-
-        //console.log(idProduct);
 
         await Producto.updateOne(
           { id: idProduct },
@@ -428,7 +426,7 @@ async function run(ws, usuario) {
               categoriaHija: cateHijaModel._id,
               nombre: nombre,
               talla: talla,
-              etiqueta: etiquetaArray,
+              etiqueta: prepareEtiqueta(etiqueta),
               color: color,
               especificaciones: especificaciones,
               cantidad: cantidad,
