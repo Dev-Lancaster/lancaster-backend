@@ -8,7 +8,7 @@ async function findOneByTema(tema) {
   let model = await Pagina.findOne({ tema: tema }).lean();
   if (!model) return null;
   if (model.fotos) {
-    fotos = await getFotosObject(model.fotos);
+    fotos = await getFotosOnlyObject(model.fotos);
     model.fotos = fotos;
   }
   return model;
@@ -21,7 +21,7 @@ async function findByTema(tema) {
   for (const model of result) {
     pagina = model;
     if (pagina.fotos) {
-      fotos = await getFotosObject(pagina.fotos);
+      fotos = await getFotosOnlyObject(pagina.fotos);
       pagina.fotos = fotos;
     }
     list.push(pagina);
@@ -106,6 +106,16 @@ async function findAll() {
   }
 
   return data;
+}
+
+async function getFotosOnlyObject(fotos) {
+  let newFotos = [];
+  let url;
+  for (const model of fotos) {
+    url = await s3.getFileURL(model);
+    newFotos.push({ url: url });
+  }
+  return newFotos;
 }
 
 async function getFotosObject(fotos) {
