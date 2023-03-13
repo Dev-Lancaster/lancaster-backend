@@ -113,7 +113,7 @@ async function getFotosOnlyObject(fotos) {
   let url;
   for (const model of fotos) {
     url = await s3.getFileURL(model);
-    newFotos.push({ url: url });
+    newFotos.push(url);
   }
   return newFotos;
 }
