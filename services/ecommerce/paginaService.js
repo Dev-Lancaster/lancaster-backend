@@ -5,11 +5,28 @@ const { Pagina } = require("../../models/pagina");
 /**FUNCIONES PARA ECOMMERCE */
 
 async function findOneByTema(tema) {
-  return await Pagina.findOne({ tema: tema }).lean();
+  let model = await Pagina.findOne({ tema: tema }).lean();
+  if (!model) return null;
+  if (model.fotos) {
+    fotos = await getFotosObject(model.fotos);
+    model.fotos = fotos;
+  }
+  return model;
 }
 
 async function findByTema(tema) {
-  return await Pagina.find({ tema: tema }).lean();
+  const result = await Pagina.find({ tema: tema }).lean();
+  let list = [];
+  let pagina;
+  for (const model of result) {
+    pagina = model;
+    if (pagina.fotos) {
+      fotos = await getFotosObject(pagina.fotos);
+      pagina.fotos = fotos;
+    }
+    list.push(pagina);
+  }
+  return list;
 }
 
 /**FUNCIONES PARA ECOMMERCE */
