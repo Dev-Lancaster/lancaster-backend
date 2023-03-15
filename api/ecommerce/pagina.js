@@ -7,6 +7,16 @@ const upload = multer({
   dest: "./upload",
 });
 
+router.get("/titulo/home/i", async (req, res) => {
+  const result = await paginaService.findOneByTema("Tema Principal I");
+  res.send(result);
+});
+
+router.get("/titulo/home/ii", async (req, res) => {
+  const result = await paginaService.findOneByTema("Tema Principal II");
+  res.send(result);
+});
+
 router.get("/contactanos/correo", async (req, res) => {
   const result = await paginaService.findOneByTema("Contáctanos: correo");
   res.send(result);
