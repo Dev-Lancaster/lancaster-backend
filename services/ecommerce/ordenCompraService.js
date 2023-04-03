@@ -142,16 +142,20 @@ async function changeInventario(productos) {
 
 async function generateCodigo() {
   const model = await OrdenCompra.findOne().sort({ id: -1 }).lean();
-  if (!model) return 1;
-  else if (!model.id) return 1;
-  return model.id + 1;
+  if (!model) return 7;
+  else if (!model.id) return 7;
+  let codigo = model.id;
+  if (codigo < 7) return 7;
+  return codigo + 1;
 }
 
 async function generateCodigoBoleta() {
   const model = await OrdenCompra.findOne().sort({ idBoleta: -1 }).lean();
-  if (!model) return 1;
-  else if (!model.idBoleta) return 1;
-  return model.idBoleta + 1;
+  if (!model) return 912;
+  else if (!model.idBoleta) return 912;
+  let codigo = model.idBoleta;
+  if (codigo < 912) return 912;
+  return codigo + 1;
 }
 
 async function getCodeNubeFact(code, tipo) {
