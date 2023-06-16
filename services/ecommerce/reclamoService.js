@@ -63,6 +63,18 @@ async function sendEmail(reclamo) {
                   <td>${reclamo.disconformidad}</td>
                 </tr>
                 <tr>
+                  <td><strong>Detalle:</strong></td>
+                  <td>${reclamo.detalle}</td>
+                </tr>
+                <tr>
+                  <td><strong>Pedido:</strong></td>
+                  <td>${reclamo.pedido}</td>
+                </tr>
+                <tr>
+                  <td><strong>Naturaleza:</strong></td>
+                  <td>${reclamo.naturaleza}</td>
+                </tr>
+                <tr>
                   <td><strong>Fecha de creaci&oacute;n:</strong></td>
                   <td>${
                     reclamo.fechaCrea &&
