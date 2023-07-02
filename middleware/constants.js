@@ -2,10 +2,14 @@ const NOT_VALID = "NOT-VALID";
 const ATR_MISSED = "ATR_MISSED";
 const EMPTY = "EMPTY";
 const SUCCESS = "SUCCESS";
-const AWS_BUCKET_NAME = "lancaster-aws";
+/*const AWS_BUCKET_NAME = "lancaster-aws";
 const AWS_BUCKET_REGION = "us-east-1";
 const AWS_PUBLIC_KEY = "AKIA5WMM7HJLKFGCGK2P";
-const AWS_SECRET_KEY = "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";
+const AWS_SECRET_KEY = "yWjvayJ0d0wrtTDTP5CqQH0R91w/kjCEF0Kt9yyo";*/
+const AWS_BUCKET_NAME = "lancaster-src";
+const AWS_BUCKET_REGION = "sa-east-1";
+const AWS_PUBLIC_KEY = "AKIA3JRPALOU3WE5UBXT";
+const AWS_SECRET_KEY = "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";
 
 exports.NOT_VALID = NOT_VALID;
 exports.ATR_MISSED = ATR_MISSED;
