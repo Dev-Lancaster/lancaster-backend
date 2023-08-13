@@ -13,8 +13,10 @@ const usuario = require("../api/admin/usuario");
 const productoInv = require("../api/ecommerce/productoInv");
 const ordenExcel = require("../api/ecommerce/ordenExcel");
 const reclamo = require("../api/ecommerce/reclamo");
+const tarifas = require("../api/ecommerce/tarifas");
 
 module.exports = function (app) {
+  app.use("/tarifas", tarifas);
   app.use("/reclamo", reclamo);
   app.use("/orden-excel", ordenExcel);
   app.use("/producto-inv", productoInv);
