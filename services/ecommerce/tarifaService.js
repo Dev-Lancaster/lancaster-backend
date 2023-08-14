@@ -1,6 +1,22 @@
 const { Tarifas } = require("../../models/tarifas");
 const _ = require("lodash");
 
+async function findAll() {
+  const result = await Tarifas.find()
+    .sort({ departamento: 1, provincia: 1, distrito: 1 })
+    .lean();
+  return result;
+}
+
+async function findById(id) {
+  const tarifa = await Tarifas.findById(id).lean();
+  return tarifa;
+}
+
+async function updateById(id, model) {
+  await Tarifas.findByIdAndUpdate(id, model);
+}
+
 async function findTarifas() {
   const result = await groupByDepartamento();
 
@@ -42,3 +58,6 @@ async function groupByDepartamento() {
 
 exports.findTarifas = findTarifas;
 exports.groupByDepartamento = groupByDepartamento;
+exports.findAll = findAll;
+exports.findById = findById;
+exports.updateById = updateById;
