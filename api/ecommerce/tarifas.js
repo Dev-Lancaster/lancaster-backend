@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const body = req.body;
   try {
-    await tarifaService.update(req.params.id, body);
+    await tarifaService.updateById(req.params.id, body);
   } catch (e) {
     console.error(e);
     res.send({ type: "ERROR" });
