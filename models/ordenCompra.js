@@ -40,6 +40,8 @@ const schema = new mongoose.Schema({
   errorNubefact: Boolean,
   textoErrorNubefact: String,
   despachado: String,
+  transporte: Number,
+  plazoEntrega: String,
 });
 
 const OrdenCompra = mongoose.model("ordenCompra", schema);
