@@ -14,8 +14,11 @@ const productoInv = require("../api/ecommerce/productoInv");
 const ordenExcel = require("../api/ecommerce/ordenExcel");
 const reclamo = require("../api/ecommerce/reclamo");
 const tarifas = require("../api/ecommerce/tarifas");
+const errorapi = require("../api/admin/errorapi");
 
 module.exports = function (app) {
+  app.use("/errorapi", errorapi);
+  app.use("/tarifas", tarifas);
   app.use("/tarifas", tarifas);
   app.use("/reclamo", reclamo);
   app.use("/orden-excel", ordenExcel);
