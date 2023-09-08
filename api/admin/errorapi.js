@@ -3,8 +3,8 @@ const router = express.Router();
 const errorService = require("../../services/admin/ErrorService");
 
 router.post("/", async (req, res) => {
-  const body = req.body;
-  const result = await errorService.save(body);
+  const { titulo, descripcion } = req.body;
+  const result = await errorService.save(titulo, descripcion);
   res.send(result);
 });
 
