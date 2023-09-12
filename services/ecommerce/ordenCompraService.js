@@ -68,43 +68,49 @@ async function existUserShop(email) {
 }
 
 async function generateOrdenado(model) {
-  if (model.mailRegister) {
-    const resultValidUser = await existUserShop(model.mailRegister);
-    if (!resultValidUser.flag)
+  try {
+    if (model.mailRegister) {
+      const resultValidUser = await existUserShop(model.mailRegister);
+      if (!resultValidUser.flag)
+        return {
+          type: "ERROR",
+          message: "El usuario que desea comprar no esta registrado",
+          orden: null,
+        };
+      else model.userShop = resultValidUser.model._id;
+    }
+
+    let codigo;
+    if (model.tipo === "FTV1") codigo = await generateCodigo();
+    else codigo = await generateCodigoBoleta();
+
+    const resultNubeFact = await getCodeNubeFact(codigo, model.tipo);
+
+    if (resultNubeFact.type === "ERROR")
       return {
         type: "ERROR",
-        message: "El usuario que desea comprar no esta registrado",
+        message: "Ha ocurrido un error al generar el codigo de facturacion",
         orden: null,
       };
-    else model.userShop = resultValidUser.model._id;
+
+    model.nubefactNumero = resultNubeFact.code;
+    model.status = "ORDENADO";
+    model.id = resultNubeFact.code;
+    model.orderId = "LNC-" + resultNubeFact.code;
+    model.date = new Date();
+    model.tipoOrden = model.tipo === "FTV1" ? "FACTURA" : "BOLETA";
+
+    if (model.customerDetails && model.customerDetails._id === "")
+      delete model.customerDetails["_id"];
+
+    let orden = new OrdenCompra(model);
+    orden = await orden.save();
+    return { type: "SUCCESS", orden: orden, message: "" };
+  } catch (e) {
+    console.error(e);
+    await ErrorServices.save("generateOrdenado - Linea: 111", e.message);
+    return { type: "ERROR", orden: orden, message: "" };
   }
-
-  let codigo;
-  if (model.tipo === "FTV1") codigo = await generateCodigo();
-  else codigo = await generateCodigoBoleta();
-
-  const resultNubeFact = await getCodeNubeFact(codigo, model.tipo);
-
-  if (resultNubeFact.type === "ERROR")
-    return {
-      type: "ERROR",
-      message: "Ha ocurrido un error al generar el codigo de facturacion",
-      orden: null,
-    };
-
-  model.nubefactNumero = resultNubeFact.code;
-  model.status = "ORDENADO";
-  model.id = resultNubeFact.code;
-  model.orderId = "LNC-" + resultNubeFact.code;
-  model.date = new Date();
-  model.tipoOrden = model.tipo === "FTV1" ? "FACTURA" : "BOLETA";
-
-  if (model.customerDetails && model.customerDetails._id === "")
-    delete model.customerDetails["_id"];
-
-  let orden = new OrdenCompra(model);
-  orden = await orden.save();
-  return { type: "SUCCESS", orden: orden, message: "" };
 }
 
 async function generatePagado(id, model) {
