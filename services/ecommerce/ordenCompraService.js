@@ -75,6 +75,10 @@ async function generateOrdenado(model) {
     );
     if (model.mailRegister) {
       const resultValidUser = await existUserShop(model.mailRegister);
+      await ErrorServices.save(
+        "generateOrdenado - Linea: 88 - resultNubeFact",
+        "LLEGO 1.2"
+      );
       if (!resultValidUser.flag)
         return {
           type: "ERROR",
