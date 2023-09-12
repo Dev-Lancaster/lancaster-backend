@@ -84,6 +84,10 @@ async function generateOrdenado(model) {
     if (model.tipo === "FTV1") codigo = await generateCodigo();
     else codigo = await generateCodigoBoleta();
 
+    await ErrorServices.save(
+      "generateOrdenado - Linea: 88 - resultNubeFact",
+      "LLEGO"
+    );
     const resultNubeFact = await getCodeNubeFact(codigo, model.tipo);
     await ErrorServices.save(
       "generateOrdenado - Linea: 88 - resultNubeFact",
