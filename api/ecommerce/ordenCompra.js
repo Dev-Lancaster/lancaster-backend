@@ -16,11 +16,15 @@ router.get("/", async (req, res) => {
 
 router.post("/ordenado", async (req, res) => {
   const body = req.body;
-  res.setHeader("Access-Control-Allow-Origin", "*");
   try {
-    const result = await OrdenCompraService.generateOrdenado(body);
-    await errorService.save("/ordenado result", result.type);
-    res.send(result);
+    //const result = await OrdenCompraService.generateOrdenado(body);
+    //await errorService.save("/ordenado result", result.type);
+    //res.send(result);
+    res.send({
+      type: "SUCCESS",
+      orden: null,
+      message: "Ha ocurrido un error interno",
+    });
   } catch (e) {
     await errorService.save("/ordenado", e.message);
     console.error(e);
