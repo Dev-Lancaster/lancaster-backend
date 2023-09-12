@@ -19,7 +19,7 @@ router.post("/ordenado", async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   try {
     const result = await OrdenCompraService.generateOrdenado(body);
-    await errorService.save("/ordenado result", result);
+    await errorService.save("/ordenado result", result.orden);
     res.send(result);
   } catch (e) {
     await errorService.save("/ordenado", e.message);
