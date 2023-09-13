@@ -209,6 +209,10 @@ async function getCodeNubeFact(code, tipo) {
   while (validFlag) {
     try {
       result = await validateNubeFact(newCode, tipo);
+      await ErrorServices.save(
+        "getCodeNubeFact Valor " + newCode,
+        JSON.stringify(result)
+      );
     } catch (e) {
       console.error(e);
       await ErrorServices.save("getCodeNubeFact - Linea: 75", e);
@@ -327,3 +331,4 @@ exports.findById = findById;
 exports.updateNubefactBody = updateNubefactBody;
 exports.errorNubefact = errorNubefact;
 exports.despachado = despachado;
+exports.generateCodigoBoleta = generateCodigoBoleta;

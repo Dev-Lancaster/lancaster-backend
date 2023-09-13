@@ -54,12 +54,18 @@ describe("Prueba de Categoria Service", () => {
   afterAll(async () => {
     await mongoose.disconnect();
   });
-  it("mail facturado", async () => {
+  it("generateCodigoBoleta", async () => {
+    const result = await OrdenCompraService.generateCodigoBoleta();
+    console.log(result);
+    expect(true).toBe(true);
+  });
+
+  /*it("mail facturado", async () => {
     const orden = await OrdenCompra.findById("637a818ce89497d7eb10c48b");
     await OrdenCompraService.sendMailFacturado(orden);
     expect(true).toBe(true);
   });
-  /*
+  
   it("validateNubeFact", async () => {
     const result = await OrdenCompraService.getCodeNubeFact(100);
     console.log(result);
