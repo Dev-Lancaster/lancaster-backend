@@ -55,7 +55,7 @@ describe("Prueba de Categoria Service", () => {
     await mongoose.disconnect();
   });
   it("generateCodigoBoleta", async () => {
-    const result = await OrdenCompraService.generateCodigoBoleta();
+    const result = await OrdenCompraService.getCodeNubeFact(1013, "BTV1");
     console.log(result);
     expect(true).toBe(true);
   });
