@@ -181,7 +181,9 @@ async function changeInventario(productos) {
 }
 
 async function generateCodigo() {
-  const model = await OrdenCompra.findOne().sort({ id: -1 }).lean();
+  const model = await OrdenCompra.findOne({ tipoOrden: "FACTURA" })
+    .sort({ id: -1 })
+    .lean();
   if (!model) return 7;
   else if (!model.id) return 7;
   let codigo = model.id;
@@ -190,10 +192,11 @@ async function generateCodigo() {
 }
 
 async function generateCodigoBoleta() {
-  const model = await OrdenCompra.findOne().sort({ idBoleta: -1 }).lean();
+  const model = await OrdenCompra.findOne({ tipoOrden: "BOLETA" })
+    .sort({ id: -1 })
+    .lean();
   if (!model) return 912;
-  else if (!model.idBoleta) return 912;
-  let codigo = model.idBoleta;
+  let codigo = model.id;
   if (codigo < 912) return 912;
   return codigo + 1;
 }
@@ -209,16 +212,11 @@ async function getCodeNubeFact(code, tipo) {
   while (validFlag) {
     try {
       result = await validateNubeFact(newCode, tipo);
-      await ErrorServices.save(
-        "getCodeNubeFact Valor " + newCode,
-        JSON.stringify(result)
-      );
     } catch (e) {
       console.error(e);
       await ErrorServices.save("getCodeNubeFact - Linea: 75", e);
       return { type: "ERROR" };
     }
-
     if (result && result.errors && result.codigo && result.codigo === 21)
       return { type: "ERROR" };
     else if (result && result.numero) newCode = newCode + 1;
