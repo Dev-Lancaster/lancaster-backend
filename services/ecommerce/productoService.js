@@ -692,14 +692,25 @@ async function fill(results) {
     tallas = [],
     fotos = [],
     foto,
+    fotoUrl,
     groupId;
 
   for (const model of results) {
     dataList = [];
-    fotos = [];
 
     for (const d of model.data) {
-      for (const f of d.fotos) {
+      fotos = [];
+      foto = d.fotos.find((e) => e.nombre.startsWith(d.id));
+      if (foto) {
+        fotoUrl = await s3.getFileURL(foto.nombre);
+        fotos.push({
+          url: fotoUrl,
+          nombre: foto.nombre,
+          orden: foto.orden,
+          _id: foto._id,
+        });
+      }
+      /*for (const f of d.fotos) {
         foto = await s3.getFileURL(f.nombre);
         fotos.push({
           url: foto,
@@ -707,7 +718,7 @@ async function fill(results) {
           orden: f.orden,
           _id: f._id,
         });
-      }
+      }*/
       dataList.push({
         _id: d._id,
         talla: d.talla,
