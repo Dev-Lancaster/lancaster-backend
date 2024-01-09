@@ -641,7 +641,7 @@ async function findAllEcom() {
           categoria: "$categoriaNombre",
           categoriaHija: "$categoriaHijaNombre",
           calidad: "$calidad",
-          monto: "$monto",
+          //monto: "$monto",
           especificaciones: "$especificaciones",
           etiqueta: "$etiqueta",
           discount: "$descuento",
@@ -690,7 +690,7 @@ async function fill(results) {
     dataList = [],
     colors = [],
     tallas = [],
-    fotos = [],
+    fotos,
     foto,
     fotoUrl,
     groupId;
@@ -699,26 +699,17 @@ async function fill(results) {
     dataList = [];
 
     for (const d of model.data) {
-      fotos = [];
       foto = d.fotos.find((e) => e.nombre.startsWith(d.id));
       if (foto) {
         fotoUrl = await s3.getFileURL(foto.nombre);
-        fotos.push({
+        fotos = {
           url: fotoUrl,
           nombre: foto.nombre,
           orden: foto.orden,
           _id: foto._id,
-        });
+        };
       }
-      /*for (const f of d.fotos) {
-        foto = await s3.getFileURL(f.nombre);
-        fotos.push({
-          url: foto,
-          nombre: f.nombre,
-          orden: f.orden,
-          _id: f._id,
-        });
-      }*/
+
       dataList.push({
         _id: d._id,
         talla: d.talla,
@@ -735,7 +726,22 @@ async function fill(results) {
       });
     }
 
+    /*for (const model of results) {
+      for (const d of model.data) {
+        for (const f of d.fotos) {
+          foto = await s3.getFileURL(f.nombre);
+          fotos.push({
+            url: foto,
+            nombre: f.nombre,
+            orden: f.orden,
+            _id: f._id,
+          });
+        }
+      }
+    }*/
+
     colorNombre = [...new Set(dataList.map((item) => item.colorNombre))];
+    fotosEnc = [...new Set(dataList.map((item) => item.fotos))];
     colors = [...new Set(dataList.map((item) => item.color))];
     tallas = [...new Set(dataList.map((item) => item.talla))];
     groupId = "";
@@ -747,6 +753,7 @@ async function fill(results) {
       colors: colors,
       tallas: tallas,
       data: dataList,
+      fotos: fotosEnc,
     });
   }
   return lst;
