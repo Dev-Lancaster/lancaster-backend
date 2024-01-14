@@ -690,7 +690,8 @@ async function fill(results) {
     dataList = [],
     colors = [],
     tallas = [],
-    fotos,
+    fotos = [],
+    fotosEnc = [],
     foto,
     fotoUrl,
     groupId;
@@ -699,15 +700,16 @@ async function fill(results) {
     dataList = [];
 
     for (const d of model.data) {
+      fotos = [];
       foto = d.fotos.find((e) => e.nombre.startsWith(d.id));
       if (foto) {
         fotoUrl = await s3.getFileURL(foto.nombre);
-        fotos = {
+        fotos.push({
           url: fotoUrl,
           nombre: foto.nombre,
           orden: foto.orden,
           _id: foto._id,
-        };
+        });
       }
 
       dataList.push({
@@ -740,8 +742,10 @@ async function fill(results) {
       }
     }*/
 
+    fotosEnc = [];
+    for (const d of dataList) for (const f of d.fotos) fotosEnc.push(f);
+
     colorNombre = [...new Set(dataList.map((item) => item.colorNombre))];
-    fotosEnc = [...new Set(dataList.map((item) => item.fotos))];
     colors = [...new Set(dataList.map((item) => item.color))];
     tallas = [...new Set(dataList.map((item) => item.talla))];
     groupId = "";
@@ -749,11 +753,11 @@ async function fill(results) {
 
     lst.push({
       ...model._id,
+      fotos: fotosEnc,
       groupId: groupId,
       colors: colors,
       tallas: tallas,
       data: dataList,
-      fotos: fotosEnc,
     });
   }
   return lst;
