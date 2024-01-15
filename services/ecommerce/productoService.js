@@ -692,23 +692,21 @@ async function fill(results) {
     tallas = [],
     fotos = [],
     fotosEnc = [],
-    foto,
     fotoUrl,
     groupId;
 
   for (const model of results) {
     dataList = [];
-
     for (const d of model.data) {
       fotos = [];
-      foto = d.fotos.find((e) => e.nombre.startsWith(d.id));
-      if (foto) {
-        fotoUrl = await s3.getFileURL(foto.nombre);
+      for (const f of d.fotos) {
+        //foto = d.fotos.find((e) => e.nombre.startsWith(d.id));
+        fotoUrl = await s3.getFileURL(f.nombre);
         fotos.push({
           url: fotoUrl,
-          nombre: foto.nombre,
-          orden: foto.orden,
-          _id: foto._id,
+          nombre: f.nombre,
+          orden: f.orden,
+          _id: f._id,
         });
       }
 
@@ -717,7 +715,7 @@ async function fill(results) {
         talla: d.talla,
         color: d.color,
         cantidad: d.cantidad,
-        fotos: fotos,
+        fotos,
         monto: d.monto,
         sale: d.poseeDescuento,
         discount: d.descuento,
@@ -728,22 +726,14 @@ async function fill(results) {
       });
     }
 
-    /*for (const model of results) {
-      for (const d of model.data) {
-        for (const f of d.fotos) {
-          foto = await s3.getFileURL(f.nombre);
-          fotos.push({
-            url: foto,
-            nombre: f.nombre,
-            orden: f.orden,
-            _id: f._id,
-          });
-        }
-      }
-    }*/
-
     fotosEnc = [];
-    for (const d of dataList) for (const f of d.fotos) fotosEnc.push(f);
+    for (const d of dataList)
+      for (const f of d.fotos) {
+        fotosEnc.push({ ...f });
+        delete f.url;
+        delete f.orden;
+        delete f.nombre;
+      }
 
     colorNombre = [...new Set(dataList.map((item) => item.colorNombre))];
     colors = [...new Set(dataList.map((item) => item.color))];
