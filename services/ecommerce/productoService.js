@@ -643,7 +643,7 @@ async function findAllEcom() {
           calidad: "$calidad",
           //monto: "$monto",
           especificaciones: "$especificaciones",
-          etiqueta: "$etiqueta",
+          //etiqueta: "$etiqueta",
           discount: "$descuento",
           sale: "$poseeDescuento",
         },
@@ -723,6 +723,7 @@ async function fill(results) {
         sunat: d.sunat,
         codigoCompleto: d.codigoCompleto,
         id: d.id,
+        etiqueta: d.etiqueta,
       });
     }
 
