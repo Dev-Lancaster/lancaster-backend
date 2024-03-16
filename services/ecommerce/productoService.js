@@ -643,7 +643,7 @@ async function findAllEcom() {
           calidad: "$calidad",
           //monto: "$monto",
           especificaciones: "$especificaciones",
-          //etiqueta: "$etiqueta",
+          etiqueta: "$etiqueta",
           discount: "$descuento",
           sale: "$poseeDescuento",
         },
