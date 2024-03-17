@@ -637,15 +637,15 @@ async function findAllEcom() {
       $group: {
         _id: {
           codigo: "$codigo",
-          nombre: "$nombre",
           categoria: "$categoriaNombre",
           categoriaHija: "$categoriaHijaNombre",
-          calidad: "$calidad",
+          //nombre: "$nombre",
+          //calidad: "$calidad",
           //monto: "$monto",
-          especificaciones: "$especificaciones",
-          etiqueta: "$etiqueta",
-          discount: "$descuento",
-          sale: "$poseeDescuento",
+          //especificaciones: "$especificaciones",
+          //etiqueta: "$etiqueta",
+          //discount: "$descuento",
+          //sale: "$poseeDescuento",
         },
         data: { $push: "$$ROOT" },
       },
@@ -692,15 +692,20 @@ async function fill(results) {
     tallas = [],
     fotos = [],
     fotosEnc = [],
+    etiqueta,
+    calidad,
+    especificaciones,
+    nombre,
     fotoUrl,
-    groupId;
+    discount,
+    groupId,
+    sale;
 
   for (const model of results) {
     dataList = [];
     for (const d of model.data) {
       fotos = [];
       for (const f of d.fotos) {
-        //foto = d.fotos.find((e) => e.nombre.startsWith(d.id));
         fotoUrl = await s3.getFileURL(f.nombre);
         fotos.push({
           url: fotoUrl,
@@ -724,6 +729,11 @@ async function fill(results) {
         codigoCompleto: d.codigoCompleto,
         id: d.id,
         etiqueta: d.etiqueta,
+        nombre: d.nombre,
+        calidad: d.calidad,
+        especificaciones: d.especificaciones,
+        descuento: d.descuento,
+        poseeDescuento: d.poseeDescuento,
       });
     }
 
@@ -739,15 +749,46 @@ async function fill(results) {
     colorNombre = [...new Set(dataList.map((item) => item.colorNombre))];
     colors = [...new Set(dataList.map((item) => item.color))];
     tallas = [...new Set(dataList.map((item) => item.talla))];
+    etiqueta = [...new Set(dataList.map((item) => item.etiqueta).flat())];
+    nombre =
+      dataList.map((item) => item.nombre).length > 0 &&
+      dataList.map((item) => item.nombre)[0];
+    calidad =
+      dataList.map((item) => item.calidad).length > 0 &&
+      dataList.map((item) => item.calidad)[0];
+    especificaciones =
+      dataList.map((item) => item.especificaciones).length > 0 &&
+      dataList.map((item) => item.especificaciones)[0];
+    discount =
+      dataList.map((item) => item.descuento).length > 0 &&
+      dataList.map((item) => item.descuento)[0];
+    sale =
+      dataList.map((item) => item.poseeDescuento).length > 0 &&
+      dataList.map((item) => item.poseeDescuento)[0];
+
     groupId = "";
     for (const m of dataList) groupId = groupId + String(m.id);
 
+    for (const m of dataList) {
+      delete m.nombre;
+      delete m.calidad;
+      delete m.especificaciones;
+      delete m.descuento;
+      delete m.poseeDescuento;
+    }
+
     lst.push({
+      nombre,
+      etiqueta,
+      calidad,
+      especificaciones,
+      discount,
+      sale,
       ...model._id,
       fotos: fotosEnc,
       groupId: groupId,
-      colors: colors,
-      tallas: tallas,
+      colors,
+      tallas,
       data: dataList,
     });
   }
