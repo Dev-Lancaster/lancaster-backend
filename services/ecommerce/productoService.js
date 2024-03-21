@@ -681,6 +681,97 @@ async function findECategorias(categoriaPadre, categoriaHija) {
 }
 
 async function fill(results) {
+  let lst = [];
+
+  for (const model of results) {
+    let dataList = [];
+
+    for (const d of model.data) {
+      let fotos = [];
+      for (const f of d.fotos) {
+        if (fotos.length === 0) {
+          const fotoUrl = await s3.getFileURL(f.nombre);
+          fotos.push({
+            url: fotoUrl,
+            nombre: f.nombre,
+            orden: f.orden,
+            _id: f._id,
+          });
+        }
+      }
+
+      dataList.push({
+        _id: d._id,
+        talla: d.talla,
+        color: d.color,
+        cantidad: d.cantidad,
+        fotos,
+        monto: d.monto,
+        sale: d.poseeDescuento,
+        discount: d.descuento,
+        precioDescuento: d.precioDescuento,
+        sunat: d.sunat,
+        codigoCompleto: d.codigoCompleto,
+        id: d.id,
+        etiqueta: d.etiqueta,
+        nombre: d.nombre,
+        calidad: d.calidad,
+        especificaciones: d.especificaciones,
+        descuento: d.descuento,
+        poseeDescuento: d.poseeDescuento,
+      });
+    }
+
+    let fotosEnc = [];
+    for (const d of dataList) {
+      for (const f of d.fotos) {
+        fotosEnc.push({ ...f });
+        delete f.url;
+        delete f.orden;
+        delete f.nombre;
+      }
+    }
+
+    let colorNombre = [...new Set(dataList.map((item) => item.colorNombre))];
+    let colors = [...new Set(dataList.map((item) => item.color))];
+    let tallas = [...new Set(dataList.map((item) => item.talla))];
+    let etiqueta = [...new Set(dataList.map((item) => item.etiqueta).flat())];
+    let nombre = dataList.length > 0 && dataList[0].nombre;
+    let calidad = dataList.length > 0 && dataList[0].calidad;
+    let especificaciones = dataList.length > 0 && dataList[0].especificaciones;
+    let discount = dataList.length > 0 && dataList[0].descuento;
+    let sale = dataList.length > 0 && dataList[0].poseeDescuento;
+
+    let groupId = dataList.map((m) => String(m.id)).join("");
+
+    for (const m of dataList) {
+      delete m.nombre;
+      delete m.calidad;
+      delete m.especificaciones;
+      delete m.descuento;
+      delete m.poseeDescuento;
+    }
+
+    lst.push({
+      nombre,
+      etiqueta,
+      calidad,
+      especificaciones,
+      discount,
+      sale,
+      ...model._id,
+      fotos: fotosEnc,
+      groupId,
+      colors,
+      tallas,
+      data: dataList,
+    });
+  }
+
+  return lst;
+}
+
+/*async function fill(results) {
   let lst = [],
     dataList = [],
     colors = [],
@@ -793,7 +884,7 @@ async function fill(results) {
     });
   }
   return lst;
-}
+}*/
 
 async function findEByEtiqueta(etiqueta) {
   const results = await Producto.aggregate([
