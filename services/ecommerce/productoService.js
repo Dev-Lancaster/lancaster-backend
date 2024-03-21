@@ -632,7 +632,9 @@ async function findAllEcom() {
         estado: "ACTIVO",
       },
     },
-    { $sort: { nombre: 1 } },
+    {
+      $sort: { nombre: 1 },
+    },
     {
       $group: {
         _id: {
