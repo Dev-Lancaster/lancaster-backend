@@ -4,7 +4,10 @@ const auth = require("../../middleware/auth");
 const ProductoService = require("../../services/ecommerce/productoService");
 const ErrorService = require("../../services/admin/ErrorService");
 const multer = require("multer");
+const NodeCache = require("node-cache");
 const s3 = require("../../middleware/s3");
+
+const cache = new NodeCache({ stdTTL: 60, checkperiod: 120 });
 
 const upload = multer({
   dest: "./upload",
@@ -34,8 +37,14 @@ router.get("/ocupado/:id", async (req, res) => {
 });
 
 router.get("/all", async (req, res) => {
-  const result = await ProductoService.findAllEcom();
-  res.send(result);
+  const cacheKey = "data";
+  const cachedData = cache.get(cacheKey);
+  if (cachedData) res.send(cachedData);
+  else {
+    const result = await ProductoService.findAllEcom();
+    cache.set(cacheKey, result);
+    res.send(result);
+  }
 });
 
 router.get("/e/categoria/hija/:categoria", async (req, res) => {
