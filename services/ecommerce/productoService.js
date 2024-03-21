@@ -701,18 +701,23 @@ async function fill(results) {
     groupId,
     sale;
 
+  let i = 0;
   for (const model of results) {
     dataList = [];
     for (const d of model.data) {
       fotos = [];
+      i = 0;
       for (const f of d.fotos) {
-        fotoUrl = await s3.getFileURL(f.nombre);
-        fotos.push({
-          url: fotoUrl,
-          nombre: f.nombre,
-          orden: f.orden,
-          _id: f._id,
-        });
+        if (i === 0) {
+          fotoUrl = await s3.getFileURL(f.nombre);
+          fotos.push({
+            url: fotoUrl,
+            nombre: f.nombre,
+            orden: f.orden,
+            _id: f._id,
+          });
+        }
+        i++;
       }
 
       dataList.push({
