@@ -684,20 +684,19 @@ async function fill(results) {
   let lst = [];
 
   for (const model of results) {
-    let dataList = [];
+    let dataList = [],
+      fotoUrl;
 
     for (const d of model.data) {
       let fotos = [];
       for (const f of d.fotos) {
-        if (fotos.length === 0) {
-          const fotoUrl = await s3.getFileURL(f.nombre);
-          fotos.push({
-            url: fotoUrl,
-            nombre: f.nombre,
-            orden: f.orden,
-            _id: f._id,
-          });
-        }
+        fotoUrl = await s3.getFileURL(f.nombre);
+        fotos.push({
+          url: fotoUrl,
+          nombre: f.nombre,
+          orden: f.orden,
+          _id: f._id,
+        });
       }
 
       dataList.push({
@@ -732,7 +731,7 @@ async function fill(results) {
       }
     }
 
-    let colorNombre = [...new Set(dataList.map((item) => item.colorNombre))];
+    //let colorNombre = [...new Set(dataList.map((item) => item.colorNombre))];
     let colors = [...new Set(dataList.map((item) => item.color))];
     let tallas = [...new Set(dataList.map((item) => item.talla))];
     let etiqueta = [...new Set(dataList.map((item) => item.etiqueta).flat())];
