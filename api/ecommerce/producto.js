@@ -7,7 +7,7 @@ const multer = require("multer");
 const NodeCache = require("node-cache");
 const s3 = require("../../middleware/s3");
 
-const cache = new NodeCache({ stdTTL: 60, checkperiod: 120 });
+const cache = new NodeCache({ stdTTL: 600, checkperiod: 1200 });
 
 const upload = multer({
   dest: "./upload",
