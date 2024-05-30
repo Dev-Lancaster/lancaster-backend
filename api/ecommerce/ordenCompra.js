@@ -18,7 +18,6 @@ router.post("/ordenado", async (req, res) => {
   const body = req.body;
   try {
     const result = await OrdenCompraService.generateOrdenado(body);
-    await errorService.save("/ordenado finalizo", "llego aqui");
     res.send(result);
   } catch (e) {
     await errorService.save("/ordenado error", e.message);
